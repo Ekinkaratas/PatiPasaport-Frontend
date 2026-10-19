@@ -1,0 +1,72 @@
+{
+  "hero": {
+    "eyebrow": "A digital health passport for pets",
+    "title": "Your pet's health history, in one passport.",
+    "lead": "Vaccines, prescriptions and check-ups in one place. You decide which clinic sees what, and for how long.",
+    "primaryCta": "Sign up for free",
+    "secondaryCta": "How it works"
+  },
+  "passportCard": {
+    "label": "Sample passport",
+    "petName": "Pamuk",
+    "petMeta": "Turkish Van · Female · ~3 years",
+    "chip": "Chip",
+    "vaccinesTitle": "Vaccines",
+    "vaccine1": "Rabies vaccine",
+    "vaccine1Date": "12 March",
+    "vaccine2": "Combination vaccine",
+    "vaccine2Date": "Upcoming · 4 June",
+    "consentTitle": "Clinic with access",
+    "consentClinic": "Blue Paw Veterinary Clinic",
+    "consentScope": "Vaccination history · 30 days"
+  },
+  "howItWorks": {
+    "title": "Ready in three steps",
+    "lead": "Records live in your account; clinics only see what you allow.",
+    "step1Title": "Add your pet",
+    "step1Body": "Enter their name, species, breed and microchip number if they have one. An estimated age works if you don't know the birth date.",
+    "step2Title": "Give a clinic access",
+    "step2Body": "Enter the clinic's code, choose what they can see and when the access ends.",
+    "step3Title": "History in one place",
+    "step3Body": "Check-ups, vaccines and prescriptions build up in your pet's passport, even if you change clinics."
+  },
+  "security": {
+    "title": "You're always in control",
+    "lead": "PatiPasaport is designed to make sharing health data safe and transparent.",
+    "consentTitle": "Take access back any time",
+    "consentBody": "Revoke access with one click; from the clinic's next request on, they see nothing.",
+    "scopeTitle": "Choose how much to share",
+    "scopeBody": "Vaccination history, prescriptions, microchip number, your contact details… each is a separate permission.",
+    "expiryTitle": "Access that expires",
+    "expiryBody": "Every permission has an end date. When it passes, access closes on its own.",
+    "chipTitle": "Encrypted microchip number",
+    "chipBody": "The microchip number is stored encrypted; clinics without microchip access only see the last 4 digits.",
+    "auditTitle": "Every change is recorded",
+    "auditBody": "Granting, changing and revoking access are kept in a history that can't be deleted.",
+    "sessionTitle": "A protected account",
+    "sessionBody": "Repeated failed sign-ins lock the account temporarily, and sessions are renewed regularly."
+  },
+  "audiences": {
+    "title": "One passport for everyone",
+    "ownersTitle": "For pet owners",
+    "owners1": "All your pets' records in one account",
+    "owners2": "See at any time what each clinic can access",
+    "owners3": "See upcoming vaccines at a glance",
+    "ownersCta": "Sign up now",
+    "clinicsTitle": "For clinics",
+    "clinics1": "Find patients you have access to by name or microchip number",
+    "clinics2": "Patient summary and, if permitted, the owner's contact details on one screen",
+    "clinics3": "Track vaccine, medicine and supply stock with critical-level alerts",
+    "clinicsNote": "Clinic accounts are set up by our team. To add your clinic, write to us:",
+    "clinicsCta": "Write to us"
+  },
+  "species": {
+    "title": "For all the little friends",
+    "lead": "From dogs to turtles, the pets clinics care for most."
+  },
+  "cta": {
+    "title": "Create your pet's passport today",
+    "body": "Free, quick and fully under your control.",
+    "button": "Sign up for free"
+  }
+}

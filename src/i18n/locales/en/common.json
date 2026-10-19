@@ -1,0 +1,58 @@
+{
+  "appName": "PatiPasaport",
+  "tagline": "Your pet's health passport",
+  "skipToContent": "Skip to content",
+  "language": {
+    "label": "Language",
+    "tr": "Türkçe",
+    "en": "English"
+  },
+  "nav": {
+    "home": "PatiPasaport home",
+    "mainNavigation": "Main navigation",
+    "howItWorks": "How it works",
+    "security": "Security",
+    "forClinics": "For clinics",
+    "login": "Sign in",
+    "register": "Sign up",
+    "dashboard": "My dashboard",
+    "logout": "Sign out",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "actions": {
+    "retry": "Try again",
+    "backHome": "Back to home",
+    "close": "Close",
+    "reload": "Reload page"
+  },
+  "loading": "Loading…",
+  "loadFailed": "Couldn't load",
+  "supportCode": "Support code: {{code}}",
+  "sessionUnreachable": {
+    "title": "Can't reach the server",
+    "body": "We couldn't verify your session. Check your connection and try again."
+  },
+  "notFound": {
+    "title": "This page seems to have wandered off",
+    "body": "The page you're looking for may have moved or never existed."
+  },
+  "routeError": {
+    "title": "Something went wrong",
+    "body": "An unexpected error occurred while loading the page.",
+    "updatedTitle": "The app was updated",
+    "updatedBody": "A new version of the site is available. Reload the page to continue."
+  },
+  "footer": {
+    "rights": "© {{year}} PatiPasaport. All rights reserved.",
+    "kvkk": "Terms of Use and Privacy Notice",
+    "contact": "Contact"
+  },
+  "pagination": {
+    "label": "Pages",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {{page}} of {{pages}}"
+  },
+  "navigationLoading": "Loading page"
+}

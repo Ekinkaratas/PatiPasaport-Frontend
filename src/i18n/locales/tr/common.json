@@ -1,0 +1,58 @@
+{
+  "appName": "PatiPasaport",
+  "tagline": "Dostunuzun sağlık pasaportu",
+  "skipToContent": "İçeriğe geç",
+  "language": {
+    "label": "Dil",
+    "tr": "Türkçe",
+    "en": "English"
+  },
+  "nav": {
+    "home": "PatiPasaport ana sayfa",
+    "mainNavigation": "Ana menü",
+    "howItWorks": "Nasıl çalışır?",
+    "security": "Güvenlik",
+    "forClinics": "Klinikler için",
+    "login": "Giriş yap",
+    "register": "Kayıt ol",
+    "dashboard": "Panelim",
+    "logout": "Çıkış yap",
+    "openMenu": "Menüyü aç",
+    "closeMenu": "Menüyü kapat"
+  },
+  "actions": {
+    "retry": "Tekrar dene",
+    "backHome": "Ana sayfaya dön",
+    "close": "Kapat",
+    "reload": "Sayfayı yenile"
+  },
+  "loading": "Yükleniyor…",
+  "loadFailed": "Yüklenemedi",
+  "supportCode": "Destek kodu: {{code}}",
+  "sessionUnreachable": {
+    "title": "Sunucuya ulaşılamıyor",
+    "body": "Oturumunuz doğrulanamadı. Bağlantınızı kontrol edip tekrar deneyin."
+  },
+  "notFound": {
+    "title": "Bu sayfa kaybolmuş gibi görünüyor",
+    "body": "Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir."
+  },
+  "routeError": {
+    "title": "Bir şeyler ters gitti",
+    "body": "Sayfa yüklenirken beklenmeyen bir hata oluştu.",
+    "updatedTitle": "Uygulama güncellendi",
+    "updatedBody": "Sitenin yeni sürümü yüklendi. Devam etmek için sayfayı yenileyin."
+  },
+  "footer": {
+    "rights": "© {{year}} PatiPasaport. Tüm hakları saklıdır.",
+    "kvkk": "Kullanım Koşulları ve Aydınlatma Metni",
+    "contact": "İletişim"
+  },
+  "pagination": {
+    "label": "Sayfalar",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "pageOf": "Sayfa {{page}} / {{pages}}"
+  },
+  "navigationLoading": "Sayfa yükleniyor"
+}

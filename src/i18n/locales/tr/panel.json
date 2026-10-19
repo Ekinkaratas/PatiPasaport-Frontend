@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "label": "Panel menüsü",
+    "overview": "Genel bakış",
+    "pets": "Evcil hayvanlarım",
+    "consents": "İzinlerim",
+    "profile": "Profilim"
+  },
+  "overview": {
+    "pageTitle": "Panelim",
+    "greeting": "Merhaba, {{name}}!",
+    "lead": "Dostlarınızın pasaportları burada.",
+    "petsTitle": "Dostlarım",
+    "petCount_one": "{{count}} dost",
+    "petCount_other": "{{count}} dost",
+    "addPet": "Hayvan ekle",
+    "viewAll": "Tümünü gör",
+    "upcomingTitle": "Yaklaşan aşılar",
+    "upcomingLoading": "Aşılar yükleniyor…",
+    "upcomingEmpty": "Planlanmış yaklaşan aşı yok.",
+    "upcomingError": "Aşı bilgileri şu anda alınamadı.",
+    "upcomingSoon": "30 gün içinde"
+  },
+  "loadError": "Bilgileriniz yüklenemedi."
+}

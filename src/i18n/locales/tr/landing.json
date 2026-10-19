@@ -1,0 +1,72 @@
+{
+  "hero": {
+    "eyebrow": "Evcil hayvanlar için dijital sağlık pasaportu",
+    "title": "Dostunuzun sağlık geçmişi, tek pasaportta.",
+    "lead": "Aşılar, reçeteler ve muayene kayıtları bir arada. Hangi kliniğin neyi, ne zamana kadar göreceğine siz karar verirsiniz.",
+    "primaryCta": "Ücretsiz kayıt ol",
+    "secondaryCta": "Nasıl çalışır?"
+  },
+  "passportCard": {
+    "label": "Örnek pasaport",
+    "petName": "Pamuk",
+    "petMeta": "Van Kedisi · Dişi · ~3 yaş",
+    "chip": "Çip",
+    "vaccinesTitle": "Aşılar",
+    "vaccine1": "Kuduz aşısı",
+    "vaccine1Date": "12 Mart",
+    "vaccine2": "Karma aşı",
+    "vaccine2Date": "Yaklaşıyor · 4 Haziran",
+    "consentTitle": "İzin verilen klinik",
+    "consentClinic": "Mavi Pati Veteriner Kliniği",
+    "consentScope": "Aşı geçmişi · 30 gün"
+  },
+  "howItWorks": {
+    "title": "Üç adımda hazır",
+    "lead": "Kayıtlar sizin hesabınızda durur; klinikler yalnızca sizin izin verdiğiniz kadarını görür.",
+    "step1Title": "Dostunuzu ekleyin",
+    "step1Body": "Adını, türünü, cinsini ve varsa çip numarasını girin. Doğum tarihini bilmiyorsanız tahmini yaşı yeterli.",
+    "step2Title": "Kliniğe izin verin",
+    "step2Body": "Kliniğin kodunu girin, hangi bilgileri görebileceğini ve iznin ne zaman biteceğini seçin.",
+    "step3Title": "Geçmiş tek yerde",
+    "step3Body": "Muayene, aşı ve reçete kayıtları dostunuzun pasaportunda birikir; klinik değiştirseniz de kaybolmaz."
+  },
+  "security": {
+    "title": "Kontrol her zaman sizde",
+    "lead": "PatiPasaport, sağlık verilerini paylaşmanın güvenli ve şeffaf olması için tasarlandı.",
+    "consentTitle": "İzni istediğiniz an geri alın",
+    "consentBody": "Verdiğiniz izni tek tıkla iptal edin; klinik bir sonraki isteğinden itibaren hiçbir şey göremez.",
+    "scopeTitle": "Ne kadar paylaşacağınızı seçin",
+    "scopeBody": "Aşı geçmişi, reçeteler, çip numarası, iletişim bilgileriniz… Her biri ayrı izin.",
+    "expiryTitle": "Süreli izinler",
+    "expiryBody": "Her iznin bir bitiş tarihi vardır. Süre dolunca erişim kendiliğinden kapanır.",
+    "chipTitle": "Çip numarası şifreli",
+    "chipBody": "Çip numarası şifrelenerek saklanır; çip numarası izni vermediğiniz klinik yalnızca son 4 hanesini görür.",
+    "auditTitle": "Her değişiklik kayıt altında",
+    "auditBody": "İzin verme, değiştirme ve iptal işlemleri silinemeyen bir geçmişte tutulur.",
+    "sessionTitle": "Korunan hesap",
+    "sessionBody": "Art arda hatalı girişlerde hesap geçici olarak kilitlenir; oturumlar düzenli olarak yenilenir."
+  },
+  "audiences": {
+    "title": "Herkes için tek pasaport",
+    "ownersTitle": "Hayvan sahipleri için",
+    "owners1": "Tüm dostlarınızın kayıtları tek hesapta",
+    "owners2": "Hangi kliniğe neyi gösterdiğinizi her an görün",
+    "owners3": "Yaklaşan aşıları tek bakışta görün",
+    "ownersCta": "Hemen kayıt ol",
+    "clinicsTitle": "Klinikler için",
+    "clinics1": "İzin verilen hastaları ada ya da çip numarasına göre bulun",
+    "clinics2": "Hasta özeti ve (izin verildiyse) sahibin iletişim bilgisi tek ekranda",
+    "clinics3": "Aşı, ilaç ve sarf stoklarını kritik seviye uyarısıyla takip edin",
+    "clinicsNote": "Klinik hesapları ekibimiz tarafından açılır. Kliniğinizi eklemek için bize yazın:",
+    "clinicsCta": "Bize yazın"
+  },
+  "species": {
+    "title": "Küçük dostların hepsi için",
+    "lead": "Köpeklerden kaplumbağalara kadar kliniklerin en çok baktığı evcil türler."
+  },
+  "cta": {
+    "title": "Dostunuzun pasaportunu bugün oluşturun",
+    "body": "Ücretsiz, hızlı ve tamamen sizin kontrolünüzde.",
+    "button": "Ücretsiz kayıt ol"
+  }
+}

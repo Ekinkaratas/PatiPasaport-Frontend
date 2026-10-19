@@ -1,0 +1,117 @@
+{
+  "species": {
+    "DOG": "Dog",
+    "CAT": "Cat",
+    "BIRD": "Bird",
+    "RABBIT": "Rabbit",
+    "HAMSTER": "Hamster",
+    "GUINEA_PIG": "Guinea pig",
+    "FERRET": "Ferret",
+    "TURTLE": "Turtle"
+  },
+  "breed": {
+    "MIXED": "Mixed / Unknown",
+    "GOLDEN_RETRIEVER": "Golden Retriever",
+    "LABRADOR_RETRIEVER": "Labrador Retriever",
+    "GERMAN_SHEPHERD": "German Shepherd",
+    "KANGAL": "Kangal",
+    "SIBERIAN_HUSKY": "Siberian Husky",
+    "POODLE": "Poodle",
+    "POMERANIAN": "Pomeranian",
+    "YORKSHIRE_TERRIER": "Yorkshire Terrier",
+    "BRITISH_SHORTHAIR": "British Shorthair",
+    "SCOTTISH_FOLD": "Scottish Fold",
+    "PERSIAN": "Persian",
+    "TURKISH_VAN": "Turkish Van",
+    "TURKISH_ANGORA": "Turkish Angora",
+    "SIAMESE": "Siamese",
+    "MAINE_COON": "Maine Coon",
+    "RAGDOLL": "Ragdoll",
+    "BUDGERIGAR": "Budgerigar",
+    "CANARY": "Canary",
+    "COCKATIEL": "Cockatiel",
+    "LOVEBIRD": "Lovebird",
+    "AFRICAN_GREY": "African Grey",
+    "HOLLAND_LOP": "Holland Lop",
+    "NETHERLAND_DWARF": "Netherland Dwarf",
+    "LIONHEAD": "Lionhead",
+    "ANGORA": "Angora Rabbit",
+    "REX": "Rex",
+    "SYRIAN": "Syrian Hamster",
+    "CAMPBELL_DWARF": "Campbell's Dwarf Hamster",
+    "WINTER_WHITE_DWARF": "Winter White Dwarf Hamster",
+    "ROBOROVSKI": "Roborovski Hamster",
+    "AMERICAN": "American Guinea Pig",
+    "ABYSSINIAN": "Abyssinian Guinea Pig",
+    "PERUVIAN": "Peruvian Guinea Pig",
+    "TEDDY": "Teddy Guinea Pig",
+    "RED_EARED_SLIDER": "Red-eared Slider",
+    "YELLOW_BELLIED_SLIDER": "Yellow-bellied Slider",
+    "RUSSIAN_TORTOISE": "Russian Tortoise"
+  },
+  "sex": {
+    "1": "Male",
+    "2": "Female"
+  },
+  "role": {
+    "1": "Clinic",
+    "2": "Pet owner"
+  },
+  "stockCategory": {
+    "VACCINE": "Vaccine",
+    "MEDICINE": "Medicine",
+    "SUPPLY": "Supplies",
+    "FOOD": "Food",
+    "OTHER": "Other"
+  },
+  "stockUnit": {
+    "PIECE": "Piece",
+    "BOX": "Box",
+    "BOTTLE": "Bottle",
+    "AMPOULE": "Ampoule",
+    "TABLET": "Tablet",
+    "DOSE": "Dose",
+    "ML": "ml",
+    "MG": "mg",
+    "G": "g"
+  },
+  "consentScope": {
+    "medical_read": {
+      "label": "View medical records",
+      "description": "Can view examination, surgery and lab records."
+    },
+    "medical_write": {
+      "label": "Add medical records",
+      "description": "Can add new examination records and documents such as lab results or X-rays."
+    },
+    "vaccination_read": {
+      "label": "View vaccination history",
+      "description": "Can view past and upcoming vaccinations."
+    },
+    "prescription_read": {
+      "label": "View prescriptions",
+      "description": "Can view prescribed medication and instructions."
+    },
+    "chip_number_read": {
+      "label": "View microchip number",
+      "description": "Can see the full microchip number and correct it if it's wrong."
+    },
+    "owner_contact_read": {
+      "label": "View my contact details",
+      "description": "Can see your name and phone number."
+    }
+  },
+  "consentStatus": {
+    "1": "Active",
+    "2": "Revoked",
+    "3": "Expired",
+    "4": "No permission"
+  },
+  "recordType": {
+    "EXAMINATION": "Examination",
+    "VACCINATION": "Vaccination",
+    "PRESCRIPTION": "Prescription",
+    "LAB_RESULT": "Lab result",
+    "SURGERY": "Surgery"
+  }
+}

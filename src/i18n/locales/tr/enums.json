@@ -1,0 +1,117 @@
+{
+  "species": {
+    "DOG": "Köpek",
+    "CAT": "Kedi",
+    "BIRD": "Kuş",
+    "RABBIT": "Tavşan",
+    "HAMSTER": "Hamster",
+    "GUINEA_PIG": "Ginepig",
+    "FERRET": "Gelincik (Ferret)",
+    "TURTLE": "Kaplumbağa"
+  },
+  "breed": {
+    "MIXED": "Melez / Bilinmiyor",
+    "GOLDEN_RETRIEVER": "Golden Retriever",
+    "LABRADOR_RETRIEVER": "Labrador Retriever",
+    "GERMAN_SHEPHERD": "Alman Çoban Köpeği",
+    "KANGAL": "Kangal",
+    "SIBERIAN_HUSKY": "Sibirya Kurdu (Husky)",
+    "POODLE": "Kaniş (Poodle)",
+    "POMERANIAN": "Pomeranian",
+    "YORKSHIRE_TERRIER": "Yorkshire Terrier",
+    "BRITISH_SHORTHAIR": "British Shorthair",
+    "SCOTTISH_FOLD": "Scottish Fold",
+    "PERSIAN": "İran Kedisi",
+    "TURKISH_VAN": "Van Kedisi",
+    "TURKISH_ANGORA": "Ankara Kedisi",
+    "SIAMESE": "Siyam Kedisi",
+    "MAINE_COON": "Maine Coon",
+    "RAGDOLL": "Ragdoll",
+    "BUDGERIGAR": "Muhabbet Kuşu",
+    "CANARY": "Kanarya",
+    "COCKATIEL": "Sultan Papağanı",
+    "LOVEBIRD": "Cennet Papağanı",
+    "AFRICAN_GREY": "Jako Papağanı",
+    "HOLLAND_LOP": "Holland Lop",
+    "NETHERLAND_DWARF": "Hollanda Cüce Tavşanı",
+    "LIONHEAD": "Aslan Başlı Tavşan",
+    "ANGORA": "Ankara Tavşanı",
+    "REX": "Rex Tavşanı",
+    "SYRIAN": "Suriye Hamsterı",
+    "CAMPBELL_DWARF": "Campbell Cüce Hamsterı",
+    "WINTER_WHITE_DWARF": "Rus Cüce Hamsterı",
+    "ROBOROVSKI": "Roborovski Hamsterı",
+    "AMERICAN": "Amerikan Ginepig",
+    "ABYSSINIAN": "Habeş Ginepig",
+    "PERUVIAN": "Peru Ginepig",
+    "TEDDY": "Teddy Ginepig",
+    "RED_EARED_SLIDER": "Kırmızı Yanaklı Su Kaplumbağası",
+    "YELLOW_BELLIED_SLIDER": "Sarı Yanaklı Su Kaplumbağası",
+    "RUSSIAN_TORTOISE": "Rus Kara Kaplumbağası"
+  },
+  "sex": {
+    "1": "Erkek",
+    "2": "Dişi"
+  },
+  "role": {
+    "1": "Klinik",
+    "2": "Hayvan sahibi"
+  },
+  "stockCategory": {
+    "VACCINE": "Aşı",
+    "MEDICINE": "İlaç",
+    "SUPPLY": "Sarf malzemesi",
+    "FOOD": "Mama",
+    "OTHER": "Diğer"
+  },
+  "stockUnit": {
+    "PIECE": "Adet",
+    "BOX": "Kutu",
+    "BOTTLE": "Şişe",
+    "AMPOULE": "Ampul",
+    "TABLET": "Tablet",
+    "DOSE": "Doz",
+    "ML": "ml",
+    "MG": "mg",
+    "G": "g"
+  },
+  "consentScope": {
+    "medical_read": {
+      "label": "Tıbbi kayıtları görme",
+      "description": "Muayene, ameliyat ve laboratuvar kayıtlarını görüntüleyebilir."
+    },
+    "medical_write": {
+      "label": "Tıbbi kayıt ekleme",
+      "description": "Yeni muayene kaydı ve tahlil, röntgen gibi belgeler ekleyebilir."
+    },
+    "vaccination_read": {
+      "label": "Aşı geçmişini görme",
+      "description": "Yapılan ve yaklaşan aşıları görüntüleyebilir."
+    },
+    "prescription_read": {
+      "label": "Reçeteleri görme",
+      "description": "Yazılan ilaçları ve kullanım talimatlarını görüntüleyebilir."
+    },
+    "chip_number_read": {
+      "label": "Çip numarasını görme",
+      "description": "Çip numarasının tamamını görebilir ve hatalıysa düzeltebilir."
+    },
+    "owner_contact_read": {
+      "label": "İletişim bilgilerimi görme",
+      "description": "Adınızı ve telefon numaranızı görebilir."
+    }
+  },
+  "consentStatus": {
+    "1": "Aktif",
+    "2": "İptal edildi",
+    "3": "Süresi doldu",
+    "4": "İzin yok"
+  },
+  "recordType": {
+    "EXAMINATION": "Muayene",
+    "VACCINATION": "Aşı",
+    "PRESCRIPTION": "Reçete",
+    "LAB_RESULT": "Laboratuvar sonucu",
+    "SURGERY": "Ameliyat"
+  }
+}

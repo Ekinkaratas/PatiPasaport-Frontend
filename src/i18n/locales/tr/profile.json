@@ -1,0 +1,31 @@
+{
+  "pageTitle": "Profilim",
+  "title": "Profilim",
+  "lead": "Hesap bilgilerinizi buradan güncelleyebilirsiniz.",
+  "personalTitle": "Kişisel bilgiler",
+  "email": "E-posta adresi",
+  "emailHint": "E-posta adresi değiştirilemez.",
+  "fullName": "Ad soyad",
+  "phone": "Cep telefonu",
+  "save": "Kaydet",
+  "saved": "Bilgileriniz güncellendi.",
+  "noChanges": "Değiştirdiğiniz bir bilgi yok.",
+  "memberSince": "Üyelik tarihi: {{date}}",
+  "danger": {
+    "title": "Hesabı kapat",
+    "body": "Hesabınızı kapattığınızda bir daha bu hesapla giriş yapamazsınız.",
+    "button": "Hesabımı kapat"
+  },
+  "deactivate": {
+    "title": "Hesabınızı kapatmak istiyor musunuz?",
+    "point1": "Bu hesapla bir daha giriş yapamazsınız.",
+    "point2": "Evcil hayvan kayıtlarınız silinmez.",
+    "point3": "Kliniklere verdiğiniz izinler hesap kapatılınca iptal edilmez; süreleri dolana kadar geçerli kalır.",
+    "confirm": "Hesabımın kapatılacağını ve bu işlemin buradan geri alınamayacağını anlıyorum.",
+    "submit": "Hesabımı kapat",
+    "cancel": "Vazgeç"
+  },
+  "flash": {
+    "accountClosed": "Hesabınız kapatıldı. PatiPasaport'u kullandığınız için teşekkür ederiz."
+  }
+}

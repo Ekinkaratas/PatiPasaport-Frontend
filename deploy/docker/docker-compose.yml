@@ -1,0 +1,22 @@
+name: patipasaport-web
+
+services:
+  web:
+    image: patipasaport-web:latest
+    build:
+      context: ../..
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:?.env içinde VITE_API_BASE_URL yok}
+        VITE_CONTACT_EMAIL: ${VITE_CONTACT_EMAIL:?.env içinde VITE_CONTACT_EMAIL yok}
+        SITE_URL: ${SITE_URL:?.env içinde SITE_URL yok}
+    restart: unless-stopped
+    ports:
+      - '${WEB_BIND:?.env içinde WEB_BIND yok}:${WEB_PORT:?.env içinde WEB_PORT yok}:80'
+    environment:
+      API_UPSTREAM: ${API_UPSTREAM:?.env içinde API_UPSTREAM yok}
+    networks: [backend]
+
+networks:
+  backend:
+    external: true
+    name: ${BACKEND_NETWORK:?.env içinde BACKEND_NETWORK yok}

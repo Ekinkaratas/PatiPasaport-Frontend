@@ -1,0 +1,26 @@
+import type { SVGProps } from 'react';
+
+/** Pati motifi — logo ve süslemelerde kullanılır. */
+export function PawIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true" {...props}>
+      <ellipse cx="20" cy="25" rx="5" ry="6.5" transform="rotate(-18 20 25)" />
+      <ellipse
+        cx="28.5"
+        cy="17.5"
+        rx="5"
+        ry="6.5"
+        transform="rotate(-6 28.5 17.5)"
+      />
+      <ellipse
+        cx="38"
+        cy="17.5"
+        rx="5"
+        ry="6.5"
+        transform="rotate(6 38 17.5)"
+      />
+      <ellipse cx="46" cy="25" rx="5" ry="6.5" transform="rotate(18 46 25)" />
+      <path d="M33 30c-7.5 0-14 8.2-14 14.4 0 4.3 3.2 6.6 7 6.6 2.7 0 4.6-1.3 7-1.3s4.3 1.3 7 1.3c3.8 0 7-2.3 7-6.6C47 38.2 40.5 30 33 30z" />
+    </svg>
+  );
+}

@@ -1,0 +1,31 @@
+{
+  "pageTitle": "My profile",
+  "title": "My profile",
+  "lead": "Update your account details here.",
+  "personalTitle": "Personal details",
+  "email": "Email address",
+  "emailHint": "Your email address can't be changed.",
+  "fullName": "Full name",
+  "phone": "Mobile phone",
+  "save": "Save",
+  "saved": "Your details have been updated.",
+  "noChanges": "You haven't changed anything.",
+  "memberSince": "Member since {{date}}",
+  "danger": {
+    "title": "Close account",
+    "body": "Once you close your account, you can't sign in with it again.",
+    "button": "Close my account"
+  },
+  "deactivate": {
+    "title": "Do you want to close your account?",
+    "point1": "You won't be able to sign in with this account again.",
+    "point2": "Your pets' records won't be deleted.",
+    "point3": "Permissions you gave to clinics are not revoked when the account is closed; they stay valid until they expire.",
+    "confirm": "I understand my account will be closed and that this can't be undone here.",
+    "submit": "Close my account",
+    "cancel": "Cancel"
+  },
+  "flash": {
+    "accountClosed": "Your account has been closed. Thank you for using PatiPasaport."
+  }
+}

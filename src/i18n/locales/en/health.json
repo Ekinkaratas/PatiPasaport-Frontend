@@ -1,0 +1,203 @@
+{
+  "title": "Health records",
+  "tabsLabel": "Health record sections",
+  "tabs": {
+    "records": "Records",
+    "vaccinations": "Vaccinations",
+    "prescriptions": "Prescriptions",
+    "labResults": "Lab results",
+    "documents": "Documents"
+  },
+  "yourClinic": "Your clinic",
+  "unknownClinic": "Clinic unavailable",
+  "noAccess": {
+    "records": "To see records, the owner's permission must include \"View medical records\".",
+    "vaccinations": "To see vaccinations, the owner's permission must include \"View vaccination history\".",
+    "prescriptions": "To see prescriptions, the owner's permission must include \"View prescriptions\".",
+    "labResults": "To see lab results, the owner's permission must include \"View medical records\".",
+    "documents": "To see documents, the owner's permission must include \"Add medical records\". Clinics only see documents they uploaded."
+  },
+  "records": {
+    "typeFilter": "Record type",
+    "allTypes": "All types",
+    "empty": "No health records yet.",
+    "emptyFiltered": "No records of this type.",
+    "fromDraft": "From AI draft",
+    "attachment": "Attachment"
+  },
+  "vaccination": {
+    "name": "Vaccine",
+    "batch": "Batch number",
+    "batchShort": "Batch: {{value}}",
+    "administeredAt": "Given on",
+    "nextDueAt": "Next dose",
+    "overdue": "Overdue",
+    "dueSoon": "Due soon",
+    "onlyUpcoming": "Only upcoming doses",
+    "empty": "No vaccinations recorded.",
+    "emptyUpcoming": "No upcoming vaccinations."
+  },
+  "prescription": {
+    "medication": "Medication",
+    "dosage": "Dosage",
+    "frequency": "Frequency",
+    "duration": "Duration",
+    "durationValue_one": "{{count}} day",
+    "durationValue_other": "{{count}} days",
+    "until": "Until {{date}}",
+    "instructions": "Instructions",
+    "onlyActive": "Only ongoing treatments",
+    "active": "Ongoing",
+    "empty": "No prescriptions recorded.",
+    "emptyActive": "No ongoing treatments."
+  },
+  "lab": {
+    "test": "Test",
+    "value": "Result",
+    "unit": "Unit",
+    "reference": "Reference range",
+    "flag": "Status",
+    "date": "Sample date",
+    "sampledAt": "Sample date: {{date}}",
+    "caption": "Lab results",
+    "search": "Search by test name",
+    "searchSubmit": "Search",
+    "empty": "No lab results.",
+    "emptyFiltered": "No lab results with that name."
+  },
+  "documents": {
+    "statusFilter": "Status",
+    "allStatuses": "All statuses",
+    "empty": "No documents yet.",
+    "emptyFiltered": "No documents with this status.",
+    "clinicOnly": "Only documents uploaded by your clinic are listed.",
+    "open": "Open",
+    "download": "Download",
+    "openLabel": "Open: {{name}}",
+    "downloadLabel": "Download: {{name}}",
+    "loading": "Loading document…",
+    "fileCorrupt": "The file couldn't be verified; it may be damaged or altered. Please tell the support team.",
+    "fileMissing": "The file wasn't found in storage.",
+    "note": "Note: {{note}}",
+    "failure": "Error code: {{code}}",
+    "openDrafts": "Review draft"
+  },
+  "flags": {
+    "unspecified": "Not specified",
+    "normal": "Normal",
+    "low": "Low",
+    "high": "High"
+  },
+  "form": {
+    "type": "Record type",
+    "title": "Title",
+    "recordedAt": "Date",
+    "notes": "Notes",
+    "optional": "Optional.",
+    "vaccinationSection": "Vaccination details",
+    "prescriptionSection": "Prescription details",
+    "labSection": "Lab result details",
+    "dosagePlaceholder": "250 mg",
+    "frequencyPlaceholder": "Twice a day",
+    "durationDays": "Duration (days)",
+    "prescribedAt": "Prescribed on",
+    "sampledAt": "Sample date",
+    "labRow": "Row {{number}}",
+    "removeLabRow": "Remove row {{number}}",
+    "remove": "Remove",
+    "addLabRow": "Add row",
+    "serverInvalid": "The server rejected one of the record fields. Check the fields and try again."
+  },
+  "create": {
+    "pageTitle": "Add record",
+    "title": "Add a health record",
+    "lead": "Create an examination, vaccination, prescription, lab result or surgery record for {{name}}.",
+    "back": "Back to {{name}}",
+    "backToPatients": "Back to patients",
+    "noWrite": "To add records for this pet, the owner's permission must include \"Add medical records\".",
+    "cancel": "Cancel",
+    "submit": "Create record",
+    "permanentNote": "Records can't be changed or deleted once created.",
+    "done": "Record \"{{title}}\" created."
+  },
+  "upload": {
+    "title": "Upload document",
+    "lead": "Upload a lab result or document for {{name}}. The AI analyses it and prepares a draft for you to approve.",
+    "file": "File",
+    "fileHint": "PDF, JPG or PNG; up to 10 MB.",
+    "selected": "{{name}} · {{size}}",
+    "note": "Note",
+    "noteHint": "Optional, up to 500 characters.",
+    "aiNote": "Nothing is added to the pet's record until you approve the draft.",
+    "submit": "Upload",
+    "cancel": "Cancel",
+    "done": "Close",
+    "received": "Document received ({{date}}).",
+    "statusLabel": "Status:",
+    "refresh": "Refresh status",
+    "openDrafts": "Review draft"
+  },
+  "documentStatus": {
+    "queued": "Queued",
+    "processing": "Processing",
+    "draftReady": "Draft ready",
+    "failed": "Analysis failed"
+  },
+  "documentStatusHint": {
+    "queued": "The document is waiting for AI analysis. The draft will appear on the \"AI drafts\" page when ready.",
+    "processing": "The document is being analysed.",
+    "draftReady": "The draft is ready for your review.",
+    "failed": "The document couldn't be analysed. You can add the record manually if needed."
+  },
+  "drafts": {
+    "pageTitle": "AI drafts",
+    "title": "AI drafts",
+    "lead": "Review the record drafts the AI prepared from your uploaded documents.",
+    "filterLabel": "Draft status",
+    "filters": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "all": "All"
+    },
+    "petFilter": "Patient: {{name}}",
+    "clearPet": "Clear patient filter",
+    "aiNote": "Drafts aren't added to the pet's record until you approve them; you can correct them while approving.",
+    "empty": {
+      "pending": "No drafts awaiting approval",
+      "approved": "No approved drafts",
+      "rejected": "No rejected drafts",
+      "all": "No drafts yet"
+    },
+    "emptyBody": "When you upload a document from a patient page, the draft appears here once the AI analysis is done.",
+    "source": "Source document",
+    "confidence": "Confidence",
+    "model": "Model",
+    "untitled": "Untitled draft",
+    "noProposal": "This draft has no proposed content.",
+    "reviewNote": "Review note: {{note}}",
+    "openPatient": "Open patient page",
+    "review": "Review",
+    "unknownPet": "Unknown patient"
+  },
+  "draftStatus": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+  "review": {
+    "title": "Draft review · {{name}}",
+    "reject": "Reject",
+    "edit": "Edit",
+    "approve": "Approve",
+    "backToProposal": "Back to proposal",
+    "approveEdited": "Approve with changes",
+    "conflict": "This draft has already been reviewed.",
+    "needsEdit": "The draft has missing or invalid fields; edit it before approving.",
+    "note": "Review note",
+    "noteHint": "Required when rejecting, optional when approving.",
+    "noteHintEdit": "Optional.",
+    "approvedDone": "Draft for {{name}} approved and the record was created.",
+    "rejectedDone": "Draft for {{name}} rejected."
+  }
+}

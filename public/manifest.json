@@ -1,0 +1,22 @@
+{
+  "id": "/",
+  "name": "PatiPasaport",
+  "short_name": "PatiPasaport",
+  "description": "Evcil hayvanınızın sağlık pasaportu. Kayıtlar sizde, izin sizde.",
+  "lang": "tr",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fffaf3",
+  "theme_color": "#f97316",
+  "categories": ["health", "lifestyle", "medical"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

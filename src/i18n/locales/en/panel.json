@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "label": "Dashboard menu",
+    "overview": "Overview",
+    "pets": "My pets",
+    "consents": "My permissions",
+    "profile": "My profile"
+  },
+  "overview": {
+    "pageTitle": "My dashboard",
+    "greeting": "Hello, {{name}}!",
+    "lead": "Your pets' passports live here.",
+    "petsTitle": "My pets",
+    "petCount_one": "{{count}} pet",
+    "petCount_other": "{{count}} pets",
+    "addPet": "Add a pet",
+    "viewAll": "View all",
+    "upcomingTitle": "Upcoming vaccinations",
+    "upcomingLoading": "Loading vaccinations…",
+    "upcomingEmpty": "No upcoming vaccinations scheduled.",
+    "upcomingError": "Vaccination details can't be loaded right now.",
+    "upcomingSoon": "Within 30 days"
+  },
+  "loadError": "We couldn't load your details."
+}

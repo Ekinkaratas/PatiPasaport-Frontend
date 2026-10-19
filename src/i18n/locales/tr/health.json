@@ -1,0 +1,203 @@
+{
+  "title": "Sağlık kayıtları",
+  "tabsLabel": "Sağlık kaydı bölümleri",
+  "tabs": {
+    "records": "Kayıtlar",
+    "vaccinations": "Aşılar",
+    "prescriptions": "Reçeteler",
+    "labResults": "Tahliller",
+    "documents": "Belgeler"
+  },
+  "yourClinic": "Kliniğiniz",
+  "unknownClinic": "Klinik bilgisi yok",
+  "noAccess": {
+    "records": "Kayıtları görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıtları görme\" kapsamı olmalı.",
+    "vaccinations": "Aşıları görmek için hayvan sahibinin verdiği izinde \"Aşı geçmişini görme\" kapsamı olmalı.",
+    "prescriptions": "Reçeteleri görmek için hayvan sahibinin verdiği izinde \"Reçeteleri görme\" kapsamı olmalı.",
+    "labResults": "Tahlilleri görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıtları görme\" kapsamı olmalı.",
+    "documents": "Belgeleri görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıt ekleme\" kapsamı olmalı. Klinikler yalnızca kendi yükledikleri belgeleri görür."
+  },
+  "records": {
+    "typeFilter": "Kayıt türü",
+    "allTypes": "Tüm türler",
+    "empty": "Henüz sağlık kaydı yok.",
+    "emptyFiltered": "Bu türde kayıt yok.",
+    "fromDraft": "AI taslağından",
+    "attachment": "Ek belge"
+  },
+  "vaccination": {
+    "name": "Aşı",
+    "batch": "Seri numarası",
+    "batchShort": "Seri: {{value}}",
+    "administeredAt": "Uygulama tarihi",
+    "nextDueAt": "Sonraki doz",
+    "overdue": "Gecikti",
+    "dueSoon": "Yaklaşıyor",
+    "onlyUpcoming": "Yalnızca yaklaşan dozlar",
+    "empty": "Aşı kaydı yok.",
+    "emptyUpcoming": "Yaklaşan aşı yok."
+  },
+  "prescription": {
+    "medication": "İlaç",
+    "dosage": "Doz",
+    "frequency": "Kullanım sıklığı",
+    "duration": "Süre",
+    "durationValue_one": "{{count}} gün",
+    "durationValue_other": "{{count}} gün",
+    "until": "Bitiş: {{date}}",
+    "instructions": "Kullanım talimatı",
+    "onlyActive": "Yalnızca devam eden tedaviler",
+    "active": "Devam ediyor",
+    "empty": "Reçete kaydı yok.",
+    "emptyActive": "Devam eden tedavi yok."
+  },
+  "lab": {
+    "test": "Test",
+    "value": "Sonuç",
+    "unit": "Birim",
+    "reference": "Referans aralığı",
+    "flag": "Durum",
+    "date": "Numune tarihi",
+    "sampledAt": "Numune tarihi: {{date}}",
+    "caption": "Tahlil sonuçları",
+    "search": "Test adına göre ara",
+    "searchSubmit": "Ara",
+    "empty": "Tahlil sonucu yok.",
+    "emptyFiltered": "Bu adla tahlil bulunamadı."
+  },
+  "documents": {
+    "statusFilter": "Durum",
+    "allStatuses": "Tüm durumlar",
+    "empty": "Henüz belge yok.",
+    "emptyFiltered": "Bu durumda belge yok.",
+    "clinicOnly": "Yalnızca kliniğinizin yüklediği belgeler listelenir.",
+    "open": "Aç",
+    "download": "İndir",
+    "openLabel": "Aç: {{name}}",
+    "downloadLabel": "İndir: {{name}}",
+    "loading": "Belge yükleniyor…",
+    "fileCorrupt": "Dosya doğrulanamadı; bozulmuş ya da değiştirilmiş olabilir. Lütfen destek ekibine bildirin.",
+    "fileMissing": "Dosya depoda bulunamadı.",
+    "note": "Not: {{note}}",
+    "failure": "Hata kodu: {{code}}",
+    "openDrafts": "Taslağı incele"
+  },
+  "flags": {
+    "unspecified": "Belirtilmemiş",
+    "normal": "Normal",
+    "low": "Düşük",
+    "high": "Yüksek"
+  },
+  "form": {
+    "type": "Kayıt türü",
+    "title": "Başlık",
+    "recordedAt": "Tarih",
+    "notes": "Notlar",
+    "optional": "İsteğe bağlı.",
+    "vaccinationSection": "Aşı bilgileri",
+    "prescriptionSection": "Reçete bilgileri",
+    "labSection": "Tahlil bilgileri",
+    "dosagePlaceholder": "250 mg",
+    "frequencyPlaceholder": "Günde 2 kez",
+    "durationDays": "Süre (gün)",
+    "prescribedAt": "Reçete tarihi",
+    "sampledAt": "Numune tarihi",
+    "labRow": "Satır {{number}}",
+    "removeLabRow": "{{number}}. satırı kaldır",
+    "remove": "Kaldır",
+    "addLabRow": "Satır ekle",
+    "serverInvalid": "Kayıt bilgilerinden biri sunucu tarafından kabul edilmedi. Alanları kontrol edip tekrar deneyin."
+  },
+  "create": {
+    "pageTitle": "Kayıt ekle",
+    "title": "Sağlık kaydı ekle",
+    "lead": "{{name}} için muayene, aşı, reçete, tahlil ya da ameliyat kaydı oluşturun.",
+    "back": "{{name}} sayfasına dön",
+    "backToPatients": "Hastalara dön",
+    "noWrite": "Bu hayvana kayıt ekleyebilmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıt ekleme\" kapsamı olmalı.",
+    "cancel": "Vazgeç",
+    "submit": "Kaydı oluştur",
+    "permanentNote": "Kayıtlar oluşturulduktan sonra değiştirilemez ya da silinemez.",
+    "done": "\"{{title}}\" kaydı oluşturuldu."
+  },
+  "upload": {
+    "title": "Belge yükle",
+    "lead": "{{name}} için tahlil sonucu ya da belge yükleyin. Belge yapay zekâ ile incelenir ve onayınıza taslak olarak gelir.",
+    "file": "Dosya",
+    "fileHint": "PDF, JPG ya da PNG; en fazla 10 MB.",
+    "selected": "{{name}} · {{size}}",
+    "note": "Not",
+    "noteHint": "İsteğe bağlı, en fazla 500 karakter.",
+    "aiNote": "Siz taslağı onaylamadıkça hayvanın kaydına hiçbir şey eklenmez.",
+    "submit": "Yükle",
+    "cancel": "Vazgeç",
+    "done": "Kapat",
+    "received": "Belge alındı ({{date}}).",
+    "statusLabel": "Durum:",
+    "refresh": "Durumu yenile",
+    "openDrafts": "Taslağı incele"
+  },
+  "documentStatus": {
+    "queued": "Sırada",
+    "processing": "İnceleniyor",
+    "draftReady": "Taslak hazır",
+    "failed": "İncelenemedi"
+  },
+  "documentStatusHint": {
+    "queued": "Belge yapay zekâ incelemesi için sırada. Taslak hazır olunca \"AI taslakları\" sayfasında görünür.",
+    "processing": "Belge şu anda inceleniyor.",
+    "draftReady": "Taslak hazır; inceleyip onaylayabilirsiniz.",
+    "failed": "Belge incelenemedi. Gerekirse kaydı elle ekleyebilirsiniz."
+  },
+  "drafts": {
+    "pageTitle": "AI taslakları",
+    "title": "AI taslakları",
+    "lead": "Yüklediğiniz belgelerden yapay zekânın hazırladığı kayıt taslaklarını inceleyin.",
+    "filterLabel": "Taslak durumu",
+    "filters": {
+      "pending": "Bekleyen",
+      "approved": "Onaylanan",
+      "rejected": "Reddedilen",
+      "all": "Tümü"
+    },
+    "petFilter": "Hasta: {{name}}",
+    "clearPet": "Hasta filtresini kaldır",
+    "aiNote": "Taslaklar siz onaylayana kadar hayvanın kaydına eklenmez; onaylarken düzeltme yapabilirsiniz.",
+    "empty": {
+      "pending": "Onay bekleyen taslak yok",
+      "approved": "Onaylanmış taslak yok",
+      "rejected": "Reddedilmiş taslak yok",
+      "all": "Henüz taslak yok"
+    },
+    "emptyBody": "Hasta sayfasından belge yüklediğinizde, yapay zekâ incelemesi bitince taslak burada görünür.",
+    "source": "Kaynak belge",
+    "confidence": "Güven",
+    "model": "Model",
+    "untitled": "Başlıksız taslak",
+    "noProposal": "Bu taslakta önerilen içerik yok.",
+    "reviewNote": "İnceleme notu: {{note}}",
+    "openPatient": "Hasta sayfasını aç",
+    "review": "İncele",
+    "unknownPet": "Bilinmeyen hasta"
+  },
+  "draftStatus": {
+    "pending": "Bekliyor",
+    "approved": "Onaylandı",
+    "rejected": "Reddedildi"
+  },
+  "review": {
+    "title": "Taslak incelemesi · {{name}}",
+    "reject": "Reddet",
+    "edit": "Düzenle",
+    "approve": "Onayla",
+    "backToProposal": "Öneriye dön",
+    "approveEdited": "Düzenleyerek onayla",
+    "conflict": "Bu taslak zaten incelenmiş.",
+    "needsEdit": "Taslakta eksik ya da geçersiz alanlar var; onaylamak için önce düzenleyin.",
+    "note": "İnceleme notu",
+    "noteHint": "Reddederken zorunlu, onaylarken isteğe bağlı.",
+    "noteHintEdit": "İsteğe bağlı.",
+    "approvedDone": "{{name}} için taslak onaylandı ve kayıt oluşturuldu.",
+    "rejectedDone": "{{name}} için taslak reddedildi."
+  }
+}

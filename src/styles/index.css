@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+
+/*
+ * PatiPasaport teması — "sıcak ve samimi".
+ * Kayısı (brand) ana renk, krem zemin, kakao metin; adaçayı yeşili
+ * olumlu durumlar (izin verildi, çalışıyor), mercan uyarı/hata için.
+ * Klinik paneli aynı paletin daha sade kullanımıyla kurulacak.
+ */
+@theme {
+  --font-sans:
+    'Nunito Variable', ui-rounded, system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+
+  --color-brand-50: #fff7ed;
+  --color-brand-100: #ffedd5;
+  --color-brand-200: #fed7aa;
+  --color-brand-300: #fdba74;
+  --color-brand-400: #fb923c;
+  --color-brand-500: #f97316;
+  --color-brand-600: #ea580c;
+  --color-brand-700: #c2410c;
+  --color-brand-800: #9a3412;
+  --color-brand-900: #7c2d12;
+
+  --color-cream-50: #fffdf9;
+  --color-cream-100: #fffaf3;
+  --color-cream-200: #fbf1e3;
+  --color-cream-300: #f3e3cc;
+
+  --color-cocoa-400: #a08877;
+  --color-cocoa-500: #7d6555;
+  --color-cocoa-600: #5e4a3e;
+  --color-cocoa-700: #47372d;
+  --color-cocoa-800: #33271f;
+  --color-cocoa-900: #241b15;
+
+  --color-sage-50: #f1f7f2;
+  --color-sage-100: #dcebdf;
+  --color-sage-500: #5b9a6b;
+  --color-sage-600: #467d55;
+  --color-sage-700: #386445;
+
+  --color-coral-50: #fff1f0;
+  --color-coral-100: #ffdcd8;
+  --color-coral-500: #e5534b;
+  --color-coral-600: #c93c35;
+  --color-coral-700: #a22f29;
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+
+  --shadow-soft:
+    0 1px 2px rgb(71 55 45 / 0.06), 0 8px 24px rgb(71 55 45 / 0.08);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream-100 font-sans text-cocoa-800 antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-700;
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-cocoa-900;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes pp-progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[pp-progress_1\.1s_ease-in-out_infinite\] {
+    animation: none;
+  }
+}
