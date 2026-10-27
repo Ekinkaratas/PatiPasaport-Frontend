@@ -128,12 +128,12 @@ export function LoginPage() {
             {t('login.noAccount')}{' '}
             <Link
               to="/register"
-              className="font-bold text-brand-700 hover:underline"
+              className="inline-flex min-h-11 items-center font-bold text-fg underline underline-offset-2 transition-colors duration-150 hover:text-accent-fg"
             >
               {t('login.registerLink')}
             </Link>
           </p>
-          <p className="mt-2 text-cocoa-500">{t('login.clinicNote')}</p>
+          <p className="mt-2">{t('login.clinicNote')}</p>
         </>
       }
     >
@@ -141,7 +141,7 @@ export function LoginPage() {
         {endedNotice && !mutation.isPending && !mutation.isError && (
           <p
             role="status"
-            className="rounded-xl bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-800 ring-1 ring-brand-100"
+            className="rounded-xl bg-accent-tint px-4 py-3 text-sm font-semibold text-accent-strong"
           >
             {endedNotice}
           </p>

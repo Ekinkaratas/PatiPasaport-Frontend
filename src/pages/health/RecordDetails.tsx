@@ -17,7 +17,7 @@ export function RecordTypeBadge({ type }: { type: number }) {
   const translate = i18n.t.bind(i18n) as unknown as LooseT;
   const code = RECORD_TYPE_CODES[type];
   return (
-    <Badge tone="brand">
+    <Badge tone="neutral">
       {code ? translate(`enums:recordType.${code}`) : '—'}
     </Badge>
   );
@@ -34,16 +34,14 @@ export function LabFlagBadge({ flag }: { flag: number }) {
   if (flag === LabResultFlag.HIGH) {
     return <Badge tone="coral">{t('flags.high')}</Badge>;
   }
-  return <span className="text-cocoa-500">—</span>;
+  return <span className="text-fg-muted">—</span>;
 }
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <dt className="text-xs font-bold tracking-wide text-cocoa-500 uppercase">
-        {label}
-      </dt>
-      <dd className="mt-0.5 font-semibold text-cocoa-800">{children}</dd>
+      <dt className="text-fg-muted">{label}</dt>
+      <dd className="mt-0.5 font-bold wrap-break-word text-fg">{children}</dd>
     </div>
   );
 }
@@ -58,10 +56,10 @@ export function LabItemsTable({
   const { t } = useTranslation('health');
   return (
     <TableScroll label={caption} className="-mx-1 px-1">
-      <table className="w-full min-w-[28rem] text-sm text-cocoa-800 tabular-nums">
+      <table className="w-full min-w-[28rem] text-sm text-fg tabular-nums">
         <caption className="sr-only">{caption}</caption>
         <thead>
-          <tr className="border-b border-cream-300 text-left text-xs font-bold tracking-wide text-cocoa-500 uppercase">
+          <tr className="border-b border-line text-left font-semibold text-fg-muted">
             <th scope="col" className="py-2 pr-3">
               {t('lab.test')}
             </th>
@@ -80,7 +78,7 @@ export function LabItemsTable({
           {items.map((item, index) => (
             <tr
               key={`${item.testName}-${index}`}
-              className="border-b border-cream-200 last:border-0"
+              className="border-b border-line last:border-0"
             >
               <th scope="row" className="py-2 pr-3 text-left font-bold">
                 {item.testName || '—'}
@@ -88,7 +86,7 @@ export function LabItemsTable({
               <td className="py-2 pr-3">
                 {item.value || '—'} {item.unit}
               </td>
-              <td className="py-2 pr-3 text-cocoa-600">
+              <td className="py-2 pr-3 text-fg-muted">
                 {item.referenceRange || '—'}
               </td>
               <td className="py-2">
@@ -116,10 +114,10 @@ export function RecordDetails({ content }: { content: RecordContent }) {
   return (
     <div className="space-y-4 text-sm">
       {content.notes && (
-        <p className="whitespace-pre-line text-cocoa-700">{content.notes}</p>
+        <p className="whitespace-pre-line text-fg">{content.notes}</p>
       )}
       {vaccination && (
-        <dl className="grid gap-3 rounded-2xl bg-cream-100 p-4 sm:grid-cols-2">
+        <dl className="grid gap-4 rounded-xl bg-bg p-4 sm:grid-cols-2">
           <Field label={t('vaccination.name')}>
             {vaccination.vaccineName || '—'}
           </Field>
@@ -135,7 +133,7 @@ export function RecordDetails({ content }: { content: RecordContent }) {
         </dl>
       )}
       {prescription && (
-        <dl className="grid gap-3 rounded-2xl bg-cream-100 p-4 sm:grid-cols-2">
+        <dl className="grid gap-4 rounded-xl bg-bg p-4 sm:grid-cols-2">
           <Field label={t('prescription.medication')}>
             {prescription.medicationName || '—'}
           </Field>
@@ -150,7 +148,7 @@ export function RecordDetails({ content }: { content: RecordContent }) {
               count: prescription.durationDays,
             })}
             {endDate && (
-              <span className="block text-xs font-normal text-cocoa-500">
+              <span className="block font-normal text-fg-muted">
                 {t('prescription.until', { date: date(endDate) })}
               </span>
             )}
@@ -167,8 +165,8 @@ export function RecordDetails({ content }: { content: RecordContent }) {
         </dl>
       )}
       {labResult && (
-        <div className="space-y-2 rounded-2xl bg-cream-100 p-4">
-          <p className="text-xs font-bold tracking-wide text-cocoa-500 uppercase">
+        <div className="space-y-2 rounded-xl bg-bg p-4">
+          <p className="font-semibold text-fg-muted">
             {t('lab.sampledAt', { date: date(labResult.sampledAt) })}
           </p>
           <LabItemsTable

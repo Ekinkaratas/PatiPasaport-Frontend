@@ -2,7 +2,7 @@
   "title": "Sağlık kayıtları",
   "tabsLabel": "Sağlık kaydı bölümleri",
   "tabs": {
-    "records": "Kayıtlar",
+    "records": "Muayene/Ameliyat",
     "vaccinations": "Aşılar",
     "prescriptions": "Reçeteler",
     "labResults": "Tahliller",
@@ -11,7 +11,7 @@
   "yourClinic": "Kliniğiniz",
   "unknownClinic": "Klinik bilgisi yok",
   "noAccess": {
-    "records": "Kayıtları görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıtları görme\" kapsamı olmalı.",
+    "records": "Muayene ve ameliyat kayıtlarını görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıtları görme\" kapsamı olmalı.",
     "vaccinations": "Aşıları görmek için hayvan sahibinin verdiği izinde \"Aşı geçmişini görme\" kapsamı olmalı.",
     "prescriptions": "Reçeteleri görmek için hayvan sahibinin verdiği izinde \"Reçeteleri görme\" kapsamı olmalı.",
     "labResults": "Tahlilleri görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıtları görme\" kapsamı olmalı.",
@@ -19,8 +19,6 @@
   },
   "records": {
     "typeFilter": "Kayıt türü",
-    "allTypes": "Tüm türler",
-    "empty": "Henüz sağlık kaydı yok.",
     "emptyFiltered": "Bu türde kayıt yok.",
     "fromDraft": "AI taslağından",
     "attachment": "Ek belge"
@@ -63,7 +61,18 @@
     "search": "Test adına göre ara",
     "searchSubmit": "Ara",
     "empty": "Tahlil sonucu yok.",
-    "emptyFiltered": "Bu adla tahlil bulunamadı."
+    "emptyFiltered": "Bu adla tahlil bulunamadı.",
+    "groupTitle": "{{date}} tarihli tahlil"
+  },
+  "explanation": {
+    "title": "Sonuçların açıklaması",
+    "confidence": "Güven: {{value}}",
+    "show": "Açıklamayı göster",
+    "hide": "Açıklamayı gizle",
+    "pending": "Açıklama hazırlanıyor. Birkaç saniye içinde burada görünecek.",
+    "failed": "Bu sonuçlar için açıklama oluşturulamadı. Sorularınızı veteriner hekiminize iletebilirsiniz.",
+    "generatedAt": "Oluşturulma: {{date}}",
+    "disclaimer": "Bu açıklama yapay zekâ tarafından üretilmiştir ve veteriner hekim görüşünün yerine geçmez. Tedaviyle ilgili kararlar için veteriner hekiminize danışın."
   },
   "documents": {
     "statusFilter": "Durum",
@@ -80,7 +89,19 @@
     "fileMissing": "Dosya depoda bulunamadı.",
     "note": "Not: {{note}}",
     "failure": "Hata kodu: {{code}}",
-    "openDrafts": "Taslağı incele"
+    "openDrafts": "Taslağı incele",
+    "failureCodes": {
+      "FILE_NOT_FOUND": "Belge dosyası bulunamadı. Belgeyi yeniden yükleyin.",
+      "FILE_INTEGRITY_ERROR": "Belge dosyası bozuk ya da eksik okundu. Belgeyi yeniden yükleyin.",
+      "UNSUPPORTED_MIME_TYPE": "Bu dosya türü desteklenmiyor. PDF, JPEG ya da PNG yükleyin.",
+      "UNREADABLE_DOCUMENT": "Belge okunamadı. Daha net bir tarama ya da fotoğraf yükleyin.",
+      "TOO_MANY_PAGES": "Belge 8 sayfadan uzun. Belgeyi bölerek yükleyin.",
+      "NOT_A_MEDICAL_DOCUMENT": "Bu belge tıbbi bir belge olarak tanınmadı.",
+      "INVALID_AI_OUTPUT": "Yapay zekâ bu belgeden geçerli bir taslak çıkaramadı. Kaydı elle ekleyebilirsiniz.",
+      "AI_PROVIDER_REJECTED": "Yapay zekâ servisi bu belgeyi işlemeyi reddetti. Kaydı elle ekleyebilirsiniz.",
+      "AI_PROVIDER_UNAVAILABLE": "Yapay zekâ servisine şu an ulaşılamıyor. Belgeyi daha sonra yeniden yükleyebilir ya da kaydı elle ekleyebilirsiniz.",
+      "INTERNAL_ERROR": "Belge işlenirken beklenmeyen bir hata oluştu. Kaydı elle ekleyebilirsiniz."
+    }
   },
   "flags": {
     "unspecified": "Belirtilmemiş",
@@ -178,7 +199,8 @@
     "reviewNote": "İnceleme notu: {{note}}",
     "openPatient": "Hasta sayfasını aç",
     "review": "İncele",
-    "unknownPet": "Bilinmeyen hasta"
+    "unknownPet": "Bilinmeyen hasta",
+    "lowConfidence": "Yapay zekâ bu taslaktan emin değil. Tarihi ve değerleri belgeyle karşılaştırarak dikkatle kontrol edin."
   },
   "draftStatus": {
     "pending": "Bekliyor",

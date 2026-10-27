@@ -1,18 +1,61 @@
 # PatiPasaport — Web Sitesi
 
 PatiPasaport backend'inin (NestJS gateway) web istemcisi.
-React + Vite + TypeScript + Tailwind CSS, Türkçe/İngilizce.
+React + Vite + TypeScript + Tailwind CSS, Türkçe/İngilizce, açık ve koyu tema.
+
+## Özellikler
+
+- **Hayvan sahibi paneli (`/panel`):** hayvan ekleme ve düzenleme, kliniklere
+  izin verme, düzenleme ve iptal (bitişine 15 gün ya da daha az kalan aktif
+  izinlerde "Yakında bitiyor" rozeti), profil ve hesap kapatma.
+- **Klinik paneli (`/clinic`):** klinik kodu ve QR, hasta arama ve hasta
+  sayfası, alınan izinler, stok, satışlar ve aylık rapor, AI taslakları,
+  klinik bilgileri.
+- **Sağlık kayıtları (iki panelde ortak):** Muayene/Ameliyat, Aşılar,
+  Reçeteler, Tahliller ve Belgeler sekmeleri. Kayıt listesi backend'de tek
+  türe göre süzüldüğü için Muayene/Ameliyat sekmesinde tür seçilir. Klinik
+  yalnızca hayvan sahibinin verdiği izin kapsamlarındaki sekmeleri görür.
+- **Yapay zekâ (backend'deki AI servisiyle):**
+  - Klinik belge yükler; AI kayıt taslağı çıkarır, klinik AI Taslakları
+    sayfasında onaylar, düzeltir ya da reddeder. Güven puanı %50 ya da
+    altındaysa taslak penceresinde uyarı çıkar.
+  - Belge işlenemezse hata kodu (`NOT_A_MEDICAL_DOCUMENT` vb.) anlaşılır bir
+    mesajla gösterilir; bilinmeyen kodlar olduğu gibi yazılır.
+  - Tahlil kaydı kesinleşince hayvan sahibine sade dilde açıklama üretilir.
+    Açıklama Tahliller sekmesinde, kayda göre gruplanan sonuçların altında,
+    başlangıçta kapalı bir kutuda durur; güven puanı ve "veteriner hekim
+    görüşünün yerine geçmez" uyarısı vardır. Hazırlanırken 5 sn'de bir
+    yeniden sorulur. Klinik bu ucu çağırmaz (`GET /records/:id/explanation`
+    yalnızca sahibe açıktır); açıklaması olmayan eski kayıtlarda bölüm
+    görünmez.
 
 ## Çalıştırma
 
 ```bash
+cp .env.example .env
 npm install
 npm run dev
 ```
 
+`.env` içindeki değerleri doldurun (açıklamalar `.env.example`'da). Uygulama
+yedek değer kullanmaz: zorunlu bir değişken eksikse `npm run dev`,
+`npm run build`, `npm run e2e` ve `docker compose` hangi değişkenin eksik
+olduğunu yazıp durur.
+
+| Değişken                                              | Kullanan                   | Anlamı                                                             |
+| ----------------------------------------------------- | -------------------------- | ------------------------------------------------------------------ |
+| `API_PROXY_TARGET`                                    | Vite dev/preview proxy'si  | Gateway adresi (`http://localhost:3000`)                           |
+| `VITE_API_BASE_URL`                                   | Uygulama (build'e gömülür) | API yolu, göreli kalmalı (`/api`)                                  |
+| `VITE_CONTACT_EMAIL`                                  | Uygulama (build'e gömülür) | Sitede gösterilen iletişim adresi                                  |
+| `SITE_URL`                                            | Build                      | `sitemap.xml` bu adresle üretilir                                  |
+| `VITE_SOURCE_FRONTEND_URL`, `VITE_SOURCE_BACKEND_URL` | Uygulama (build'e gömülür) | Alt bilgideki GitHub bağlantıları; isteğe bağlı, boşsa gösterilmez |
+| `API_UPSTREAM` vb.                                    | Docker compose             | Bkz. "Sunucuya kurulum"                                            |
+| `E2E_*`                                               | `npm run e2e`              | Test adresi ve test hesapları                                      |
+
 Site `http://localhost:5173` adresinde açılır. Backend gateway'inin
-`http://localhost:3000`'de çalışıyor olması gerekir (adres `.env` içinde
-`API_PROXY_TARGET` ile değiştirilebilir, bkz. `.env.example`).
+`API_PROXY_TARGET` adresinde çalışıyor olması gerekir. Backend sunucu
+düzeninde (portsuz) çalışıyorsa geliştirme sunucusu ona ulaşamaz; backend'i
+`-f docker-compose.dev.yml` ekleyerek başlatın.
 
 | Komut               | Ne yapar                                 |
 | ------------------- | ---------------------------------------- |
@@ -78,6 +121,9 @@ duvarı 5173 portuna izin vermelidir.
 - Backend refresh çerezini `Secure` işaretiyle gönderir; tarayıcılar bu
   çerezi HTTP üzerinden saklamaz. Bu yüzden düz HTTP ile ağdan girişte oturum
   açılır ama sayfa yenilenince ya da erişim token'ı (~15 dk) dolunca kapanır.
+  Bu bilinen ve kabul edilmiş bir durumdur: yerel ağ yalnızca görünümü
+  denemek içindir; oturum yenileme dahil telefon testleri HTTPS'teki canlı
+  sitede yapılır.
 
 ## Sunucuya kurulum (Docker)
 
@@ -107,12 +153,17 @@ sunucunun kendisine (`127.0.0.1:8080`) açılır, gateway hiçbir porta açılma
    docker network ls
    ```
 
-3. Bu projenin klasöründe web konteynerini derleyip başlatın. Ağ adı
-   farklıysa önüne `BACKEND_NETWORK=<ad>` yazın:
+3. Bu projenin klasöründe `.env` dosyasını oluşturup doldurun
+   (`cp .env.example .env`). Ağ adı farklıysa `BACKEND_NETWORK` değerini
+   ona göre yazın. Ardından web konteynerini derleyip başlatın:
 
    ```bash
-   docker compose -f deploy/docker/docker-compose.yml up -d --build
+   docker compose --env-file .env -f deploy/docker/docker-compose.yml up -d --build
    ```
+
+   İmaj kaynak koddan derlenir; önceden `npm run build` çalıştırmak ya da
+   `dist/` yüklemek gerekmez. `.env` imaja kopyalanmaz, derlemeye yalnızca
+   `VITE_API_BASE_URL`, `VITE_CONTACT_EMAIL` ve `SITE_URL` aktarılır.
 
 4. Sunucudaki TLS vekilini (nginx, Caddy, Traefik vb.) alan adınızdan
    `http://127.0.0.1:8080`'e yönlendirin. Örnek nginx:
@@ -120,9 +171,9 @@ sunucunun kendisine (`127.0.0.1:8080`) açılır, gateway hiçbir porta açılma
    ```nginx
    server {
        listen 443 ssl http2;
-       server_name cloud.kritm.com;
-       ssl_certificate     /etc/letsencrypt/live/cloud.kritm.com/fullchain.pem;
-       ssl_certificate_key /etc/letsencrypt/live/cloud.kritm.com/privkey.pem;
+       server_name patipasaport.live;
+       ssl_certificate     /etc/letsencrypt/live/patipasaport.live/fullchain.pem;
+       ssl_certificate_key /etc/letsencrypt/live/patipasaport.live/privkey.pem;
        client_max_body_size 12m;
        location / {
            proxy_pass http://127.0.0.1:8080;
@@ -139,9 +190,11 @@ sunucunun kendisine (`127.0.0.1:8080`) açılır, gateway hiçbir porta açılma
    ortak dolar. `CORS_ORIGINS` boş kalabilir, `REFRESH_COOKIE_PATH`
    varsayılanı (`/api/auth`) bu kuruluma uyar.
 
-### Ayarlar (`deploy/docker/docker-compose.yml`)
+### Ayarlar (`.env` → `deploy/docker/docker-compose.yml`)
 
-| Değişken          | Varsayılan             | Anlamı                                       |
+Hepsi zorunludur; tabloda önerilen değerler var.
+
+| Değişken          | Önerilen               | Anlamı                                       |
 | ----------------- | ---------------------- | -------------------------------------------- |
 | `BACKEND_NETWORK` | `patipasaport_backend` | Backend'in Docker ağı (dışarıdan katılınır)  |
 | `API_UPSTREAM`    | `http://gateway:3000`  | Gateway'in iç ağdaki adresi, sonunda `/` yok |
@@ -158,11 +211,11 @@ sunucunun kendisine (`127.0.0.1:8080`) açılır, gateway hiçbir porta açılma
   düz HTTP'de oturum sayfa yenilenince kapanır.
 - Arama motorları `robots.txt` ve `X-Robots-Tag: noindex` ile engellenir.
   Bu bir erişim kısıtı değildir; adresi bilen herkes siteye girebilir.
-- `public/sitemap.xml` herkese açık sayfaları (`/`, `/register`, `/login`)
-  `https://patipasaport.live` adresiyle listeler ama şu an arama motorlarına
-  bildirilmez. İndekslemeyi açmak için: `public/robots.txt` içinde
-  `Disallow: /` yerine `/panel`, `/clinic`, `/api` engellenip
-  `Sitemap: https://patipasaport.live/sitemap.xml` satırı eklenir ve
+- `sitemap.xml` build sırasında `SITE_URL` adresiyle üretilir ve herkese
+  açık sayfaları (`/`, `/register`, `/login`) listeler; şu an arama
+  motorlarına bildirilmez. İndekslemeyi açmak için: `public/robots.txt`
+  içinde `Disallow: /` yerine `/panel`, `/clinic`, `/api` engellenip
+  `Sitemap: <SITE_URL>/sitemap.xml` satırı eklenir ve
   `deploy/security-headers.conf` içindeki `X-Robots-Tag` satırı kaldırılır.
 - `public/manifest.json` siteyi telefonda "Ana ekrana ekle" ile uygulama
   gibi açılabilir yapar (ad, renkler, simge).
@@ -203,6 +256,26 @@ tür/cins/stok/izin kodları `enums.json` ile çevrilir. Testler iki dilin aynı
 anahtarlara sahip olduğunu, backend kod listelerinin eksiksiz çevrildiğini ve
 kodda kullanılıp çeviri dosyasında olmayan anahtar kalmadığını denetler.
 
+## Tema ve tasarım
+
+- Tasarım dili "Koyu Premium": lacivert zemin, kehribar vurgu, Plus Jakarta
+  Sans yazı tipi (siteyle birlikte sunulur, dış bağlantı yok).
+- Üst menüde Açık/Koyu seçici vardır. Seçim `localStorage`'da (`pp.theme`)
+  saklanır; kayıt yoksa ya da geçersizse site **koyu** açılır. Cihazın teması
+  bilinçli olarak izlenmez. Başka sekmedeki değişiklik anında uygulanır.
+- `public/theme-init.js` temayı sayfa çizilmeden önce uygular (yanlış temada
+  yanıp sönme olmaz). CSP satır içi script'e izin vermediği için ayrı
+  dosyadır.
+- Renkler yalnızca `src/styles/index.css` içindeki anlamsal değişkenlerden
+  gelir (`--pp-bg`, `--pp-surface`, `--pp-fg`, `--pp-accent` ...; Tailwind'de
+  `bg-surface`, `text-fg`, `text-accent-fg` gibi). Koyu değerler `:root`,
+  açık değerler `[data-theme='light']` altındadır; bileşenlerde ham renk kodu
+  kullanılmaz. Eski renk adlarını (`cocoa`, `cream`, `brand` ...) yeni
+  değişkenlere bağlayan geçici bir uyumluluk katmanı da aynı dosyadadır.
+- Erişilebilirlik hedefi WCAG AA: metin kontrastı iki temada en az 4,5:1,
+  dokunma hedefleri en az 44 px, görünür klavye odağı, durum yalnızca renkle
+  anlatılmaz.
+
 ## Klasör yapısı
 
 ```
@@ -215,15 +288,16 @@ src/
   domain/       Backend ile birebir aynı tutulan kod listeleri ve kurallar
   i18n/         Dil altyapısı ve çeviriler
   legal/        KVKK aydınlatma metni
-  lib/          Biçimlendirme, para, tarih, dosya açma yardımcıları
+  lib/          Biçimlendirme, para, tarih, tema, dosya açma yardımcıları
   pages/        Sayfalar: auth/, panel/ (hayvan sahibi), clinic/ (klinik),
                 health/ (iki tarafın ortak sağlık kayıtları bölümü)
   security/     Honeypot ve bot kalkanı
   styles/       Tailwind teması
   test/         Test kurulumu ve API taklitleri
+public/         theme-init.js, manifest, simgeler, robots.txt
 scripts/        e2e.mjs (duman testi)
 deploy/         nginx yapılandırması, güvenlik başlıkları, Docker dosyaları
-docs/           Mimari, test ve backend notları (*.local.md git'e girmez)
+docs/           Mimari, test ve backend notları
 ```
 
 `src/domain/constants.ts` backend'deki `libs/common` listelerinin kopyasıdır;
@@ -233,7 +307,7 @@ backend'de bir liste değişirse burası da güncellenmelidir.
 
 | Konu             | Önlem                                                                                                                                                                                                                        |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| XSS              | Tüm içerik React ile metin olarak çizilir; `dangerouslySetInnerHTML`, `innerHTML`, `eval` kullanılmaz. Production build'de CSP (`script-src 'self'`, satır içi script yok) devrededir.                                       |
+| XSS              | Tüm içerik, AI'ın ürettiği metinler dahil, React ile düz metin olarak çizilir; `dangerouslySetInnerHTML`, `innerHTML`, `eval` kullanılmaz. Production build'de CSP (`script-src 'self'`, satır içi script yok) devrededir.   |
 | Clickjacking     | `X-Frame-Options: DENY` ve CSP `frame-ancestors 'none'` (HTTP başlığı olarak).                                                                                                                                               |
 | Bot / spam       | Tüm formlarda gizli honeypot alanı; kayıt formunda ayrıca 3 sn'den hızlı gönderimi engelleyen zaman tuzağı. Bunlar yalnızca basit botları durdurur; asıl koruma sunucu tarafında olmalıdır.                                  |
 | SQL injection    | İstemci SQL üretmez. Backend Prisma ve parametreli `$queryRaw`/`$executeRaw` kullanır. İstemci ayrıca tüm alanları backend DTO kurallarıyla doğrular, yol parametrelerini `encodeURIComponent` ve UUID kontrolüyle gönderir. |

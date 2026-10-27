@@ -7,6 +7,11 @@
     "tr": "Türkçe",
     "en": "English"
   },
+  "theme": {
+    "label": "Tema",
+    "light": "Açık",
+    "dark": "Koyu"
+  },
   "nav": {
     "home": "PatiPasaport ana sayfa",
     "mainNavigation": "Ana menü",
@@ -46,7 +51,11 @@
   "footer": {
     "rights": "© {{year}} PatiPasaport. Tüm hakları saklıdır.",
     "kvkk": "Kullanım Koşulları ve Aydınlatma Metni",
-    "contact": "İletişim"
+    "contact": "Geliştiriciyle iletişim",
+    "source": "Kaynak kod",
+    "sourceFrontend": "Frontend",
+    "sourceBackend": "Backend",
+    "sourceLabel": "{{part}} kaynak kodu, GitHub (yeni sekmede açılır)"
   },
   "pagination": {
     "label": "Sayfalar",
@@ -54,5 +63,11 @@
     "next": "Sonraki",
     "pageOf": "Sayfa {{page}} / {{pages}}"
   },
-  "navigationLoading": "Sayfa yükleniyor"
+  "navigationLoading": "Sayfa yükleniyor",
+  "demoBanner": {
+    "label": "Proje bilgilendirmesi",
+    "text": "PatiPasaport, eğitim amaçlı bir demo projesidir; gerçek veteriner hizmeti sunmaz. Lütfen gerçek kişisel veri ve tıbbi bilgi girmeyin.",
+    "details": "Ayrıntılar",
+    "close": "Bilgilendirmeyi kapat"
+  }
 }

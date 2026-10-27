@@ -31,13 +31,13 @@ export function ErrorAlert({
       ref={ref}
       role="alert"
       className={cn(
-        'rounded-xl bg-coral-50 px-4 py-3 text-sm text-coral-700 ring-1 ring-coral-100',
+        'rounded-xl bg-danger-tint px-4 py-3 text-sm text-danger',
         className,
       )}
     >
       <p className="font-semibold">{translateError(error, i18n)}</p>
       {correlationId && (
-        <p className="mt-1 font-mono text-xs text-coral-600/80">
+        <p className="mt-1 font-mono text-xs text-danger">
           {t('supportCode', { code: correlationId })}
         </p>
       )}

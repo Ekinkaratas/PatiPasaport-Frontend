@@ -46,7 +46,7 @@ export function ClinicCodeCard({ clinicId }: { clinicId: string }) {
   };
 
   return (
-    <section className="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:p-8">
+    <section className="rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
         <div
           ref={qrRef}
@@ -61,17 +61,15 @@ export function ClinicCodeCard({ clinicId }: { clinicId: string }) {
           />
         </div>
         <div className="min-w-0 flex-1">
-          <h2 className="text-lg font-extrabold text-cocoa-900">
-            {t('code.title')}
-          </h2>
-          <p className="mt-1 text-cocoa-600">{t('code.lead')}</p>
-          <p className="mt-4 rounded-xl bg-cream-100 px-4 py-3 font-mono text-sm break-all text-cocoa-800 select-all">
+          <h2 className="text-lg font-extrabold text-fg">{t('code.title')}</h2>
+          <p className="mt-1 text-fg-muted">{t('code.lead')}</p>
+          <p className="mt-4 rounded-xl bg-bg px-4 py-3 font-mono text-sm break-all text-fg select-all">
             {clinicId}
           </p>
-          <p className="mt-3 text-xs font-bold tracking-wider text-cocoa-500 uppercase">
+          <p className="mt-4 text-sm font-semibold text-fg-muted">
             {t('code.linkLabel')}
           </p>
-          <p className="mt-1 text-sm break-all text-cocoa-600">{link}</p>
+          <p className="mt-1 text-sm break-all text-fg">{link}</p>
           <div className="mt-4 flex flex-wrap gap-2">
             <Button
               variant="secondary"

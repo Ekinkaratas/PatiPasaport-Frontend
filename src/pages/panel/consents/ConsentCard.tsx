@@ -4,15 +4,16 @@ import { ConsentStatus, type Consent, type Pet } from '@/api/types';
 import { Badge } from '@/components/ui/Badge';
 import { buttonClasses } from '@/components/ui/buttonClasses';
 import { BuildingIcon } from '@/components/ui/icons';
-import { formatDate } from '@/lib/format';
-import { PetAvatar } from '../pets/PetAvatar';
+import { PawIcon } from '@/components/ui/PawIcon';
+import { formatDate, todayInBusinessTimeZone } from '@/lib/format';
+import { isExpiringSoon } from './consentModel';
 import type { ClinicLookup } from './queries';
 import { useConsentLabels } from './useConsentLabels';
 
 const STATUS_TONES = {
   [ConsentStatus.ACTIVE]: 'sage',
   [ConsentStatus.REVOKED]: 'neutral',
-  [ConsentStatus.EXPIRED]: 'brand',
+  [ConsentStatus.EXPIRED]: 'neutral',
 } as const;
 
 export function ConsentCard({
@@ -38,57 +39,56 @@ export function ConsentCard({
     STATUS_TONES[consent.status as keyof typeof STATUS_TONES] ?? 'neutral';
 
   return (
-    <article className="flex flex-col gap-4 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-cream-300/60 sm:p-6">
+    <article className="flex flex-col gap-5 rounded-2xl bg-surface p-5 shadow-soft light:ring-1 light:ring-line sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-4">
-          {pet ? (
-            <PetAvatar species={pet.species} />
-          ) : (
-            <span className="size-14 shrink-0 rounded-2xl bg-cream-200" />
-          )}
+        <div className="flex min-w-0 flex-1 basis-56 items-center gap-4">
+          <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-surface-2 text-fg-muted">
+            <BuildingIcon className="size-6" />
+          </span>
           <div className="min-w-0">
-            <p className="truncate text-lg font-extrabold text-cocoa-900">
-              {petName}
+            <p className="text-lg font-extrabold wrap-break-word text-fg">
+              {clinic === undefined ? '…' : clinicName}
             </p>
-            <p className="flex items-center gap-1.5 truncate text-sm text-cocoa-600">
-              <BuildingIcon className="size-4 shrink-0" />
-              <span className="truncate">
-                {clinic === undefined ? '…' : clinicName}
-              </span>
-              {clinic && clinic !== 'missing' && !clinic.isActive && (
-                <Badge tone="coral">{t('list.inactiveClinic')}</Badge>
-              )}
+            <p className="flex items-center gap-1.5 text-sm text-fg-muted">
+              <PawIcon className="size-4 shrink-0" />
+              <span className="min-w-0 wrap-break-word">{petName}</span>
             </p>
           </div>
         </div>
-        <Badge tone={tone}>{labels.status(consent.status)}</Badge>
+        <div className="flex flex-wrap gap-2">
+          {clinic && clinic !== 'missing' && !clinic.isActive && (
+            <Badge tone="coral">{t('list.inactiveClinic')}</Badge>
+          )}
+          <Badge tone={tone}>{labels.status(consent.status)}</Badge>
+          {isExpiringSoon(consent, todayInBusinessTimeZone()) && (
+            <Badge tone="brand">{t('list.expiringSoon')}</Badge>
+          )}
+        </div>
       </div>
 
       <div>
-        <p className="text-xs font-bold tracking-wider text-cocoa-500 uppercase">
+        <p className="text-sm font-semibold text-fg-muted">
           {t('list.scopes')}
         </p>
         <ul className="mt-2 flex flex-wrap gap-2">
           {consent.scopes.map((scope) => (
             <li key={scope}>
-              <Badge tone={active ? 'sage' : 'neutral'}>
-                {labels.scopeLabel(scope)}
-              </Badge>
+              <Badge>{labels.scopeLabel(scope)}</Badge>
             </li>
           ))}
         </ul>
       </div>
 
-      <dl className="grid gap-2 text-sm sm:grid-cols-2">
-        <div>
-          <dt className="font-semibold text-cocoa-500">
+      <dl className="grid gap-3 sm:grid-cols-2">
+        <div className="rounded-xl bg-bg px-4 py-3">
+          <dt className="text-sm text-fg-muted">
             {consent.status === ConsentStatus.REVOKED
               ? t('list.revokedAt')
               : consent.status === ConsentStatus.EXPIRED
                 ? t('list.expiredAt')
                 : t('list.expiresAt')}
           </dt>
-          <dd className="font-bold text-cocoa-800">
+          <dd className="mt-0.5 font-bold text-fg">
             {formatDate(
               consent.status === ConsentStatus.REVOKED && consent.revokedAt
                 ? consent.revokedAt
@@ -97,23 +97,21 @@ export function ConsentCard({
             )}
           </dd>
         </div>
-        <div>
-          <dt className="font-semibold text-cocoa-500">
-            {t('list.grantedAt')}
-          </dt>
-          <dd className="font-bold text-cocoa-800">
+        <div className="rounded-xl bg-bg px-4 py-3">
+          <dt className="text-sm text-fg-muted">{t('list.grantedAt')}</dt>
+          <dd className="mt-0.5 font-bold text-fg">
             {formatDate(consent.grantedAt, i18n.language)}
           </dd>
         </div>
       </dl>
 
-      <div className="flex flex-wrap justify-end gap-2 border-t border-cream-200 pt-4">
+      <div className="flex flex-wrap justify-end gap-2 border-t border-line pt-4">
         {active ? (
           <>
             <button
               type="button"
               onClick={() => onRevoke(clinicName, petName)}
-              className={buttonClasses('ghost', 'sm', 'text-coral-700')}
+              className={buttonClasses('danger', 'sm')}
             >
               {t('list.revoke')}
             </button>

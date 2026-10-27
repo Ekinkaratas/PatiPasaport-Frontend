@@ -8,6 +8,8 @@ services:
       args:
         VITE_API_BASE_URL: ${VITE_API_BASE_URL:?.env içinde VITE_API_BASE_URL yok}
         VITE_CONTACT_EMAIL: ${VITE_CONTACT_EMAIL:?.env içinde VITE_CONTACT_EMAIL yok}
+        VITE_SOURCE_FRONTEND_URL: ${VITE_SOURCE_FRONTEND_URL:-}
+        VITE_SOURCE_BACKEND_URL: ${VITE_SOURCE_BACKEND_URL:-}
         SITE_URL: ${SITE_URL:?.env içinde SITE_URL yok}
     restart: unless-stopped
     ports:

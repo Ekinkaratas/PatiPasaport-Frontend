@@ -276,7 +276,7 @@
     "status": "Durum",
     "active": "Aktif",
     "inactive": "Pasif",
-    "editNote": "Klinik bilgilerinde değişiklik için bizimle iletişime geçin: {{email}}",
+    "editNote": "Bu bir tanıtım hesabıdır. Proje hakkındaki sorularınız için geliştiriciye ulaşın: {{email}}",
     "dangerTitle": "Kliniği pasifleştir",
     "dangerBody": "Klinik pasifleştirildiğinde klinik hesabıyla bir daha giriş yapılamaz.",
     "dangerButton": "Kliniği pasifleştir"

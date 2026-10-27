@@ -13,14 +13,14 @@ import { usePets } from './queries';
 export function EmptyPets() {
   const { t } = useTranslation('pets');
   return (
-    <div className="flex flex-col items-center rounded-3xl bg-white px-6 py-14 text-center shadow-soft ring-1 ring-cream-300/60">
-      <span className="grid size-16 place-items-center rounded-2xl bg-brand-100 text-brand-500">
-        <PawIcon className="size-10" />
+    <div className="flex flex-col items-center rounded-2xl bg-surface px-6 py-14 text-center shadow-soft light:ring-1 light:ring-line">
+      <span className="grid size-16 place-items-center rounded-full bg-surface-2 text-fg-muted">
+        <PawIcon className="size-9" />
       </span>
-      <h2 className="mt-5 text-xl font-extrabold text-cocoa-900">
+      <h2 className="mt-5 text-xl font-extrabold text-fg">
         {t('list.emptyTitle')}
       </h2>
-      <p className="mt-2 max-w-sm text-cocoa-600">{t('list.emptyBody')}</p>
+      <p className="mt-2 max-w-sm text-fg-muted">{t('list.emptyBody')}</p>
       <Link
         to="/panel/pets/new"
         className={buttonClasses('primary', 'md', 'mt-6')}

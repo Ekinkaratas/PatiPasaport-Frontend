@@ -7,7 +7,7 @@ export function LoadingBlock() {
     <div
       role="status"
       aria-busy="true"
-      className="flex min-h-48 items-center justify-center gap-3 text-cocoa-500"
+      className="flex min-h-48 items-center justify-center gap-3 text-fg-muted"
     >
       <Spinner />
       <span>{t('loading')}</span>

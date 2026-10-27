@@ -1,57 +1,149 @@
 @import 'tailwindcss';
 
+@custom-variant dark {
+  &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *) {
+    @slot;
+  }
+}
+
+@custom-variant light {
+  &:where([data-theme='light'], [data-theme='light'] *) {
+    @slot;
+  }
+}
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --pp-bg: #0e1a33;
+  --pp-surface: #16264a;
+  --pp-surface-2: #1b2e58;
+  --pp-line: #2a3d66;
+  --pp-input: #5a6e98;
+  --pp-chart-bar: #677ca8;
+  --pp-fg: #e8ecf5;
+  --pp-fg-muted: #a7b3cc;
+  --pp-accent: #f5b84b;
+  --pp-accent-hover: #f8c86c;
+  --pp-accent-ink: #0e1a33;
+  --pp-accent-fg: #f5b84b;
+  --pp-accent-strong: #ffd28a;
+  --pp-accent-tint: #2c3446;
+  --pp-ok: #6fd3a8;
+  --pp-ok-tint: #1a3a45;
+  --pp-danger: #ff9b85;
+  --pp-danger-tint: #3a2c3e;
+  --pp-on-danger: #0e1a33;
+  --pp-focus: #f5b84b;
+  --pp-halo: rgb(245 184 75 / 0.16);
+  --pp-shadow: 0 0 #0000;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --pp-bg: #f4f6fa;
+  --pp-surface: #ffffff;
+  --pp-surface-2: #eaeef6;
+  --pp-line: #d6dce8;
+  --pp-input: #7a879f;
+  --pp-chart-bar: #7a879f;
+  --pp-fg: #0e1a33;
+  --pp-fg-muted: #4a5875;
+  --pp-accent: #f5b84b;
+  --pp-accent-hover: #e9a93a;
+  --pp-accent-ink: #0e1a33;
+  --pp-accent-fg: #8a5a00;
+  --pp-accent-strong: #6b4500;
+  --pp-accent-tint: #fdf1d9;
+  --pp-ok: #137a52;
+  --pp-ok-tint: #ddf3e9;
+  --pp-danger: #b3412b;
+  --pp-danger-tint: #fbe4df;
+  --pp-on-danger: #ffffff;
+  --pp-focus: #1d4f91;
+  --pp-halo: rgb(245 184 75 / 0.22);
+  --pp-shadow: 0 1px 2px rgb(14 26 51 / 0.06), 0 10px 26px rgb(14 26 51 / 0.07);
+}
+
+@theme {
+  --font-sans:
+    'Plus Jakarta Sans Variable', system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
+}
+
+@theme inline {
+  --color-bg: var(--pp-bg);
+  --color-surface: var(--pp-surface);
+  --color-surface-2: var(--pp-surface-2);
+  --color-line: var(--pp-line);
+  --color-input: var(--pp-input);
+  --color-chart-bar: var(--pp-chart-bar);
+  --color-fg: var(--pp-fg);
+  --color-fg-muted: var(--pp-fg-muted);
+  --color-accent: var(--pp-accent);
+  --color-accent-hover: var(--pp-accent-hover);
+  --color-accent-ink: var(--pp-accent-ink);
+  --color-accent-fg: var(--pp-accent-fg);
+  --color-accent-strong: var(--pp-accent-strong);
+  --color-accent-tint: var(--pp-accent-tint);
+  --color-ok: var(--pp-ok);
+  --color-ok-tint: var(--pp-ok-tint);
+  --color-danger: var(--pp-danger);
+  --color-danger-tint: var(--pp-danger-tint);
+  --color-on-danger: var(--pp-on-danger);
+  --color-focus: var(--pp-focus);
+  --color-halo: var(--pp-halo);
+
+  --shadow-soft: var(--pp-shadow);
+}
+
 /*
  * PatiPasaport teması — "sıcak ve samimi".
  * Kayısı (brand) ana renk, krem zemin, kakao metin; adaçayı yeşili
  * olumlu durumlar (izin verildi, çalışıyor), mercan uyarı/hata için.
  * Klinik paneli aynı paletin daha sade kullanımıyla kurulacak.
  */
-@theme {
-  --font-sans:
-    'Nunito Variable', ui-rounded, system-ui, -apple-system, 'Segoe UI',
-    sans-serif;
+@theme inline {
+  --color-cocoa-900: var(--pp-fg);
+  --color-cocoa-800: var(--pp-fg);
+  --color-cocoa-700: var(--pp-fg);
+  --color-cocoa-600: var(--pp-fg);
+  --color-cocoa-500: var(--pp-fg-muted);
+  --color-cocoa-400: var(--pp-fg-muted);
 
-  --color-brand-50: #fff7ed;
-  --color-brand-100: #ffedd5;
-  --color-brand-200: #fed7aa;
-  --color-brand-300: #fdba74;
-  --color-brand-400: #fb923c;
-  --color-brand-500: #f97316;
-  --color-brand-600: #ea580c;
-  --color-brand-700: #c2410c;
-  --color-brand-800: #9a3412;
-  --color-brand-900: #7c2d12;
+  --color-cream-50: var(--pp-bg);
+  --color-cream-100: var(--pp-bg);
+  --color-cream-200: var(--pp-surface-2);
+  --color-cream-300: var(--pp-line);
 
-  --color-cream-50: #fffdf9;
-  --color-cream-100: #fffaf3;
-  --color-cream-200: #fbf1e3;
-  --color-cream-300: #f3e3cc;
+  --color-white: var(--pp-surface);
 
-  --color-cocoa-400: #a08877;
-  --color-cocoa-500: #7d6555;
-  --color-cocoa-600: #5e4a3e;
-  --color-cocoa-700: #47372d;
-  --color-cocoa-800: #33271f;
-  --color-cocoa-900: #241b15;
+  --color-brand-50: var(--pp-accent-tint);
+  --color-brand-100: var(--pp-accent-tint);
+  --color-brand-200: var(--pp-accent);
+  --color-brand-300: var(--pp-accent);
+  --color-brand-400: var(--pp-accent);
+  --color-brand-500: var(--pp-accent);
+  --color-brand-600: var(--pp-accent-fg);
+  --color-brand-700: var(--pp-accent-fg);
+  --color-brand-800: var(--pp-accent-strong);
+  --color-brand-900: var(--pp-accent-strong);
 
-  --color-sage-50: #f1f7f2;
-  --color-sage-100: #dcebdf;
-  --color-sage-500: #5b9a6b;
-  --color-sage-600: #467d55;
-  --color-sage-700: #386445;
+  --color-sage-50: var(--pp-ok-tint);
+  --color-sage-100: var(--pp-ok-tint);
+  --color-sage-500: var(--pp-ok);
+  --color-sage-600: var(--pp-ok);
+  --color-sage-700: var(--pp-ok);
 
-  --color-coral-50: #fff1f0;
-  --color-coral-100: #ffdcd8;
-  --color-coral-500: #e5534b;
-  --color-coral-600: #c93c35;
-  --color-coral-700: #a22f29;
-
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  --radius-3xl: 2rem;
-
-  --shadow-soft:
-    0 1px 2px rgb(71 55 45 / 0.06), 0 8px 24px rgb(71 55 45 / 0.08);
+  --color-coral-50: var(--pp-danger-tint);
+  --color-coral-100: var(--pp-danger-tint);
+  --color-coral-500: var(--pp-danger);
+  --color-coral-600: var(--pp-danger);
+  --color-coral-700: var(--pp-danger);
 }
 
 @layer base {
@@ -60,16 +152,43 @@
   }
 
   body {
-    @apply bg-cream-100 font-sans text-cocoa-800 antialiased;
+    @apply bg-bg font-sans text-base/[1.55] text-fg antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  th,
+  td {
+    font-variant-numeric: tabular-nums;
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-700;
+    @apply outline-2 outline-offset-2 outline-focus;
   }
 
   ::selection {
-    @apply bg-brand-200 text-cocoa-900;
+    @apply bg-accent text-accent-ink;
   }
+}
+
+@utility pp-halo {
+  position: absolute;
+  top: -10rem;
+  right: -10rem;
+  width: 28rem;
+  height: 28rem;
+  border-radius: 9999px;
+  background-image: radial-gradient(
+    circle closest-side,
+    var(--pp-halo),
+    transparent
+  );
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

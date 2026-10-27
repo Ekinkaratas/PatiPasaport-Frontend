@@ -5,6 +5,7 @@ import {
 } from '@/api/types';
 import { CONSENT_SCOPES, BUSINESS_TIME_ZONE } from '@/domain/constants';
 import {
+  addDays,
   durationEndDate,
   toExpiresAt,
   validateConsentEndDate,
@@ -38,6 +39,16 @@ export function dateInBusinessTimeZone(iso: string): string {
     month: '2-digit',
     day: '2-digit',
   }).format(new Date(iso));
+}
+
+export const EXPIRING_SOON_DAYS = 15;
+
+export function isExpiringSoon(consent: Consent, today: string): boolean {
+  if (consent.status !== ConsentStatus.ACTIVE || !consent.expiresAt) {
+    return false;
+  }
+  const endDate = dateInBusinessTimeZone(consent.expiresAt);
+  return endDate >= today && endDate <= addDays(today, EXPIRING_SOON_DAYS);
 }
 
 export function initialGrantDetails(

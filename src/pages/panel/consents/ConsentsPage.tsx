@@ -17,14 +17,14 @@ import { RevokeConsentModal, type RevokeTarget } from './RevokeConsentModal';
 function EmptyConsents() {
   const { t } = useTranslation('consents');
   return (
-    <div className="flex flex-col items-center rounded-3xl bg-white px-6 py-14 text-center shadow-soft ring-1 ring-cream-300/60">
-      <span className="grid size-16 place-items-center rounded-2xl bg-sage-100 text-sage-600">
-        <ShieldIcon className="size-9" />
+    <div className="flex flex-col items-center rounded-2xl bg-surface px-6 py-14 text-center shadow-soft light:ring-1 light:ring-line">
+      <span className="grid size-16 place-items-center rounded-full bg-surface-2 text-fg-muted">
+        <ShieldIcon className="size-8" />
       </span>
-      <h2 className="mt-5 text-xl font-extrabold text-cocoa-900">
+      <h2 className="mt-5 text-xl font-extrabold text-fg">
         {t('list.emptyTitle')}
       </h2>
-      <p className="mt-2 max-w-sm text-cocoa-600">{t('list.emptyBody')}</p>
+      <p className="mt-2 max-w-sm text-fg-muted">{t('list.emptyBody')}</p>
       <Link
         to="/panel/consents/new"
         className={buttonClasses('primary', 'md', 'mt-6')}

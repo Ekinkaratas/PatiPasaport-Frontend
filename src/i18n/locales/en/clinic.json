@@ -276,7 +276,7 @@
     "status": "Status",
     "active": "Active",
     "inactive": "Inactive",
-    "editNote": "To change your clinic details, contact us: {{email}}",
+    "editNote": "This is a demonstration account. For questions about the project, contact the developer: {{email}}",
     "dangerTitle": "Deactivate clinic",
     "dangerBody": "Once the clinic is deactivated, the clinic account can't sign in again.",
     "dangerButton": "Deactivate clinic"

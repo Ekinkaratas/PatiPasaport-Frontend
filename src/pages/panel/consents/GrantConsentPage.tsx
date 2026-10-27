@@ -61,10 +61,10 @@ function Step({
   action?: ReactNode;
 }) {
   return (
-    <section className="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:p-8">
-      <div className="mb-5 flex items-center justify-between gap-3">
-        <h2 className="flex items-center gap-3 text-lg font-extrabold text-cocoa-900">
-          <span className="grid size-8 place-items-center rounded-full bg-brand-700 text-sm text-white">
+    <section className="rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="flex items-center gap-3 text-lg font-extrabold text-fg">
+          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-accent text-sm text-accent-ink">
             {number}
           </span>
           {title}
@@ -86,16 +86,18 @@ function clinicLookupError(error: unknown): string | null {
 function ClinicCard({ clinic }: { clinic: Clinic }) {
   const { i18n } = useTranslation();
   return (
-    <div className="flex items-start gap-4 rounded-2xl bg-sage-50 p-4 ring-1 ring-sage-100">
-      <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-white text-sage-600">
+    <div className="flex items-start gap-4 rounded-xl bg-bg p-4">
+      <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-surface-2 text-fg-muted">
         <BuildingIcon className="size-6" />
       </span>
       <div className="min-w-0 text-sm">
-        <p className="text-base font-extrabold text-cocoa-900">{clinic.name}</p>
-        <p className="mt-1 text-cocoa-600">
+        <p className="text-base font-extrabold wrap-break-word text-fg">
+          {clinic.name}
+        </p>
+        <p className="mt-1 text-fg-muted">
           {formatPhone(clinic.phone, i18n.language)}
         </p>
-        <p className="flex items-center gap-1.5 break-all text-cocoa-600">
+        <p className="flex items-center gap-1.5 break-all text-fg-muted">
           <MailIcon className="size-4 shrink-0" />
           {clinic.email}
         </p>
@@ -208,7 +210,7 @@ function PetStep({
       {pets.isSuccess &&
         (pets.data.length === 0 ? (
           <div className="flex flex-col items-start gap-3">
-            <p className="text-cocoa-600">{t('grant.noPets')}</p>
+            <p className="text-fg-muted">{t('grant.noPets')}</p>
             <Link
               to="/panel/pets/new"
               className={buttonClasses('primary', 'sm')}
@@ -226,10 +228,10 @@ function PetStep({
                   <label
                     key={pet.id}
                     className={cn(
-                      'flex cursor-pointer items-center gap-4 rounded-2xl p-4 ring-1 transition',
+                      'flex cursor-pointer items-center gap-4 rounded-xl p-4 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus',
                       checked
-                        ? 'bg-brand-50 ring-2 ring-brand-500'
-                        : 'bg-white ring-cream-300 hover:ring-cocoa-400',
+                        ? 'bg-accent-tint ring-2 ring-accent light:ring-accent-fg'
+                        : 'bg-surface ring-[1.5px] ring-input dark:bg-bg',
                     )}
                   >
                     <input
@@ -242,11 +244,13 @@ function PetStep({
                     />
                     <PetAvatar species={pet.species} />
                     <span className="min-w-0">
-                      <span className="block truncate font-extrabold text-cocoa-900">
+                      <span className="block font-extrabold wrap-break-word text-fg">
                         {pet.name}
                       </span>
-                      <span className="block truncate text-sm text-cocoa-500">
-                        {labels.species(pet.species)} ·{' '}
+                      <span className="block text-sm text-fg-muted">
+                        {labels.species(pet.species)}
+                      </span>
+                      <span className="block text-sm wrap-break-word text-fg-muted">
                         {labels.breed(pet.breed)}
                       </span>
                     </span>
@@ -357,7 +361,7 @@ function GrantDetailsForm({
       {(isUpdate || hadConsent) && (
         <p
           role="status"
-          className="rounded-2xl bg-brand-50 px-5 py-4 text-sm font-semibold text-brand-800 ring-1 ring-brand-100"
+          className="rounded-xl bg-accent-tint px-5 py-4 text-sm font-semibold text-accent-strong"
         >
           {isUpdate
             ? t('grant.activeNotice', {
@@ -397,14 +401,14 @@ function GrantDetailsForm({
               <Checkbox
                 key={scope}
                 label={
-                  <span className="font-bold text-cocoa-800">
+                  <span className="font-bold text-fg">
                     {labels.scopeLabel(scope)}
                   </span>
                 }
                 hint={labels.scopeDescription(scope)}
                 checked={values.scopes.includes(scope)}
                 onChange={(e) => toggleScope(scope, e.target.checked)}
-                className="rounded-2xl bg-cream-100 p-4"
+                className="rounded-xl bg-bg p-4"
               />
             ))}
           </div>
@@ -412,7 +416,7 @@ function GrantDetailsForm({
             <p
               id="scopes-error"
               role="alert"
-              className="mt-3 text-sm font-semibold text-coral-600"
+              className="mt-3 text-sm font-semibold text-danger"
             >
               {scopesError}
             </p>
@@ -448,12 +452,12 @@ function GrantDetailsForm({
             />
           )}
           {values.duration !== 'custom' && endDateError && (
-            <p role="alert" className="text-sm font-semibold text-coral-600">
+            <p role="alert" className="text-sm font-semibold text-danger">
               {endDateError}
             </p>
           )}
           {endDate && !endDateError && (
-            <p className="flex items-center gap-2 text-sm font-semibold text-sage-700">
+            <p className="flex flex-wrap items-center gap-2 text-sm font-semibold text-ok">
               <Badge tone="sage">{formatDate(endDate, i18n.language)}</Badge>
               {t('grant.endsOn', { date: formatDate(endDate, i18n.language) })}
             </p>
@@ -486,7 +490,7 @@ function DetailsLoader({ clinic, pet }: { clinic: Clinic; pet: Pet }) {
   if (status.isError) return <ErrorAlert error={status.error} />;
   if (!status.isSuccess) {
     return (
-      <div role="status" className="text-sm text-cocoa-500">
+      <div role="status" className="text-sm text-fg-muted">
         {t('grant.checkingExisting')}
       </div>
     );

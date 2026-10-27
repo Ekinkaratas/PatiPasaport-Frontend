@@ -1,15 +1,7 @@
-import type { ReactNode } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { buttonClasses } from '@/components/ui/buttonClasses';
-import {
-  BoxIcon,
-  ChartIcon,
-  DocumentIcon,
-  PlusIcon,
-  SearchIcon,
-  ShieldIcon,
-} from '@/components/ui/icons';
+import { PlusIcon, SearchIcon } from '@/components/ui/icons';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { cn } from '@/lib/cn';
 import { formatMoney, monthInBusinessTimeZone } from '@/lib/format';
@@ -24,52 +16,44 @@ function Stat({
   label,
   value,
   to,
-  tone,
-  icon,
+  critical = false,
   failed = false,
 }: {
   label: string;
   value: number | string | undefined;
   to: string;
-  tone: 'sage' | 'coral' | 'brand';
-  icon: ReactNode;
+  critical?: boolean;
   failed?: boolean;
 }) {
   const { t } = useTranslation();
   const pending = value === undefined && !failed;
+  const alarming = critical && typeof value === 'number' && value > 0;
   return (
     <Link
       to={to}
-      className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-cream-300/60 transition hover:ring-brand-300"
+      className="group flex flex-col rounded-2xl bg-surface p-5 shadow-soft light:ring-1 light:ring-line"
     >
       <span
+        aria-busy={pending || undefined}
         className={cn(
-          'grid size-12 shrink-0 place-items-center rounded-xl',
-          tone === 'sage'
-            ? 'bg-sage-100 text-sage-700'
-            : tone === 'brand'
-              ? 'bg-brand-100 text-brand-800'
-              : 'bg-coral-100 text-coral-700',
+          'block text-3xl font-extrabold tabular-nums',
+          value === undefined
+            ? 'text-fg-muted'
+            : alarming
+              ? 'text-danger'
+              : 'text-accent-fg',
         )}
       >
-        {icon}
+        {value ?? (failed ? '—' : '…')}
       </span>
-      <span>
-        <span
-          aria-busy={pending || undefined}
-          className="block text-3xl font-extrabold text-cocoa-900"
-        >
-          {value ?? (failed ? '—' : '…')}
-        </span>
-        <span className="block text-sm font-semibold text-cocoa-500">
-          {label}
-        </span>
-        {failed && value === undefined && (
-          <span className="block text-xs font-bold text-coral-700">
-            {t('loadFailed')}
-          </span>
-        )}
+      <span className="mt-1 block text-sm font-semibold text-fg-muted underline-offset-4 group-hover:text-fg group-hover:underline">
+        {label}
       </span>
+      {failed && value === undefined && (
+        <span className="mt-1 block text-sm font-bold text-danger">
+          {t('loadFailed')}
+        </span>
+      )}
     </Link>
   );
 }
@@ -121,16 +105,13 @@ export function ClinicOverviewPage() {
           value={consents.data?.total}
           failed={consents.isError}
           to="/clinic/consents"
-          tone="sage"
-          icon={<ShieldIcon className="size-6" />}
         />
         <Stat
           label={t('overview.belowCritical')}
           value={critical.data?.total}
           failed={critical.isError}
           to="/clinic/stock?critical=1"
-          tone="coral"
-          icon={<BoxIcon className="size-6" />}
+          critical
         />
         <Stat
           label={t('overview.monthRevenue')}
@@ -141,16 +122,12 @@ export function ClinicOverviewPage() {
           }
           failed={sales.isError}
           to="/clinic/sales"
-          tone="brand"
-          icon={<ChartIcon className="size-6" />}
         />
         <Stat
           label={t('overview.pendingDrafts')}
           value={drafts.data?.total}
           failed={drafts.isError}
           to="/clinic/drafts"
-          tone="brand"
-          icon={<DocumentIcon className="size-6" />}
         />
       </div>
       <ClinicCodeCard clinicId={clinic.id} />

@@ -519,6 +519,27 @@ export interface ListLabResultsResponse {
   pageSize: number;
 }
 
+export const LabExplanationStatus = {
+  PENDING: 1,
+  READY: 2,
+  FAILED: 3,
+} as const;
+export type LabExplanationStatus =
+  (typeof LabExplanationStatus)[keyof typeof LabExplanationStatus];
+
+export interface LabExplanationItem {
+  testName: string;
+  explanation: string;
+}
+
+export interface LabExplanationResponse {
+  status: LabExplanationStatus;
+  summary: string;
+  items: LabExplanationItem[];
+  confidence: number;
+  generatedAt: string;
+}
+
 export interface MedicalDocument {
   id: string;
   petId: string;

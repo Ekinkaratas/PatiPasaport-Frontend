@@ -31,11 +31,11 @@ export function FlashBanner() {
         className={cn(
           'pointer-events-auto flex w-full max-w-lg items-start gap-3 rounded-2xl px-4 py-3 shadow-soft ring-1',
           flash.tone === 'success'
-            ? 'bg-sage-50 text-sage-700 ring-sage-100'
-            : 'bg-white text-cocoa-700 ring-cream-300',
+            ? 'bg-ok-tint text-ok ring-ok/30'
+            : 'bg-surface text-fg ring-line',
         )}
       >
-        <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-sage-500 text-white">
+        <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-ok text-bg">
           <CheckIcon className="size-3.5" strokeWidth={3} />
         </span>
         <p className="flex-1 font-semibold">
@@ -45,7 +45,7 @@ export function FlashBanner() {
           type="button"
           onClick={() => dismissFlash(flash.id)}
           aria-label={t('actions.close')}
-          className="-m-1 rounded-full p-1 opacity-70 hover:opacity-100"
+          className="-my-2.5 -mr-2.5 grid size-11 shrink-0 place-items-center rounded-xl hover:bg-surface-2/60"
         >
           <XIcon className="size-4" />
         </button>

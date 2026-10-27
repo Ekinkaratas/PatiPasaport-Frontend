@@ -57,8 +57,8 @@
     "clinics1": "İzin verilen hastaları ada ya da çip numarasına göre bulun",
     "clinics2": "Hasta özeti ve (izin verildiyse) sahibin iletişim bilgisi tek ekranda",
     "clinics3": "Aşı, ilaç ve sarf stoklarını kritik seviye uyarısıyla takip edin",
-    "clinicsNote": "Klinik hesapları ekibimiz tarafından açılır. Kliniğinizi eklemek için bize yazın:",
-    "clinicsCta": "Bize yazın"
+    "clinicsNote": "Bu bir geliştirme projesidir; kliniklere satılmaz ve hizmet olarak sunulmaz. Klinik panelini denemek isterseniz geliştiriciye yazın, demo klinik hesabının bilgileri e-postayla iletilir:",
+    "clinicsCta": "Geliştiriciye yazın"
   },
   "species": {
     "title": "Küçük dostların hepsi için",

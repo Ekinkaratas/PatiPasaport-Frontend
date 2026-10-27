@@ -126,11 +126,11 @@ export function StockAdjustModal({
         {mutation.isError && !serverAmountError && (
           <ErrorAlert error={mutation.error} />
         )}
-        <div className="rounded-2xl bg-cream-200 px-4 py-3">
-          <p className="truncate font-extrabold text-cocoa-900">{item.name}</p>
-          <p className="mt-1 text-sm text-cocoa-600">
+        <div className="rounded-xl bg-bg px-4 py-3">
+          <p className="wrap-break-word font-extrabold text-fg">{item.name}</p>
+          <p className="mt-1 text-sm text-fg-muted">
             {t('stockAdjust.current')}:{' '}
-            <span className="font-bold text-cocoa-900">
+            <span className="font-bold text-fg">
               {item.quantity} {unit}
             </span>
           </p>
@@ -166,11 +166,11 @@ export function StockAdjustModal({
           hint={t('stockAdjust.amountHint')}
           required
         />
-        <p className="text-sm text-cocoa-600" aria-live="polite">
+        <p className="text-sm text-fg-muted" aria-live="polite">
           {preview !== null && (
             <>
               {t('stockAdjust.result')}:{' '}
-              <span className="font-bold text-cocoa-900">
+              <span className="font-bold text-fg">
                 {preview} {unit}
               </span>
             </>

@@ -4,10 +4,10 @@ import { cn } from '@/lib/cn';
 type Tone = 'brand' | 'sage' | 'neutral' | 'coral';
 
 const TONES: Record<Tone, string> = {
-  brand: 'bg-brand-100 text-brand-800',
-  sage: 'bg-sage-100 text-sage-700',
-  neutral: 'bg-cream-200 text-cocoa-600',
-  coral: 'bg-coral-100 text-coral-700',
+  brand: 'bg-accent-tint text-accent-strong',
+  sage: 'bg-ok-tint text-ok',
+  neutral: 'bg-surface-2 text-fg-muted',
+  coral: 'bg-danger-tint text-danger',
 };
 
 export function Badge({
@@ -22,7 +22,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold',
+        'inline-flex items-center gap-1 rounded-lg px-2.5 py-0.5 text-[0.8125rem] leading-5 font-bold',
         TONES[tone],
         className,
       )}

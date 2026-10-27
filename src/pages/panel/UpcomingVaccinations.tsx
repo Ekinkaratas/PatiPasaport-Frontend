@@ -5,6 +5,7 @@ import { listVaccinations } from '@/api/endpoints/records';
 import type { Pet } from '@/api/types';
 import { Badge } from '@/components/ui/Badge';
 import { SyringeIcon } from '@/components/ui/icons';
+import { cn } from '@/lib/cn';
 import { addDays } from '@/lib/consentExpiry';
 import { formatDate, todayInBusinessTimeZone } from '@/lib/format';
 import { healthKeys } from '../health/queries';
@@ -37,45 +38,55 @@ export function UpcomingVaccinations({ pets }: { pets: Pet[] }) {
     .slice(0, SHOWN);
 
   return (
-    <section className="space-y-4 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60">
-      <h2 className="flex items-center gap-2 text-xl font-extrabold text-cocoa-900">
-        <SyringeIcon className="size-5 text-cocoa-500" />
+    <section className="space-y-4 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line">
+      <h2 className="flex items-center gap-2 text-xl font-extrabold text-fg">
+        <SyringeIcon className="size-5 text-fg-muted" />
         {t('overview.upcomingTitle')}
       </h2>
       {loading ? (
-        <p className="text-cocoa-500">{t('overview.upcomingLoading')}</p>
+        <p className="text-fg-muted">{t('overview.upcomingLoading')}</p>
       ) : upcoming.length === 0 ? (
-        <p className="text-cocoa-600">
+        <p className="text-fg-muted">
           {failed ? t('overview.upcomingError') : t('overview.upcomingEmpty')}
         </p>
       ) : (
-        <ul className="divide-y divide-cream-200">
-          {upcoming.map((item) => (
-            <li
-              key={item.id}
-              className="flex flex-wrap items-center justify-between gap-2 py-3"
-            >
-              <span className="min-w-0">
-                <Link
-                  to={`/panel/pets/${item.pet.id}`}
-                  className="font-extrabold text-cocoa-900 hover:text-brand-700"
-                >
-                  {item.pet.name}
-                </Link>
-                <span className="block text-sm text-cocoa-600">
-                  {item.vaccineName}
+        <ul>
+          {upcoming.map((item) => {
+            const soon = item.nextDueAt <= addDays(today, 30);
+            return (
+              <li
+                key={item.id}
+                className="relative grid grid-cols-[0.625rem_minmax(0,1fr)_auto] items-center gap-x-4 border-b border-line py-3 last:border-b-0"
+              >
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    'size-2.5 rounded-full',
+                    soon ? 'bg-accent light:bg-accent-fg' : 'bg-ok',
+                  )}
+                />
+                <span className="min-w-0">
+                  <Link
+                    to={`/panel/pets/${item.pet.id}`}
+                    className="font-extrabold wrap-break-word text-fg underline-offset-4 after:absolute after:inset-0 hover:underline"
+                  >
+                    {item.pet.name}
+                  </Link>
+                  <span className="block text-sm wrap-break-word text-fg-muted">
+                    {item.vaccineName}
+                  </span>
+                  <span className="block text-sm text-fg-muted">
+                    {formatDate(item.nextDueAt, i18n.language, {
+                      dateStyle: 'medium',
+                    })}
+                  </span>
                 </span>
-              </span>
-              <span className="flex items-center gap-2 text-sm font-semibold text-cocoa-700">
-                {formatDate(item.nextDueAt, i18n.language, {
-                  dateStyle: 'medium',
-                })}
-                {item.nextDueAt <= addDays(today, 30) && (
+                {soon && (
                   <Badge tone="brand">{t('overview.upcomingSoon')}</Badge>
                 )}
-              </span>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       )}
     </section>

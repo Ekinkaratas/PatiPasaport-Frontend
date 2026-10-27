@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { Consent } from '@/api/types';
 import {
   initialGrantDetails,
+  isExpiringSoon,
   normalizeClinicCode,
   toGrantRequest,
   validateClinicCode,
@@ -107,5 +108,25 @@ describe('toGrantRequest', () => {
       scopes: ['medical_read', 'owner_contact_read'],
       expiresAt: '2026-10-20T23:59:59+03:00',
     });
+  });
+});
+
+describe('isExpiringSoon', () => {
+  it.each([
+    ['2026-10-13T20:59:59.000Z', true],
+    ['2026-10-28T20:59:59.000Z', true],
+    ['2026-10-29T20:59:59.000Z', false],
+    ['2026-10-12T20:59:59.000Z', false],
+  ])('aktif izin, bitiş %s -> %s', (expiresAt, expected) => {
+    expect(isExpiringSoon(consent({ expiresAt }), TODAY)).toBe(expected);
+  });
+
+  it('aktif olmayan izinde rozet yok', () => {
+    expect(
+      isExpiringSoon(
+        consent({ status: 2, expiresAt: '2026-10-20T20:59:59.000Z' }),
+        TODAY,
+      ),
+    ).toBe(false);
   });
 });

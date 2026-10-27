@@ -2,6 +2,7 @@ import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query';
 import { getClinic } from '@/api/endpoints/clinics';
 import {
   getDocument,
+  getLabExplanation,
   listDocuments,
   listDraftReviews,
   listLabResults,
@@ -13,7 +14,11 @@ import {
   type Paging,
 } from '@/api/endpoints/records';
 import { isApiError } from '@/api/errors';
-import { DocumentStatus, type ListDocumentsResponse } from '@/api/types';
+import {
+  DocumentStatus,
+  LabExplanationStatus,
+  type ListDocumentsResponse,
+} from '@/api/types';
 import { isUuidV4 } from '@/lib/ids';
 
 export const HEALTH_PAGE_SIZE = 8;
@@ -37,6 +42,8 @@ export const healthKeys = {
   draftsAll: ['health', 'drafts'] as const,
   document: (id: string) => ['health', 'document', id] as const,
   clinic: (id: string) => ['health', 'clinic', id] as const,
+  explanation: (recordId: string) =>
+    ['health', 'record', recordId, 'explanation'] as const,
 };
 
 export function useRecords(
@@ -88,6 +95,19 @@ export function useLabResults(
     queryFn: ({ signal }) => listLabResults(petId, query, signal),
     placeholderData: keepPreviousData,
     enabled: enabled && isUuidV4(petId),
+  });
+}
+
+export function useLabExplanation(recordId: string, enabled = true) {
+  return useQuery({
+    queryKey: healthKeys.explanation(recordId),
+    queryFn: ({ signal }) => getLabExplanation(recordId, signal),
+    enabled: enabled && isUuidV4(recordId),
+    retry: (failureCount, error) =>
+      !(isApiError(error) && error.status >= 400 && error.status < 500) &&
+      failureCount < 2,
+    refetchInterval: (query) =>
+      query.state.data?.status === LabExplanationStatus.PENDING ? 5_000 : false,
   });
 }
 

@@ -41,9 +41,9 @@ function Card({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60">
-      <h2 className="flex items-center gap-2 text-lg font-extrabold text-cocoa-900">
-        <span className="text-cocoa-500">{icon}</span>
+    <section className="rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line">
+      <h2 className="flex items-center gap-2 text-lg font-extrabold text-fg">
+        <span className="text-fg-muted">{icon}</span>
         {title}
       </h2>
       <div className="mt-4">{children}</div>
@@ -54,8 +54,8 @@ function Card({
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="grid gap-1 py-3 sm:grid-cols-[180px_1fr] sm:gap-4">
-      <dt className="text-sm font-semibold text-cocoa-500">{label}</dt>
-      <dd className="font-semibold text-cocoa-800">{children}</dd>
+      <dt className="text-sm text-fg-muted">{label}</dt>
+      <dd className="font-bold wrap-break-word text-fg">{children}</dd>
     </div>
   );
 }
@@ -63,15 +63,17 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 function PatientNotFound() {
   const { t } = useTranslation('clinic');
   return (
-    <div className="flex flex-col items-center rounded-3xl bg-white px-6 py-14 text-center shadow-soft ring-1 ring-cream-300/60">
-      <PawIcon className="size-14 text-cream-300" />
-      <h1 className="mt-5 text-xl font-extrabold text-cocoa-900">
+    <div className="flex flex-col items-center rounded-2xl bg-surface px-6 py-14 text-center shadow-soft light:ring-1 light:ring-line">
+      <span className="grid size-16 place-items-center rounded-full bg-surface-2 text-fg-muted">
+        <PawIcon className="size-9" />
+      </span>
+      <h1 className="mt-5 text-xl font-extrabold text-fg">
         {t('patient.notFoundTitle')}
       </h1>
-      <p className="mt-2 text-cocoa-600">{t('patient.notFoundBody')}</p>
+      <p className="mt-2 max-w-sm text-fg-muted">{t('patient.notFoundBody')}</p>
       <Link
         to="/clinic/patients"
-        className={buttonClasses('secondary', 'md', 'mt-6')}
+        className={buttonClasses('primary', 'md', 'mt-6')}
       >
         {t('patient.back')}
       </Link>
@@ -112,31 +114,34 @@ export function PatientDetailPage() {
     <div className="space-y-6">
       <Link
         to="/clinic/patients"
-        className="inline-flex items-center gap-2 text-sm font-bold text-cocoa-600 hover:text-brand-700"
+        className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-fg-muted hover:text-fg"
       >
         <ArrowLeftIcon className="size-4" />
         {t('patient.back')}
       </Link>
 
-      <section className="flex flex-col gap-5 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:flex-row sm:items-center sm:p-8">
+      <section className="flex flex-col gap-5 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:flex-row sm:items-center sm:p-8">
         <PetAvatar species={summary.species} size="lg" />
         <div className="min-w-0 flex-1">
-          <h1 className="text-3xl font-extrabold tracking-tight text-cocoa-900">
+          <h1 className="text-3xl font-extrabold wrap-break-word text-fg">
             {summary.name}
           </h1>
-          <p className="mt-1 text-cocoa-600">
-            {petLabels.species(summary.species)} ·{' '}
+          <p className="mt-1 wrap-break-word text-fg-muted">
             {petLabels.breed(summary.breed)}
           </p>
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <Badge>{petLabels.species(summary.species)}</Badge>
             {full && <Badge>{petLabels.sex(full.sex)}</Badge>}
             {age && <Badge>{age}</Badge>}
             {overview.data.pendingDraftReviewCount > 0 && (
               <Link
                 to={`/clinic/drafts?pet=${petId}`}
-                className="rounded-full focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none"
+                className="group inline-flex min-h-11 items-center rounded-lg"
               >
-                <Badge tone="brand" className="hover:bg-brand-200">
+                <Badge
+                  tone="brand"
+                  className="underline-offset-2 group-hover:underline"
+                >
                   {t('patient.pendingDrafts', {
                     count: overview.data.pendingDraftReviewCount,
                   })}
@@ -154,18 +159,18 @@ export function PatientDetailPage() {
         >
           {overview.data.owner ? (
             <div>
-              <p className="text-lg font-extrabold text-cocoa-900">
+              <p className="text-lg font-extrabold wrap-break-word text-fg">
                 {overview.data.owner.fullName}
               </p>
               <a
                 href={`tel:${overview.data.owner.phone}`}
-                className="mt-1 inline-block font-semibold text-brand-700 hover:underline"
+                className="mt-1 inline-flex min-h-11 items-center font-bold text-fg tabular-nums underline underline-offset-4 hover:text-accent-fg"
               >
                 {formatPhone(overview.data.owner.phone, i18n.language)}
               </a>
             </div>
           ) : (
-            <p className="text-cocoa-600">{t('patient.ownerNoAccess')}</p>
+            <p className="text-fg-muted">{t('patient.ownerNoAccess')}</p>
           )}
         </Card>
 
@@ -183,7 +188,7 @@ export function PatientDetailPage() {
                   </li>
                 ))}
               </ul>
-              <p className="text-sm font-semibold text-cocoa-600">
+              <p className="text-sm font-semibold text-fg-muted">
                 {t('patient.consentUntil', {
                   date: formatDate(consent.data.expiresAt, i18n.language),
                 })}
@@ -191,7 +196,7 @@ export function PatientDetailPage() {
             </div>
           ) : null}
           {(consent.isError || (consent.isSuccess && !consent.data)) && (
-            <p className="text-cocoa-600">{t('patient.consentUnknown')}</p>
+            <p className="text-fg-muted">{t('patient.consentUnknown')}</p>
           )}
         </Card>
       </div>
@@ -200,7 +205,7 @@ export function PatientDetailPage() {
         title={t('patient.infoTitle')}
         icon={<PawIcon className="size-5" />}
       >
-        <dl className="divide-y divide-cream-200">
+        <dl className="divide-y divide-line">
           <Row label={t('patient.species')}>
             {petLabels.species(summary.species)}
           </Row>
@@ -228,13 +233,13 @@ export function PatientDetailPage() {
           )}
           <Row label={t('patient.chip')}>
             {full?.chipNumber ? (
-              <span className="font-mono tracking-wide">
+              <span className="tabular-nums">
                 {formatChip(full.chipNumber)}
               </span>
             ) : summary.chipNumberMasked ? (
               <span>
-                <span className="font-mono">{summary.chipNumberMasked}</span>
-                <span className="mt-1 block text-sm font-normal text-cocoa-500">
+                <span className="tabular-nums">{summary.chipNumberMasked}</span>
+                <span className="mt-1 block text-sm font-normal text-fg-muted">
                   {t('patient.chipHidden')}
                 </span>
               </span>

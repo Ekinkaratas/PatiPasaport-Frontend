@@ -34,7 +34,7 @@ export function SideNav({
     <nav aria-label={label}>
       <ul
         ref={listRef}
-        className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-col lg:gap-1 lg:overflow-visible lg:px-0"
+        className="-mx-4 flex gap-2 overflow-x-auto px-4 py-1 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0"
       >
         {items.map((item) => (
           <li key={item.to} className="shrink-0">
@@ -43,10 +43,10 @@ export function SideNav({
               end={item.end}
               className={({ isActive }) =>
                 cn(
-                  'flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-colors',
+                  'flex min-h-11 items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold whitespace-nowrap transition-colors duration-150',
                   isActive
-                    ? 'bg-brand-700 text-white shadow-sm'
-                    : 'bg-white text-cocoa-700 ring-1 ring-cream-300/60 hover:bg-cream-200 lg:bg-transparent lg:ring-0',
+                    ? 'text-fg inset-shadow-[3px_0_0_var(--color-accent)] dark:bg-surface-2 light:bg-surface light:shadow-soft'
+                    : 'text-fg-muted ring-1 ring-line ring-inset hover:text-fg lg:ring-0',
                 )
               }
             >
@@ -68,9 +68,14 @@ export function PanelShell({
   children: ReactNode;
 }) {
   return (
-    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10 lg:py-12">
-      <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">{nav}</aside>
-      <div className="min-w-0">{children}</div>
+    <div className="relative overflow-clip">
+      <div aria-hidden="true" className="pp-halo" />
+      <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10 lg:py-12">
+        <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+          {nav}
+        </aside>
+        <div className="min-w-0">{children}</div>
+      </div>
     </div>
   );
 }

@@ -77,7 +77,7 @@ function RangeForm({
       noValidate
       onSubmit={submit}
       role="search"
-      className="space-y-4 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60"
+      className="space-y-4 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line"
     >
       <Honeypot {...botGuard.honeypot} />
       {blocked && <ErrorAlert error={BOT_BLOCKED_CODE} />}
@@ -130,20 +130,22 @@ function SaleRow({
   const money = (kurus: number) => formatMoney(kurus, i18n.language);
   const cancelled = isCancelled(sale);
   const unit = translate(`enums:stockUnit.${sale.unit}`);
-  const struck = cancelled ? 'text-cocoa-500 line-through' : 'text-cocoa-900';
+  const struck = cancelled ? 'text-fg-muted line-through' : 'text-fg';
 
   return (
     <li
       className={cn(
-        'grid gap-3 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-cream-300/60 sm:grid-cols-[1fr_auto] sm:items-center',
-        cancelled && 'bg-cream-100',
+        'grid gap-4 rounded-2xl p-5 sm:grid-cols-[1fr_auto] sm:items-center',
+        cancelled
+          ? 'bg-bg ring-1 ring-line'
+          : 'bg-surface shadow-soft light:ring-1 light:ring-line',
       )}
     >
       <div className="min-w-0">
-        <p className="truncate text-lg font-extrabold text-cocoa-900">
+        <p className="wrap-break-word text-lg font-extrabold text-fg">
           {sale.itemName}
         </p>
-        <p className="mt-1 text-sm text-cocoa-600">
+        <p className="mt-1 text-sm text-fg-muted">
           {formatDateTime(sale.soldAt, i18n.language)}
         </p>
         <div className="mt-2 flex flex-wrap gap-2">
@@ -160,36 +162,26 @@ function SaleRow({
       </div>
       <dl className="grid grid-cols-3 gap-4 text-sm sm:text-right">
         <div>
-          <dt className="font-semibold text-cocoa-500">
-            {t('salesHistory.quantity')}
-          </dt>
-          <dd className={cn('font-bold', struck)}>
+          <dt className="text-fg-muted">{t('salesHistory.quantity')}</dt>
+          <dd className={cn('font-bold tabular-nums', struck)}>
             {sale.quantity} {unit}
-            <span className="block text-xs font-semibold text-cocoa-500">
+            <span className="block text-sm font-semibold text-fg-muted">
               × {money(sale.unitSalePrice)}
             </span>
           </dd>
         </div>
         <div>
-          <dt className="font-semibold text-cocoa-500">
-            {t('salesHistory.total')}
-          </dt>
-          <dd className={cn('text-lg font-extrabold', struck)}>
+          <dt className="text-fg-muted">{t('salesHistory.total')}</dt>
+          <dd className={cn('text-lg font-extrabold tabular-nums', struck)}>
             {money(sale.totalSale)}
           </dd>
         </div>
         <div>
-          <dt className="font-semibold text-cocoa-500">
-            {t('salesHistory.profit')}
-          </dt>
+          <dt className="text-fg-muted">{t('salesHistory.profit')}</dt>
           <dd
             className={cn(
-              'text-lg font-extrabold',
-              cancelled
-                ? struck
-                : sale.profit < 0
-                  ? 'text-coral-700'
-                  : 'text-sage-700',
+              'text-lg font-extrabold tabular-nums',
+              cancelled ? struck : sale.profit < 0 ? 'text-danger' : 'text-ok',
             )}
           >
             {money(sale.profit)}
@@ -197,11 +189,11 @@ function SaleRow({
         </div>
       </dl>
       {canCancelSale(sale) && (
-        <div className="flex justify-end border-t border-cream-200 pt-3 sm:col-span-2">
+        <div className="flex justify-end border-t border-line pt-3 sm:col-span-2">
           <Button
             variant="ghost"
             size="sm"
-            className="text-coral-700 hover:bg-coral-50"
+            className="text-danger! hover:text-danger!"
             aria-label={t('salesHistory.cancelLabel', { name: sale.itemName })}
             onClick={() => onCancel(sale)}
           >
@@ -255,17 +247,17 @@ export function SalesHistoryPage() {
       {sales.isError && <ErrorAlert error={sales.error} />}
       {sales.isSuccess &&
         (sales.data.total === 0 ? (
-          <div className="flex flex-col items-center rounded-3xl bg-white px-6 py-14 text-center shadow-soft ring-1 ring-cream-300/60">
-            <span className="grid size-16 place-items-center rounded-2xl bg-cream-200 text-cocoa-500">
+          <div className="flex flex-col items-center rounded-2xl bg-surface px-6 py-14 text-center shadow-soft light:ring-1 light:ring-line">
+            <span className="grid size-16 place-items-center rounded-full bg-surface-2 text-fg-muted">
               <CartIcon className="size-9" />
             </span>
-            <h2 className="mt-5 text-xl font-extrabold text-cocoa-900">
+            <h2 className="mt-5 text-xl font-extrabold text-fg">
               {filtered
                 ? t('salesHistory.emptyFiltered')
                 : t('salesHistory.emptyTitle')}
             </h2>
             {!filtered && (
-              <p className="mt-2 text-cocoa-600">
+              <p className="mt-2 text-fg-muted">
                 {t('salesHistory.emptyBody')}
               </p>
             )}

@@ -7,6 +7,11 @@
     "tr": "Türkçe",
     "en": "English"
   },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
   "nav": {
     "home": "PatiPasaport home",
     "mainNavigation": "Main navigation",
@@ -46,7 +51,11 @@
   "footer": {
     "rights": "© {{year}} PatiPasaport. All rights reserved.",
     "kvkk": "Terms of Use and Privacy Notice",
-    "contact": "Contact"
+    "contact": "Contact the developer",
+    "source": "Source code",
+    "sourceFrontend": "Frontend",
+    "sourceBackend": "Backend",
+    "sourceLabel": "{{part}} source code on GitHub (opens in a new tab)"
   },
   "pagination": {
     "label": "Pages",
@@ -54,5 +63,11 @@
     "next": "Next",
     "pageOf": "Page {{page}} of {{pages}}"
   },
-  "navigationLoading": "Loading page"
+  "navigationLoading": "Loading page",
+  "demoBanner": {
+    "label": "Project notice",
+    "text": "PatiPasaport is an educational demo project and doesn't provide real veterinary services. Please don't enter real personal or medical data.",
+    "details": "Details",
+    "close": "Close notice"
+  }
 }

@@ -14,7 +14,7 @@ export function AccountLoadError({
   const { t } = useTranslation();
   return (
     <div className="mx-auto max-w-md px-4 py-16">
-      <p className="mb-3 font-bold text-cocoa-800">{title}</p>
+      <p className="mb-3 font-bold text-fg">{title}</p>
       <ErrorAlert error={error} />
       <Button className="mt-4" variant="secondary" onClick={onRetry}>
         {t('actions.retry')}

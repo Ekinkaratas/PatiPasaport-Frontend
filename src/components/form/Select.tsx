@@ -32,7 +32,10 @@ export function Select({
 
   return (
     <div className={className}>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-bold">
+      <label
+        htmlFor={id}
+        className="mb-1.5 block text-sm font-semibold text-fg"
+      >
         {label}
       </label>
       <div className="relative">
@@ -61,7 +64,7 @@ export function Select({
           viewBox="0 0 20 20"
           fill="currentColor"
           aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 right-3.5 size-5 -translate-y-1/2 text-cocoa-500"
+          className="pointer-events-none absolute top-1/2 right-3.5 size-5 -translate-y-1/2 text-fg-muted"
         >
           <path
             d="M5.5 7.5 10 12l4.5-4.5"
@@ -74,12 +77,12 @@ export function Select({
         </svg>
       </div>
       {error && (
-        <p id={errorId} className="mt-1.5 text-sm font-semibold text-coral-600">
+        <p id={errorId} className="mt-1.5 text-sm font-semibold text-danger">
           {error}
         </p>
       )}
       {hint && !error && (
-        <p id={hintId} className="mt-1.5 text-sm text-cocoa-500">
+        <p id={hintId} className="mt-1.5 text-sm text-fg-muted">
           {hint}
         </p>
       )}

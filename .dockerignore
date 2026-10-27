@@ -19,3 +19,5 @@ docs
 *.tsbuildinfo
 vite.config.*.timestamp-*
 scripts
+commit.txt
+/docs

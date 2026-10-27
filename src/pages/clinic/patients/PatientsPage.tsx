@@ -36,26 +36,27 @@ function PatientCard({ pet }: { pet: PetSummary }) {
   return (
     <Link
       to={`/clinic/patients/${pet.id}`}
-      className="group flex h-full flex-col rounded-2xl bg-white p-5 shadow-soft ring-1 ring-cream-300/60 transition hover:-translate-y-0.5 hover:ring-brand-300"
+      className="group flex h-full flex-col rounded-2xl bg-surface p-5 shadow-soft light:ring-1 light:ring-line"
     >
       <div className="flex items-center gap-4">
         <PetAvatar species={pet.species} />
         <div className="min-w-0">
-          <p className="truncate text-lg font-extrabold text-cocoa-900 group-hover:text-brand-700">
+          <p className="text-lg font-extrabold wrap-break-word text-fg underline-offset-4 group-hover:underline">
             {pet.name}
           </p>
-          <p className="truncate text-sm text-cocoa-500">
-            {labels.species(pet.species)} · {labels.breed(pet.breed)}
+          <p className="text-sm wrap-break-word text-fg-muted">
+            {labels.breed(pet.breed)}
           </p>
         </div>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
+        <Badge>{labels.species(pet.species)}</Badge>
         <Badge>{labels.sex(pet.sex)}</Badge>
         {age && <Badge>{age}</Badge>}
       </div>
       {pet.chipNumberMasked && (
-        <p className="mt-auto flex items-center gap-1.5 pt-4 font-mono text-sm text-cocoa-500">
-          <LockIcon className="size-4" />
+        <p className="mt-auto flex items-center gap-1.5 pt-4 text-sm text-fg-muted tabular-nums">
+          <LockIcon className="size-4 shrink-0" />
           {pet.chipNumberMasked}
         </p>
       )}
@@ -100,7 +101,7 @@ function SearchForm({
       noValidate
       onSubmit={submit}
       role="search"
-      className="space-y-4 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60"
+      className="space-y-4 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line"
     >
       <Honeypot {...botGuard.honeypot} />
       {blocked && <ErrorAlert error={BOT_BLOCKED_CODE} />}
@@ -210,18 +211,20 @@ export function PatientsPage() {
       {search.isError && <ErrorAlert error={search.error} />}
       {search.isSuccess && (
         <>
-          <p
-            className="text-sm font-semibold text-cocoa-600"
-            aria-live="polite"
-          >
+          <p className="text-sm font-semibold text-fg-muted" aria-live="polite">
             {t('patients.results', { count: search.data.total })}
           </p>
           {search.data.total === 0 ? (
-            <div className="rounded-3xl bg-white px-6 py-12 text-center shadow-soft ring-1 ring-cream-300/60">
-              <h2 className="text-lg font-extrabold text-cocoa-900">
+            <div className="flex flex-col items-center rounded-2xl bg-surface px-6 py-14 text-center shadow-soft light:ring-1 light:ring-line">
+              <span className="grid size-16 place-items-center rounded-full bg-surface-2 text-fg-muted">
+                <SearchIcon className="size-9" />
+              </span>
+              <h2 className="mt-5 text-xl font-extrabold text-fg">
                 {t('patients.emptyTitle')}
               </h2>
-              <p className="mt-2 text-cocoa-600">{t('patients.emptyBody')}</p>
+              <p className="mt-2 max-w-sm text-fg-muted">
+                {t('patients.emptyBody')}
+              </p>
             </div>
           ) : (
             <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

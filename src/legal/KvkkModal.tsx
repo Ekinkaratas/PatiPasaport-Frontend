@@ -61,13 +61,13 @@ function KvkkBody({
         <KvkkNotice />
         <div ref={endRef} aria-hidden="true" className="h-px" />
       </div>
-      <div className="border-t border-cream-300 px-6 py-4">
+      <div className="border-t border-line px-6 py-4">
         {onAcknowledge ? (
           <div className="flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p
               id="kvkk-read-hint"
               aria-live="polite"
-              className="text-sm text-cocoa-500"
+              className="text-sm text-fg-muted"
             >
               {reachedEnd ? '' : tAuth('kvkkModal.readToContinue')}
             </p>

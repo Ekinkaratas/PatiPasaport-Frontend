@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { PawIcon } from '@/components/ui/PawIcon';
 
 /** Giriş ve kayıt sayfalarının ortak çerçevesi. */
 export function AuthCard({
@@ -14,23 +13,26 @@ export function AuthCard({
   footer?: ReactNode;
 }) {
   return (
-    <div className="relative overflow-hidden px-4 py-12 sm:py-16">
-      <PawIcon className="pointer-events-none absolute -top-8 -left-10 size-48 -rotate-12 text-brand-100" />
-      <PawIcon className="pointer-events-none absolute -right-12 bottom-0 size-56 rotate-12 text-cream-300/70" />
+    <div className="relative overflow-clip px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+      <div aria-hidden="true" className="pp-halo" />
 
-      <div className="relative mx-auto w-full max-w-md">
-        <div className="rounded-3xl bg-white px-6 py-8 shadow-soft ring-1 ring-cream-300/60 sm:px-10 sm:py-10">
-          <h1 className="text-3xl font-extrabold tracking-tight text-cocoa-900">
+      <div className="relative mx-auto w-full max-w-[440px] max-lg:rounded-2xl max-lg:bg-surface max-lg:px-6 max-lg:py-8 max-lg:shadow-soft sm:max-lg:px-10 sm:max-lg:py-10 lg:grid lg:max-w-5xl lg:grid-cols-[minmax(0,1fr)_440px] lg:items-start lg:gap-16 light:max-lg:ring-1 light:max-lg:ring-line">
+        <div className="lg:sticky lg:top-28 lg:pt-10">
+          <h1 className="text-3xl font-extrabold tracking-tight text-balance text-fg lg:text-5xl">
             {title}
           </h1>
-          <p className="mt-2 text-cocoa-600">{subtitle}</p>
-          <div className="mt-8">{children}</div>
+          <p className="mt-2 text-pretty text-fg-muted lg:mt-4 lg:max-w-md lg:text-lg">
+            {subtitle}
+          </p>
         </div>
-        {footer && (
-          <div className="mt-6 text-center text-sm text-cocoa-600">
-            {footer}
-          </div>
-        )}
+        <div className="mt-8 lg:mt-0 lg:rounded-2xl lg:bg-surface lg:px-10 lg:py-10 lg:shadow-soft light:lg:ring-1 light:lg:ring-line">
+          {children}
+          {footer && (
+            <div className="mt-8 border-t border-line pt-6 text-sm text-fg-muted">
+              {footer}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

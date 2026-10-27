@@ -38,14 +38,14 @@ export function ClinicConsentsPage() {
       {consents.isError && <ErrorAlert error={consents.error} />}
       {consents.isSuccess &&
         (consents.data.total === 0 ? (
-          <div className="flex flex-col items-center rounded-3xl bg-white px-6 py-14 text-center shadow-soft ring-1 ring-cream-300/60">
-            <span className="grid size-16 place-items-center rounded-2xl bg-sage-100 text-sage-600">
+          <div className="flex flex-col items-center rounded-2xl bg-surface px-6 py-14 text-center shadow-soft light:ring-1 light:ring-line">
+            <span className="grid size-16 place-items-center rounded-full bg-surface-2 text-fg-muted">
               <ShieldIcon className="size-9" />
             </span>
-            <h2 className="mt-5 text-xl font-extrabold text-cocoa-900">
+            <h2 className="mt-5 text-xl font-extrabold text-fg">
               {t('consents.emptyTitle')}
             </h2>
-            <p className="mt-2 max-w-sm text-cocoa-600">
+            <p className="mt-2 max-w-sm text-fg-muted">
               {t('consents.emptyBody')}
             </p>
             <Link
@@ -63,16 +63,16 @@ export function ClinicConsentsPage() {
                 return (
                   <li
                     key={consent.consentId}
-                    className="flex flex-col gap-4 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-cream-300/60 sm:flex-row sm:items-center"
+                    className="flex flex-col gap-4 rounded-2xl bg-surface p-5 shadow-soft light:ring-1 light:ring-line sm:flex-row sm:items-center"
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-4">
                       {pet ? (
                         <PetAvatar species={pet.species} />
                       ) : (
-                        <span className="size-14 shrink-0 rounded-2xl bg-cream-200" />
+                        <span className="size-14 shrink-0 rounded-2xl bg-surface-2" />
                       )}
                       <div className="min-w-0">
-                        <p className="truncate text-lg font-extrabold text-cocoa-900">
+                        <p className="text-lg font-extrabold wrap-break-word text-fg">
                           {pet === undefined
                             ? '…'
                             : pet === null
@@ -80,13 +80,15 @@ export function ClinicConsentsPage() {
                               : pet.name}
                         </p>
                         {pet && (
-                          <p className="truncate text-sm text-cocoa-500">
-                            {petLabels.species(pet.species)} ·{' '}
-                            {petLabels.breed(pet.breed)}
-                          </p>
+                          <div className="mt-1 flex flex-wrap items-center gap-2">
+                            <Badge>{petLabels.species(pet.species)}</Badge>
+                            <span className="text-sm wrap-break-word text-fg-muted">
+                              {petLabels.breed(pet.breed)}
+                            </span>
+                          </div>
                         )}
                         <ul
-                          className="mt-2 flex flex-wrap gap-1.5"
+                          className="mt-3 flex flex-wrap gap-1.5"
                           aria-label={t('consents.scopes')}
                         >
                           {consent.scopes.map((scope) => (
@@ -100,11 +102,13 @@ export function ClinicConsentsPage() {
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-4 sm:flex-col sm:items-end">
-                      <p className="text-sm text-cocoa-600">
+                      <p className="text-sm text-fg-muted">
                         <span className="font-semibold">
                           {t('consents.expires')}:
                         </span>{' '}
-                        {formatDate(consent.expiresAt, i18n.language)}
+                        <span className="font-bold text-fg">
+                          {formatDate(consent.expiresAt, i18n.language)}
+                        </span>
                       </p>
                       <Link
                         to={`/clinic/patients/${consent.petId}`}

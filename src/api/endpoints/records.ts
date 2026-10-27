@@ -6,6 +6,7 @@ import type {
   DocumentStatus,
   DraftReviewResponse,
   DraftReviewStatus,
+  LabExplanationResponse,
   ListDocumentsResponse,
   ListDraftReviewsResponse,
   ListLabResultsResponse,
@@ -78,6 +79,16 @@ export function listLabResults(
     query: { page, pageSize, testName },
     signal,
   });
+}
+
+export function getLabExplanation(
+  recordId: string,
+  signal?: AbortSignal,
+): Promise<LabExplanationResponse> {
+  return api.get<LabExplanationResponse>(
+    `/records/${encodeURIComponent(recordId)}/explanation`,
+    { signal },
+  );
 }
 
 export function createRecord(

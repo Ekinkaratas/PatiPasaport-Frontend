@@ -12,6 +12,26 @@ export const BUILD_ENV = [
   'SITE_URL',
 ] as const;
 
+export const OPTIONAL_URL_ENV = [
+  'VITE_SOURCE_FRONTEND_URL',
+  'VITE_SOURCE_BACKEND_URL',
+] as const;
+
+export function checkOptionalUrls(
+  env: Record<string, string | undefined>,
+  names: readonly string[],
+): void {
+  const invalid = names.filter((name) => {
+    const value = env[name]?.trim();
+    return Boolean(value) && !/^https:\/\/\S+$/i.test(value!);
+  });
+  if (invalid.length > 0) {
+    throw new Error(
+      `.env içinde geçersiz adres: ${invalid.join(', ')} (https:// ile başlamalı, tırnak ve boşluk olmadan)`,
+    );
+  }
+}
+
 export function requireEnv(
   env: Record<string, string | undefined>,
   names: readonly string[],

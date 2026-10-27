@@ -75,28 +75,38 @@ export function CancelSaleModal({
           (conflict ? (
             <p
               role="alert"
-              className="rounded-xl bg-coral-50 px-4 py-3 text-sm font-semibold text-coral-700 ring-1 ring-coral-100"
+              className="rounded-xl bg-danger-tint px-4 py-3 text-sm font-semibold text-danger"
             >
               {t('saleCancel.conflict')}
             </p>
           ) : (
             <ErrorAlert error={mutation.error} />
           ))}
-        <div className="rounded-2xl bg-cream-200 px-4 py-3">
-          <p className="truncate font-extrabold text-cocoa-900">
+        <div className="rounded-xl bg-bg px-4 py-3">
+          <p className="wrap-break-word font-extrabold text-fg">
             {sale.itemName}
           </p>
-          <p className="mt-1 text-sm text-cocoa-600">
-            {sale.quantity} {unit} ·{' '}
-            {formatMoney(sale.totalSale, i18n.language)}
-          </p>
+          <dl className="mt-2 grid grid-cols-2 gap-3 text-sm">
+            <div>
+              <dt className="text-fg-muted">{t('salesHistory.quantity')}</dt>
+              <dd className="font-bold text-fg tabular-nums">
+                {sale.quantity} {unit}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-fg-muted">{t('salesHistory.total')}</dt>
+              <dd className="font-bold text-fg tabular-nums">
+                {formatMoney(sale.totalSale, i18n.language)}
+              </dd>
+            </div>
+          </dl>
         </div>
-        <p className="text-cocoa-700">
+        <p className="text-fg">
           {sale.stockItemId
             ? t('saleCancel.restock', { quantity: sale.quantity, unit })
             : t('saleCancel.noRestock')}
         </p>
-        <p className="text-sm text-cocoa-500">{t('saleCancel.note')}</p>
+        <p className="text-sm text-fg-muted">{t('saleCancel.note')}</p>
       </div>
     </Modal>
   );

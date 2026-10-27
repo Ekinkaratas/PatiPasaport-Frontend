@@ -13,7 +13,7 @@ export function PriceField(
       maxLength={11}
       placeholder={i18n.language === 'tr' ? '0,00' : '0.00'}
       trailing={
-        <span aria-hidden="true" className="pr-3 font-bold text-cocoa-500">
+        <span aria-hidden="true" className="pr-3 font-bold text-fg-muted">
           ₺
         </span>
       }

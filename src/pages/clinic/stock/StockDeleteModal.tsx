@@ -63,9 +63,7 @@ export function StockDeleteModal({
     >
       <div className="space-y-4 overflow-y-auto px-6 py-5">
         {mutation.isError && <ErrorAlert error={mutation.error} />}
-        <p className="text-cocoa-700">
-          {t('stockDelete.body', { name: item.name })}
-        </p>
+        <p className="text-fg">{t('stockDelete.body', { name: item.name })}</p>
       </div>
     </Modal>
   );

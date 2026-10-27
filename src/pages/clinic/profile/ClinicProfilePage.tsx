@@ -13,8 +13,8 @@ import { DeactivateClinicModal } from './DeactivateClinicModal';
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="grid gap-1 py-3 sm:grid-cols-[180px_1fr] sm:gap-4">
-      <dt className="text-sm font-semibold text-cocoa-500">{label}</dt>
-      <dd className="font-semibold break-all text-cocoa-800">{children}</dd>
+      <dt className="text-sm text-fg-muted">{label}</dt>
+      <dd className="font-bold wrap-break-word text-fg">{children}</dd>
     </div>
   );
 }
@@ -28,11 +28,11 @@ export function ClinicProfilePage() {
   return (
     <div className="space-y-6">
       <PageHeader title={t('profile.title')} />
-      <section className="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:p-8">
-        <dl className="divide-y divide-cream-200">
+      <section className="rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8">
+        <dl className="divide-y divide-line">
           <Row label={t('profile.name')}>{clinic.name}</Row>
           <Row label={t('profile.taxNumber')}>
-            <span className="font-mono">{clinic.taxNumber}</span>
+            <span className="tabular-nums">{clinic.taxNumber}</span>
           </Row>
           <Row label={t('profile.phone')}>
             {formatPhone(clinic.phone, i18n.language)}
@@ -47,18 +47,18 @@ export function ClinicProfilePage() {
             </Badge>
           </Row>
         </dl>
-        <p className="mt-4 text-sm text-cocoa-500">
+        <p className="mt-4 text-sm text-fg-muted">
           {t('profile.editNote', { email: CONTACT_EMAIL })}
         </p>
       </section>
 
       <ClinicCodeCard clinicId={clinic.id} />
 
-      <section className="rounded-3xl bg-coral-50 p-6 ring-1 ring-coral-100 sm:p-8">
-        <h2 className="text-lg font-extrabold text-coral-700">
+      <section className="rounded-2xl bg-danger-tint p-6 sm:p-8">
+        <h2 className="text-lg font-extrabold text-danger">
           {t('profile.dangerTitle')}
         </h2>
-        <p className="mt-1 text-cocoa-700">{t('profile.dangerBody')}</p>
+        <p className="mt-1 text-fg">{t('profile.dangerBody')}</p>
         <Button
           variant="danger"
           className="mt-5"

@@ -28,6 +28,26 @@ import { clinicKeys } from '../queries';
 import { REVIEW_NOTE_MAX, validateReviewNote } from './draftsModel';
 
 type Mode = 'review' | 'edit';
+
+const LOW_CONFIDENCE_MAX = 0.5;
+
+function WarningIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M10.3 4.1 2.6 17.5A2 2 0 0 0 4.3 20.5h15.4a2 2 0 0 0 1.7-3L13.7 4.1a2 2 0 0 0-3.4 0z" />
+      <path d="M12 9.5v4M12 17h.01" />
+    </svg>
+  );
+}
 type Action = 'approve' | 'approveEdited' | 'reject';
 
 export function DraftReviewModal({
@@ -50,6 +70,7 @@ export function DraftReviewModal({
   const [note, setNote] = useState('');
   const [attempt, setAttempt] = useState<Action | null>(null);
   const approvable = isApprovableAsIs(draft.proposal, today);
+  const lowConfidence = (draft.confidence || 0) <= LOW_CONFIDENCE_MAX;
 
   const mutation = useMutation({
     mutationFn: (request: ReviewDraftRequest) => reviewDraft(draft.id, request),
@@ -209,7 +230,7 @@ export function DraftReviewModal({
         {conflict && (
           <p
             role="alert"
-            className="rounded-xl bg-coral-50 px-4 py-3 text-sm font-semibold text-coral-700 ring-1 ring-coral-100"
+            className="rounded-xl bg-danger-tint px-4 py-3 text-sm font-semibold text-danger"
           >
             {t('review.conflict')}
           </p>
@@ -217,33 +238,29 @@ export function DraftReviewModal({
         {genericInvalid && (
           <p
             role="alert"
-            className="rounded-xl bg-coral-50 px-4 py-3 text-sm font-semibold text-coral-700 ring-1 ring-coral-100"
+            className="rounded-xl bg-danger-tint px-4 py-3 text-sm font-semibold text-danger"
           >
             {t('form.serverInvalid')}
           </p>
         )}
         {otherError && <ErrorAlert error={mutation.error} />}
-        <dl className="grid gap-3 rounded-2xl bg-cream-100 p-4 text-sm sm:grid-cols-3">
+        <dl className="grid gap-3 rounded-xl bg-bg p-4 text-sm sm:grid-cols-3">
           <div>
-            <dt className="font-semibold text-cocoa-500">
-              {t('drafts.source')}
-            </dt>
-            <dd className="truncate font-bold text-cocoa-800">
+            <dt className="text-fg-muted">{t('drafts.source')}</dt>
+            <dd className="wrap-break-word font-bold text-fg">
               {source?.originalName || '—'}
             </dd>
             {source?.documentId && (
               <DocumentActions
                 documentId={source.documentId}
                 fileName={source.originalName || source.documentId}
-                className="-ml-3 mt-1"
+                className="mt-1"
               />
             )}
           </div>
           <div>
-            <dt className="font-semibold text-cocoa-500">
-              {t('drafts.confidence')}
-            </dt>
-            <dd className="font-bold text-cocoa-800">
+            <dt className="text-fg-muted">{t('drafts.confidence')}</dt>
+            <dd className="font-bold text-fg tabular-nums">
               {new Intl.NumberFormat(
                 i18n.language === 'tr' ? 'tr-TR' : 'en-GB',
                 {
@@ -254,14 +271,21 @@ export function DraftReviewModal({
             </dd>
           </div>
           <div>
-            <dt className="font-semibold text-cocoa-500">
-              {t('drafts.model')}
-            </dt>
-            <dd className="truncate font-bold text-cocoa-800">
+            <dt className="text-fg-muted">{t('drafts.model')}</dt>
+            <dd className="wrap-break-word font-bold text-fg">
               {draft.modelVersion || '—'}
             </dd>
           </div>
         </dl>
+        {lowConfidence && (
+          <div
+            role="note"
+            className="flex items-start gap-3 rounded-xl bg-accent-tint px-4 py-3 text-sm font-semibold text-accent-strong"
+          >
+            <WarningIcon className="mt-0.5 size-5 shrink-0" />
+            <p>{t('drafts.lowConfidence')}</p>
+          </div>
+        )}
 
         {mode === 'review' ? (
           <>
@@ -269,11 +293,11 @@ export function DraftReviewModal({
               <section className="space-y-3">
                 <div className="flex flex-wrap items-center gap-2">
                   <RecordTypeBadge type={draft.proposal.type} />
-                  <h3 className="text-lg font-extrabold text-cocoa-900">
+                  <h3 className="text-lg font-extrabold text-fg">
                     {draft.proposal.title || t('drafts.untitled')}
                   </h3>
                 </div>
-                <p className="text-sm text-cocoa-500">
+                <p className="text-sm text-fg-muted">
                   {draft.proposal.recordedAt
                     ? formatDate(draft.proposal.recordedAt, i18n.language, {
                         dateStyle: 'medium',
@@ -283,10 +307,10 @@ export function DraftReviewModal({
                 <RecordDetails content={draft.proposal} />
               </section>
             ) : (
-              <p className="text-cocoa-600">{t('drafts.noProposal')}</p>
+              <p className="text-fg-muted">{t('drafts.noProposal')}</p>
             )}
             {!approvable && (
-              <p className="rounded-xl bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-800">
+              <p className="rounded-xl bg-accent-tint px-4 py-3 text-sm font-semibold text-accent-strong">
                 {t('review.needsEdit')}
               </p>
             )}

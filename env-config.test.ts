@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   BUILD_ENV,
+  checkOptionalUrls,
+  OPTIONAL_URL_ENV,
   SERVE_ENV,
   requireEnv,
   siteOrigin,
@@ -25,6 +27,26 @@ describe('requireEnv', () => {
         SERVE_ENV,
       ),
     ).not.toThrow();
+  });
+});
+
+describe('checkOptionalUrls', () => {
+  it('boş adrese izin verir, https olmayan ya da tırnaklı adresi reddeder', () => {
+    expect(() =>
+      checkOptionalUrls(
+        { VITE_SOURCE_FRONTEND_URL: '', VITE_SOURCE_BACKEND_URL: undefined },
+        OPTIONAL_URL_ENV,
+      ),
+    ).not.toThrow();
+    expect(() =>
+      checkOptionalUrls(
+        {
+          VITE_SOURCE_FRONTEND_URL: 'https://github.com/ornek/web',
+          VITE_SOURCE_BACKEND_URL: '"https://github.com/ornek/api"',
+        },
+        OPTIONAL_URL_ENV,
+      ),
+    ).toThrow('geçersiz adres: VITE_SOURCE_BACKEND_URL');
   });
 });
 

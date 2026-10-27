@@ -19,7 +19,7 @@ export function PasswordField(
           onClick={() => setVisible((v) => !v)}
           aria-label={visible ? t('hidePassword') : t('showPassword')}
           aria-pressed={visible}
-          className="rounded-lg p-2.5 text-cocoa-500 hover:bg-cream-200 hover:text-cocoa-800"
+          className="grid size-11 place-items-center rounded-lg text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg"
         >
           {visible ? (
             <EyeOffIcon className="size-5" />

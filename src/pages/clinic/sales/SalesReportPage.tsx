@@ -29,16 +29,25 @@ function Tile({
   label,
   value,
   note,
+  negative = false,
 }: {
   label: string;
   value: string;
   note?: string;
+  negative?: boolean;
 }) {
   return (
-    <div className="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-cream-300/60">
-      <p className="text-sm font-semibold text-cocoa-500">{label}</p>
-      <p className="mt-1 text-2xl font-extrabold text-cocoa-900">{value}</p>
-      {note && <p className="mt-1 text-sm text-cocoa-500">{note}</p>}
+    <div className="flex flex-col gap-1 rounded-2xl bg-surface p-5 shadow-soft light:ring-1 light:ring-line">
+      <p className="text-sm font-semibold text-fg-muted">{label}</p>
+      <p
+        className={cn(
+          'order-first text-2xl font-extrabold wrap-break-word tabular-nums',
+          negative ? 'text-danger' : 'text-accent-fg',
+        )}
+      >
+        {value}
+      </p>
+      {note && <p className="text-sm text-fg-muted">{note}</p>}
     </div>
   );
 }
@@ -53,9 +62,9 @@ function Card({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60">
+    <section className="rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-lg font-extrabold text-cocoa-900">{title}</h2>
+        <h2 className="text-lg font-extrabold text-fg">{title}</h2>
         {actions}
       </div>
       {children}
@@ -82,7 +91,7 @@ function FigureCells({
       <td
         className={cn(
           'px-3 py-2.5 text-right font-bold',
-          figures.profit < 0 ? 'text-coral-700' : 'text-cocoa-900',
+          figures.profit < 0 ? 'text-danger' : 'text-fg',
         )}
       >
         {formatMoney(figures.profit, language)}
@@ -120,7 +129,7 @@ function Table({
 }) {
   return (
     <TableScroll label={caption} className="-mx-6 px-6">
-      <table className="w-full min-w-[34rem] text-sm text-cocoa-800 tabular-nums">
+      <table className="w-full min-w-[34rem] text-sm text-fg tabular-nums">
         <caption className="sr-only">{caption}</caption>
         {children}
       </table>
@@ -129,8 +138,8 @@ function Table({
 }
 
 const HEAD_ROW =
-  'border-b border-cream-300 text-left text-xs font-bold tracking-wide text-cocoa-500 uppercase';
-const BODY_ROW = 'border-b border-cream-200 last:border-0';
+  'border-b border-line text-left text-sm font-semibold text-fg-muted';
+const BODY_ROW = 'border-b border-line last:border-0';
 
 function Report({ summary }: { summary: StockSalesSummary }) {
   const { t, i18n } = useTranslation('clinic');
@@ -155,6 +164,7 @@ function Report({ summary }: { summary: StockSalesSummary }) {
         <Tile
           label={t('salesReport.profit')}
           value={money(totals.profit)}
+          negative={totals.profit < 0}
           note={
             margin === null
               ? undefined
@@ -189,7 +199,7 @@ function Report({ summary }: { summary: StockSalesSummary }) {
         }
       >
         {totals.salesCount === 0 ? (
-          <p className="rounded-2xl bg-cream-200 px-4 py-8 text-center font-semibold text-cocoa-600">
+          <p className="rounded-xl bg-bg px-4 py-8 text-center font-semibold text-fg-muted">
             {t('salesReport.empty')}
           </p>
         ) : showTable ? (
@@ -249,7 +259,7 @@ function Report({ summary }: { summary: StockSalesSummary }) {
 
       <Card title={t('salesReport.productsTitle')}>
         {summary.products.length === 0 ? (
-          <p className="text-cocoa-600">{t('salesReport.noProducts')}</p>
+          <p className="text-fg-muted">{t('salesReport.noProducts')}</p>
         ) : (
           <Table caption={t('salesReport.productsTitle')}>
             <thead>
@@ -313,7 +323,7 @@ export function SalesReportPage() {
           <Button
             variant="secondary"
             size="sm"
-            className="w-9 px-0"
+            className="w-11 px-0"
             aria-label={t('salesReport.previousMonth')}
             onClick={() => go(shiftMonth(month, -1))}
           >
@@ -321,14 +331,14 @@ export function SalesReportPage() {
           </Button>
           <p
             aria-live="polite"
-            className="min-w-36 text-center font-extrabold text-cocoa-900"
+            className="min-w-36 text-center font-extrabold text-fg"
           >
             {formatMonth(month, i18n.language)}
           </p>
           <Button
             variant="secondary"
             size="sm"
-            className="w-9 px-0"
+            className="w-11 px-0"
             aria-label={t('salesReport.nextMonth')}
             disabled={month >= current}
             onClick={() => go(shiftMonth(month, 1))}

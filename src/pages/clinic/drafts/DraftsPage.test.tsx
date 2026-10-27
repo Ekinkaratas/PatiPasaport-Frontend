@@ -249,4 +249,32 @@ describe('DraftsPage', () => {
       'Bu taslak zaten incelenmiş.',
     );
   });
+
+  it.each([
+    [0.5, true],
+    [0.51, false],
+  ])(
+    'güven %s iken düşük güven uyarısı görünürlüğü: %s',
+    async (confidence, visible) => {
+      useBackend({ drafts: [draft({ confidence })] });
+      const user = userEvent.setup();
+      renderPage();
+
+      const dialog = await openReview(user);
+      const note = within(dialog).queryByRole('note');
+      if (visible) {
+        expect(note).toHaveTextContent(
+          'Yapay zekâ bu taslaktan emin değil. Tarihi ve değerleri belgeyle karşılaştırarak dikkatle kontrol edin.',
+        );
+      } else {
+        expect(note).not.toBeInTheDocument();
+        expect(
+          within(dialog).queryByText(/Yapay zekâ bu taslaktan emin değil/),
+        ).not.toBeInTheDocument();
+      }
+      expect(
+        within(dialog).getByRole('button', { name: 'Onayla' }),
+      ).toBeEnabled();
+    },
+  );
 });

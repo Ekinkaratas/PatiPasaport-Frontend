@@ -57,12 +57,11 @@ export function DocumentActions({
   };
 
   return (
-    <div className={cn('space-y-1', className)}>
-      <div className="flex flex-wrap gap-1">
+    <div className={cn('space-y-2', className)}>
+      <div className="flex flex-wrap gap-2">
         <Button
-          variant="ghost"
+          variant="secondary"
           size="sm"
-          className="h-8 px-3"
           aria-label={t('documents.openLabel', { name: fileName })}
           loading={busy === 'open'}
           disabled={busy !== null}
@@ -71,9 +70,8 @@ export function DocumentActions({
           {t('documents.open')}
         </Button>
         <Button
-          variant="ghost"
+          variant="secondary"
           size="sm"
-          className="h-8 px-3"
           aria-label={t('documents.downloadLabel', { name: fileName })}
           loading={busy === 'download'}
           disabled={busy !== null}
@@ -83,7 +81,7 @@ export function DocumentActions({
         </Button>
       </div>
       {error !== null && (
-        <p role="alert" className="text-sm font-semibold text-coral-700">
+        <p role="alert" className="text-sm font-semibold text-danger">
           {message(error)}
         </p>
       )}

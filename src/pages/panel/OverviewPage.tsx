@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/Badge';
 import { buttonClasses } from '@/components/ui/buttonClasses';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
-import { ArrowRightIcon, PlusIcon } from '@/components/ui/icons';
+import { PlusIcon } from '@/components/ui/icons';
 import { LoadingBlock } from '@/components/ui/LoadingBlock';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { useDocumentTitle } from '@/lib/useDocumentTitle';
@@ -35,11 +35,11 @@ export function OverviewPage() {
       />
 
       <section className="space-y-4">
-        <div className="flex items-baseline justify-between gap-4">
-          <h2 className="flex items-center gap-2 text-xl font-extrabold text-cocoa-900">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+          <h2 className="flex flex-wrap items-center gap-2 text-xl font-extrabold text-fg">
             {t('overview.petsTitle')}
             {pets.isSuccess && pets.data.length > 0 && (
-              <Badge tone="brand">
+              <Badge>
                 {t('overview.petCount', { count: pets.data.length })}
               </Badge>
             )}
@@ -47,10 +47,9 @@ export function OverviewPage() {
           {pets.isSuccess && pets.data.length > PREVIEW_COUNT && (
             <Link
               to="/panel/pets"
-              className="inline-flex items-center gap-1 text-sm font-bold text-brand-700 hover:underline"
+              className="inline-flex min-h-11 items-center text-sm font-bold text-fg underline underline-offset-4"
             >
               {t('overview.viewAll')}
-              <ArrowRightIcon className="size-4" />
             </Link>
           )}
         </div>

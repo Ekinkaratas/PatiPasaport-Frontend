@@ -2,9 +2,9 @@ import type { ComponentType, ReactNode, SVGProps } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useSession } from '@/auth/useSession';
+import { Badge } from '@/components/ui/Badge';
 import { buttonClasses } from '@/components/ui/buttonClasses';
 import {
-  ArrowRightIcon,
   BoxIcon,
   BuildingIcon,
   CheckIcon,
@@ -51,12 +51,10 @@ function SectionHeading({
 }) {
   return (
     <div className={cn('mx-auto max-w-2xl text-center', className)}>
-      <h2 className="text-3xl font-extrabold tracking-tight text-balance text-cocoa-900 sm:text-4xl">
+      <h2 className="text-3xl font-extrabold tracking-tight text-balance text-fg sm:text-4xl">
         {title}
       </h2>
-      {lead && (
-        <p className="mt-4 text-lg text-pretty text-cocoa-600">{lead}</p>
-      )}
+      {lead && <p className="mt-4 text-lg text-pretty text-fg-muted">{lead}</p>}
     </div>
   );
 }
@@ -78,7 +76,6 @@ function PrimaryCta({
       className={buttonClasses('primary', 'lg', className)}
     >
       {authenticated ? t('nav.dashboard') : label}
-      <ArrowRightIcon className="size-5" />
     </Link>
   );
 }
@@ -87,17 +84,17 @@ function Hero() {
   const { t } = useTranslation('landing');
 
   return (
-    <section className="relative overflow-hidden">
-      <PawIcon className="pointer-events-none absolute -top-16 -left-20 size-72 -rotate-12 text-brand-100/80" />
+    <section className="relative overflow-clip">
+      <div aria-hidden="true" className="pp-halo" />
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.1fr_1fr] lg:py-28">
         <div>
-          <p className="inline-flex rounded-full bg-brand-100 px-3 py-1 text-sm font-bold text-brand-700">
+          <p className="inline-flex rounded-lg bg-accent-tint px-3 py-1 text-sm font-bold text-accent-strong">
             {t('hero.eyebrow')}
           </p>
-          <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-balance text-cocoa-900 sm:text-5xl lg:text-6xl">
+          <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-balance text-fg sm:text-5xl lg:text-6xl">
             {t('hero.title')}
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-pretty text-cocoa-600 sm:text-xl">
+          <p className="mt-6 max-w-xl text-lg text-pretty text-fg-muted sm:text-xl">
             {t('hero.lead')}
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -120,81 +117,79 @@ function PassportCard() {
   const { t } = useTranslation('landing');
 
   return (
-    <div className="relative mx-auto w-full max-w-sm" aria-hidden="true">
-      <div className="absolute inset-0 translate-x-4 translate-y-4 rotate-3 rounded-3xl bg-brand-200/70" />
-      <div className="relative -rotate-2 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60">
-        <div className="flex items-center justify-between">
-          <span className="rounded-full bg-cream-200 px-2.5 py-1 text-xs font-bold text-cocoa-600">
-            {t('passportCard.label')}
-          </span>
-          <PawIcon className="size-6 text-brand-400" />
-        </div>
+    <div
+      className="relative mx-auto w-full max-w-sm rounded-2xl bg-surface p-5 shadow-soft sm:p-6 light:ring-1 light:ring-line"
+      aria-hidden="true"
+    >
+      <span className="inline-flex rounded-lg bg-surface-2 px-2.5 py-0.5 text-sm font-bold text-fg-muted">
+        {t('passportCard.label')}
+      </span>
 
-        <div className="mt-5 flex items-center gap-4">
-          <div className="grid size-16 place-items-center rounded-2xl bg-brand-100 text-brand-500">
-            <PawIcon className="size-10" />
+      <div className="mt-4 space-y-3">
+        <div className="flex items-center gap-4 rounded-xl bg-bg p-4">
+          <div className="grid size-14 shrink-0 place-items-center rounded-xl bg-accent-tint text-accent-strong">
+            <PawIcon className="size-8" />
           </div>
-          <div>
-            <p className="text-2xl font-extrabold text-cocoa-900">
+          <div className="min-w-0">
+            <p className="text-2xl font-extrabold text-fg">
               {t('passportCard.petName')}
             </p>
-            <p className="text-sm text-cocoa-500">
-              {t('passportCard.petMeta')}
-            </p>
+            <p className="text-sm text-fg-muted">{t('passportCard.petMeta')}</p>
           </div>
         </div>
 
-        <div className="mt-4 flex items-center gap-2 rounded-xl bg-cream-100 px-3 py-2 font-mono text-sm text-cocoa-600">
-          <LockIcon className="size-4 text-cocoa-500" />
-          <span className="font-sans font-semibold">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl bg-bg px-4 py-3 text-sm">
+          <span className="flex items-center gap-2 text-fg-muted">
+            <LockIcon className="size-4" />
             {t('passportCard.chip')}
           </span>
-          <span className="tracking-widest">•••• •••• ••• 4821</span>
+          <span className="font-semibold text-fg tabular-nums">
+            •••• •••• ••• 4821
+          </span>
         </div>
 
-        <p className="mt-5 text-xs font-bold tracking-wider text-cocoa-500 uppercase">
-          {t('passportCard.vaccinesTitle')}
-        </p>
-        <ul className="mt-2 space-y-2 text-sm">
-          <li className="flex items-center justify-between gap-3">
-            <span className="flex items-center gap-2 font-semibold">
-              <span className="grid size-6 place-items-center rounded-full bg-sage-100 text-sage-700">
-                <CheckIcon className="size-3.5" strokeWidth={3} />
+        <div className="rounded-xl bg-bg p-4">
+          <p className="text-sm font-bold text-fg">
+            {t('passportCard.vaccinesTitle')}
+          </p>
+          <ul className="mt-3 space-y-3 text-sm">
+            <li className="flex flex-wrap items-center justify-between gap-2">
+              <span className="flex items-center gap-2 font-semibold text-fg">
+                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-ok-tint text-ok">
+                  <CheckIcon className="size-3.5" strokeWidth={3} />
+                </span>
+                {t('passportCard.vaccine1')}
               </span>
-              {t('passportCard.vaccine1')}
-            </span>
-            <span className="text-cocoa-500">
-              {t('passportCard.vaccine1Date')}
-            </span>
-          </li>
-          <li className="flex items-center justify-between gap-3">
-            <span className="flex items-center gap-2 font-semibold">
-              <span className="grid size-6 place-items-center rounded-full bg-brand-100 text-brand-700">
-                <ClockIcon className="size-3.5" />
+              <Badge tone="sage">{t('passportCard.vaccine1Date')}</Badge>
+            </li>
+            <li className="flex flex-wrap items-center justify-between gap-2">
+              <span className="flex items-center gap-2 font-semibold text-fg">
+                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-accent-tint text-accent-strong">
+                  <ClockIcon className="size-3.5" />
+                </span>
+                {t('passportCard.vaccine2')}
               </span>
-              {t('passportCard.vaccine2')}
-            </span>
-            <span className="text-brand-700">
-              {t('passportCard.vaccine2Date')}
-            </span>
-          </li>
-        </ul>
+              <Badge tone="brand">{t('passportCard.vaccine2Date')}</Badge>
+            </li>
+          </ul>
+        </div>
 
-        <div className="mt-5 rounded-2xl bg-sage-50 p-4 ring-1 ring-sage-100">
-          <p className="text-xs font-bold tracking-wider text-sage-700 uppercase">
+        <div className="rounded-xl bg-bg p-4">
+          <p className="text-sm font-bold text-fg">
             {t('passportCard.consentTitle')}
           </p>
-          <div className="mt-2 flex items-center gap-3">
-            <BuildingIcon className="size-5 shrink-0 text-sage-600" />
+          <div className="mt-3 flex items-start gap-3">
+            <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-ok-tint text-ok">
+              <BuildingIcon className="size-5" />
+            </span>
             <div className="min-w-0">
-              <p className="truncate font-bold text-cocoa-800">
+              <p className="font-bold text-fg">
                 {t('passportCard.consentClinic')}
               </p>
-              <p className="text-sm text-cocoa-500">
+              <p className="text-sm text-fg-muted">
                 {t('passportCard.consentScope')}
               </p>
             </div>
-            <ShieldIcon className="ml-auto size-5 shrink-0 text-sage-600" />
           </div>
         </div>
       </div>
@@ -223,7 +218,7 @@ function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="scroll-mt-20 bg-white py-20 sm:py-24">
+    <section id="how-it-works" className="scroll-mt-20 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading
           title={t('howItWorks.title')}
@@ -233,18 +228,18 @@ function HowItWorks() {
           {steps.map((step, index) => (
             <li
               key={step.title}
-              className="relative rounded-3xl bg-cream-100 p-7 ring-1 ring-cream-300/60"
+              className="rounded-2xl bg-surface p-7 light:ring-1 light:ring-line"
             >
-              <span className="absolute top-6 right-6 text-5xl font-extrabold text-cream-300">
-                {index + 1}
-              </span>
-              <span className="grid size-12 place-items-center rounded-2xl bg-brand-700 text-white shadow-sm">
-                <step.icon className="size-6" />
-              </span>
-              <h3 className="mt-5 text-xl font-extrabold text-cocoa-900">
+              <div className="flex items-center justify-between gap-4">
+                <span className="grid size-10 place-items-center rounded-full bg-accent text-lg font-extrabold text-accent-ink">
+                  {index + 1}
+                </span>
+                <step.icon className="size-6 text-fg-muted" />
+              </div>
+              <h3 className="mt-5 text-xl font-extrabold text-fg">
                 {step.title}
               </h3>
-              <p className="mt-2 text-cocoa-600">{step.body}</p>
+              <p className="mt-2 text-fg-muted">{step.body}</p>
             </li>
           ))}
         </ol>
@@ -296,15 +291,15 @@ function Security() {
           {features.map((feature) => (
             <li
               key={feature.title}
-              className="rounded-2xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60"
+              className="rounded-2xl bg-surface p-6 light:ring-1 light:ring-line"
             >
-              <span className="grid size-11 place-items-center rounded-xl bg-sage-100 text-sage-700">
+              <span className="grid size-11 place-items-center rounded-xl bg-accent-tint text-accent-strong">
                 <feature.icon className="size-5" />
               </span>
-              <h3 className="mt-4 text-lg font-extrabold text-cocoa-900">
+              <h3 className="mt-4 text-lg font-extrabold text-fg">
                 {feature.title}
               </h3>
-              <p className="mt-1.5 text-cocoa-600">{feature.body}</p>
+              <p className="mt-1.5 text-fg-muted">{feature.body}</p>
             </li>
           ))}
         </ul>
@@ -313,25 +308,12 @@ function Security() {
   );
 }
 
-function CheckList({
-  items,
-  tone,
-}: {
-  items: string[];
-  tone: 'brand' | 'sage';
-}) {
+function CheckList({ items }: { items: string[] }) {
   return (
-    <ul className="mt-6 space-y-3">
+    <ul className="mt-6 space-y-3 text-fg">
       {items.map((item) => (
         <li key={item} className="flex items-start gap-3">
-          <span
-            className={cn(
-              'mt-0.5 grid size-6 shrink-0 place-items-center rounded-full',
-              tone === 'brand'
-                ? 'bg-white/25 text-white'
-                : 'bg-sage-100 text-sage-700',
-            )}
-          >
+          <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-accent-tint text-accent-strong">
             <CheckIcon className="size-3.5" strokeWidth={3} />
           </span>
           <span>{item}</span>
@@ -353,7 +335,7 @@ function AudienceCard({
   return (
     <div
       id={id}
-      className={cn('flex flex-col rounded-3xl p-8 sm:p-10', className)}
+      className={cn('flex flex-col rounded-2xl bg-bg p-8 sm:p-10', className)}
     >
       {children}
     </div>
@@ -364,19 +346,18 @@ function Audiences() {
   const { t } = useTranslation('landing');
 
   return (
-    <section className="bg-white py-20 sm:py-24">
+    <section className="bg-surface py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading title={t('audiences.title')} />
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
-          <AudienceCard className="bg-brand-700 text-white">
-            <span className="grid size-12 place-items-center rounded-2xl bg-white/20">
+          <AudienceCard className="ring-2 ring-accent">
+            <span className="grid size-12 place-items-center rounded-2xl bg-accent text-accent-ink">
               <PawIcon className="size-7" />
             </span>
-            <h3 className="mt-5 text-2xl font-extrabold">
+            <h3 className="mt-5 text-2xl font-extrabold text-fg">
               {t('audiences.ownersTitle')}
             </h3>
             <CheckList
-              tone="brand"
               items={[
                 t('audiences.owners1'),
                 t('audiences.owners2'),
@@ -384,43 +365,33 @@ function Audiences() {
               ]}
             />
             <div className="mt-auto pt-8">
-              <Link
-                to="/register"
-                className={cn(
-                  buttonClasses('secondary', 'md'),
-                  'ring-0 text-brand-700',
-                )}
-              >
+              <Link to="/register" className={buttonClasses('primary', 'md')}>
                 {t('audiences.ownersCta')}
-                <ArrowRightIcon className="size-4" />
               </Link>
             </div>
           </AudienceCard>
 
-          <AudienceCard
-            id="clinics"
-            className="scroll-mt-24 bg-cream-100 ring-1 ring-cream-300/60"
-          >
-            <span className="grid size-12 place-items-center rounded-2xl bg-sage-100 text-sage-700">
+          <AudienceCard id="clinics" className="scroll-mt-24 ring-1 ring-line">
+            <span className="grid size-12 place-items-center rounded-2xl bg-ok-tint text-ok">
               <BuildingIcon className="size-6" />
             </span>
-            <h3 className="mt-5 text-2xl font-extrabold text-cocoa-900">
+            <h3 className="mt-5 text-2xl font-extrabold text-fg">
               {t('audiences.clinicsTitle')}
             </h3>
-            <ul className="mt-6 space-y-3 text-cocoa-700">
+            <ul className="mt-6 space-y-3 text-fg">
               {[
                 { icon: SearchIcon, text: t('audiences.clinics1') },
                 { icon: StethoscopeIcon, text: t('audiences.clinics2') },
                 { icon: BoxIcon, text: t('audiences.clinics3') },
               ].map((item) => (
                 <li key={item.text} className="flex items-start gap-3">
-                  <item.icon className="mt-0.5 size-5 shrink-0 text-sage-600" />
+                  <item.icon className="mt-0.5 size-5 shrink-0 text-ok" />
                   <span>{item.text}</span>
                 </li>
               ))}
             </ul>
             <div className="mt-auto pt-8">
-              <p className="text-sm text-cocoa-600">
+              <p className="text-sm text-fg-muted">
                 {t('audiences.clinicsNote')}
               </p>
               <a
@@ -447,17 +418,12 @@ function Species() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <SectionHeading title={t('species.title')} lead={t('species.lead')} />
         <ul className="mt-10 flex flex-wrap justify-center gap-3">
-          {PET_SPECIES.map((species, index) => (
+          {PET_SPECIES.map((species) => (
             <li
               key={species}
-              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-bold text-cocoa-700 shadow-sm ring-1 ring-cream-300/60"
+              className="inline-flex items-center gap-2 rounded-full bg-surface px-4 py-2 font-bold text-fg light:ring-1 light:ring-line"
             >
-              <PawIcon
-                className={cn(
-                  'size-4',
-                  index % 2 === 0 ? 'text-brand-400' : 'text-sage-500',
-                )}
-              />
+              <PawIcon className="size-4 text-accent-fg" />
               {tEnums(`species.${species}`)}
             </li>
           ))}
@@ -472,15 +438,13 @@ function FinalCta() {
 
   return (
     <section className="px-4 pb-20 sm:px-6 sm:pb-24">
-      <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl bg-cocoa-800 px-6 py-14 text-center text-white sm:px-12">
-        <PawIcon className="pointer-events-none absolute -top-10 -right-10 size-48 rotate-12 text-white/5" />
-        <PawIcon className="pointer-events-none absolute -bottom-12 -left-8 size-40 -rotate-12 text-white/5" />
-        <SyringeIcon className="mx-auto size-8 text-brand-300" />
-        <h2 className="relative mt-4 text-3xl font-extrabold tracking-tight text-balance sm:text-4xl">
+      <div className="mx-auto max-w-5xl rounded-2xl bg-surface px-6 py-14 text-center ring-1 ring-line sm:px-12">
+        <SyringeIcon className="mx-auto size-8 text-accent-fg" />
+        <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-balance text-fg sm:text-4xl">
           {t('cta.title')}
         </h2>
-        <p className="relative mt-3 text-lg text-cream-200">{t('cta.body')}</p>
-        <PrimaryCta label={t('cta.button')} className="relative mt-8" />
+        <p className="mt-3 text-lg text-fg-muted">{t('cta.body')}</p>
+        <PrimaryCta label={t('cta.button')} className="mt-8" />
       </div>
     </section>
   );

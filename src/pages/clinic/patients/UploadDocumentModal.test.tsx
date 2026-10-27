@@ -124,4 +124,49 @@ describe('UploadDocumentModal', () => {
 
     expect(await screen.findByRole('alert')).toBeVisible();
   });
+
+  it.each([
+    [
+      'AI_PROVIDER_UNAVAILABLE',
+      'Yapay zekâ servisine şu an ulaşılamıyor. Belgeyi daha sonra yeniden yükleyebilir ya da kaydı elle ekleyebilirsiniz.',
+    ],
+    ['SOMETHING_NEW', 'Hata kodu: SOMETHING_NEW'],
+  ])('işlenemeyen belgede %s kodunu anlaşılır gösterir', async (code, text) => {
+    installApi(({ path, method }) => {
+      if (
+        path === `/api/clinics/${CLINIC_ID}/pets/${PET}/documents` &&
+        method === 'POST'
+      ) {
+        return apiOk(
+          {
+            documentId: DOC,
+            uploadedAt: '2026-10-17T10:00:00.000Z',
+            status: 'QUEUED',
+          },
+          201,
+        );
+      }
+      if (path === `/api/documents/${DOC}`) {
+        return apiOk({
+          document: {
+            id: DOC,
+            status: DocumentStatus.FAILED,
+            failureReason: code,
+          },
+        });
+      }
+      return undefined;
+    });
+    const user = userEvent.setup();
+    renderModal();
+
+    await user.upload(
+      screen.getByLabelText('Dosya'),
+      new File(['x'], 'foto.png', { type: 'image/png' }),
+    );
+    await user.click(screen.getByRole('button', { name: 'Yükle' }));
+
+    expect(await screen.findByText(text)).toBeVisible();
+    expect(screen.getByText('İncelenemedi')).toBeVisible();
+  });
 });

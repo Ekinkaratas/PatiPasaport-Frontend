@@ -128,7 +128,7 @@ export function ProfilePage() {
         title={t('title')}
         lead={t('lead')}
         eyebrow={
-          <p className="mb-1 text-sm font-semibold text-cocoa-500">
+          <p className="mb-1 text-sm font-semibold text-fg-muted">
             {t('memberSince', {
               date: formatDate(profile.createdAt, i18n.language),
             })}
@@ -139,11 +139,9 @@ export function ProfilePage() {
       <form
         noValidate
         onSubmit={onSubmit}
-        className="space-y-6 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:p-8"
+        className="space-y-6 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8"
       >
-        <h2 className="text-lg font-extrabold text-cocoa-900">
-          {t('personalTitle')}
-        </h2>
+        <h2 className="text-lg font-extrabold text-fg">{t('personalTitle')}</h2>
         <Honeypot {...botGuard.honeypot} />
         {blocked && <ErrorAlert error={BOT_BLOCKED_CODE} reveal />}
         {mutation.isError && !serverField && (
@@ -154,8 +152,8 @@ export function ProfilePage() {
             role="status"
             className={
               message === 'saved'
-                ? 'rounded-xl bg-sage-50 px-4 py-3 text-sm font-semibold text-sage-700 ring-1 ring-sage-100'
-                : 'rounded-xl bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-800 ring-1 ring-brand-100'
+                ? 'rounded-xl bg-ok-tint px-4 py-3 text-sm font-semibold text-ok'
+                : 'rounded-xl bg-accent-tint px-4 py-3 text-sm font-semibold text-accent-strong'
             }
           >
             {t(message)}
@@ -191,18 +189,18 @@ export function ProfilePage() {
           error={errorOf('phone')}
           required
         />
-        <div className="flex justify-end border-t border-cream-300 pt-6">
+        <div className="flex justify-end border-t border-line pt-6">
           <Button type="submit" loading={mutation.isPending}>
             {t('save')}
           </Button>
         </div>
       </form>
 
-      <section className="rounded-3xl bg-coral-50 p-6 ring-1 ring-coral-100 sm:p-8">
-        <h2 className="text-lg font-extrabold text-coral-700">
+      <section className="rounded-2xl bg-danger-tint p-6 sm:p-8">
+        <h2 className="text-lg font-extrabold text-danger">
           {t('danger.title')}
         </h2>
-        <p className="mt-1 text-cocoa-700">{t('danger.body')}</p>
+        <p className="mt-1 text-fg">{t('danger.body')}</p>
         <Button
           variant="danger"
           className="mt-5"

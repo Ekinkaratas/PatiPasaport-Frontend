@@ -140,6 +140,7 @@
     "CONTENT": "Record content",
     "EDITED_CONTENT": "Edited content",
     "DOCUMENT_ID": "Document",
+    "RECORD_ID": "Record",
     "ATTACHMENTS": "Attachments",
     "DRAFT_REVIEW_ID": "Draft",
     "DRAFT_REVIEW_STATUS": "Draft status",

@@ -149,31 +149,27 @@ export function StockEditModal({
         {noChanges && (
           <p
             role="status"
-            className="rounded-xl bg-cream-200 px-4 py-3 text-sm font-semibold text-cocoa-700"
+            className="rounded-xl bg-accent-tint px-4 py-3 text-sm font-semibold text-accent-strong"
           >
             {t('stockEdit.noChanges')}
           </p>
         )}
-        <div className="rounded-2xl bg-cream-200 px-4 py-3 text-sm">
+        <div className="rounded-xl bg-bg px-4 py-3 text-sm">
           <dl className="grid grid-cols-2 gap-4">
             <div>
-              <dt className="font-semibold text-cocoa-500">
-                {t('stockEdit.category')}
-              </dt>
-              <dd className="font-bold text-cocoa-900">
+              <dt className="text-fg-muted">{t('stockEdit.category')}</dt>
+              <dd className="font-bold text-fg">
                 {translate(`enums:stockCategory.${item.category}`)}
               </dd>
             </div>
             <div>
-              <dt className="font-semibold text-cocoa-500">
-                {t('stockEdit.unit')}
-              </dt>
-              <dd className="font-bold text-cocoa-900">
+              <dt className="text-fg-muted">{t('stockEdit.unit')}</dt>
+              <dd className="font-bold text-fg">
                 {translate(`enums:stockUnit.${item.unit}`)}
               </dd>
             </div>
           </dl>
-          <p className="mt-2 text-cocoa-600">{t('stockEdit.fixedFields')}</p>
+          <p className="mt-2 text-fg-muted">{t('stockEdit.fixedFields')}</p>
         </div>
         <TextField
           label={t('stockEdit.name')}
@@ -244,7 +240,7 @@ export function StockEditModal({
           )}
         </div>
         {!hasPrices(item) && (
-          <p className="rounded-xl bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-800">
+          <p className="rounded-xl bg-accent-tint px-4 py-3 text-sm font-semibold text-accent-strong">
             {t('stockEdit.missingPrices')}
           </p>
         )}
@@ -264,7 +260,7 @@ export function StockEditModal({
             error={errorOf('salePrice')}
           />
         </div>
-        <p className="text-sm text-cocoa-500">{t('stockEdit.priceHint')}</p>
+        <p className="text-sm text-fg-muted">{t('stockEdit.priceHint')}</p>
       </form>
     </Modal>
   );

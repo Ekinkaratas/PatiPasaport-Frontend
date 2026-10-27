@@ -114,6 +114,39 @@ describe('HealthSection', () => {
     expect(await within(card).findByText('Pati Test Kliniği')).toBeVisible();
   });
 
+  it('ilk sekme yalnızca muayene ve ameliyat kayıtlarını ister', async () => {
+    const api = useBackend();
+    const user = userEvent.setup();
+    renderRoute(<HealthSection petId={PET} access={FULL_HEALTH_ACCESS} />);
+    await screen.findByText('Kuduz aşısı');
+
+    expect(screen.queryByRole('tab', { name: 'Kayıtlar' })).toBeNull();
+    expect(
+      screen.getByRole('tab', { name: 'Muayene/Ameliyat' }),
+    ).toHaveAttribute('aria-selected', 'true');
+    const select = screen.getByLabelText('Kayıt türü');
+    expect(
+      within(select)
+        .getAllByRole('option')
+        .map((option) => option.textContent),
+    ).toEqual(['Muayene', 'Ameliyat']);
+    expect(
+      api.find('GET', `/api/pets/${PET}/records`)[0]?.query.get('type'),
+    ).toBe(String(RecordType.EXAMINATION));
+
+    await user.selectOptions(select, String(RecordType.SURGERY));
+    await waitFor(() =>
+      expect(
+        api
+          .find('GET', `/api/pets/${PET}/records`)
+          .some(
+            (request) =>
+              request.query.get('type') === String(RecordType.SURGERY),
+          ),
+      ).toBe(true),
+    );
+  });
+
   it('sekmeler arasında gezinir ve filtreleri isteğe ekler', async () => {
     const api = useBackend();
     const user = userEvent.setup();

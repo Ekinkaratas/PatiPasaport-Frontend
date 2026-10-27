@@ -27,7 +27,7 @@ export function Pagination({
       >
         {t('pagination.previous')}
       </Button>
-      <p className="text-sm font-semibold text-cocoa-600">
+      <p className="text-sm font-semibold text-fg-muted">
         {t('pagination.pageOf', { page, pages: pageCount })}
       </p>
       <Button

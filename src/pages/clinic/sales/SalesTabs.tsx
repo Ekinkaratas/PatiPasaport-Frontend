@@ -11,7 +11,7 @@ export function SalesTabs() {
   const { t } = useTranslation('clinic');
   return (
     <nav aria-label={t('sales.tabsLabel')}>
-      <ul className="inline-flex gap-1 rounded-full bg-cream-200 p-1">
+      <ul className="inline-flex gap-2 rounded-xl bg-surface-2 p-1">
         {TABS.map((tab) => (
           <li key={tab.key}>
             <NavLink
@@ -19,10 +19,10 @@ export function SalesTabs() {
               end={tab.end}
               className={({ isActive }) =>
                 cn(
-                  'block rounded-full px-4 py-2 text-sm font-bold transition-colors',
+                  'flex min-h-11 items-center rounded-[0.625rem] px-4 text-sm font-bold transition-colors',
                   isActive
-                    ? 'bg-white text-cocoa-900 shadow-sm'
-                    : 'text-cocoa-600 hover:text-cocoa-900',
+                    ? 'bg-surface text-fg shadow-soft dark:bg-line'
+                    : 'text-fg-muted hover:text-fg',
                 )
               }
             >

@@ -104,7 +104,7 @@ export function StockCreatePage() {
       <form
         noValidate
         onSubmit={onSubmit}
-        className="space-y-6 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:p-8"
+        className="space-y-6 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8"
       >
         <Honeypot {...botGuard.honeypot} />
         {blocked && <ErrorAlert error={BOT_BLOCKED_CODE} reveal />}
@@ -210,7 +210,7 @@ export function StockCreatePage() {
           hint={t('stockForm.expiresHint')}
           className="sm:max-w-xs"
         />
-        <div className="flex flex-col-reverse gap-3 border-t border-cream-300 pt-6 sm:flex-row sm:justify-end">
+        <div className="flex flex-col-reverse gap-3 border-t border-line pt-6 sm:flex-row sm:justify-end">
           <Button
             variant="ghost"
             onClick={() => void navigate('/clinic/stock')}

@@ -35,28 +35,31 @@ export function Checkbox({
             aria-invalid={error ? true : undefined}
             aria-describedby={describedBy}
             className={cn(
-              'peer size-5 cursor-pointer appearance-none rounded-md bg-white ring-1 transition',
-              'checked:bg-brand-700 checked:ring-brand-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700',
-              error ? 'ring-coral-500' : 'ring-cocoa-400',
+              'peer size-5 cursor-pointer appearance-none rounded-md border-[1.5px] bg-surface transition-colors dark:bg-bg',
+              'checked:border-accent checked:bg-accent',
+              error ? 'border-danger' : 'border-input',
             )}
             {...props}
           />
-          <CheckIcon className="pointer-events-none absolute size-3.5 text-white opacity-0 peer-checked:opacity-100" />
+          <CheckIcon className="pointer-events-none absolute size-3.5 text-accent-ink opacity-0 peer-checked:opacity-100" />
         </span>
-        <label htmlFor={id} className="cursor-pointer text-sm leading-6">
+        <label
+          htmlFor={id}
+          className="cursor-pointer text-sm leading-6 text-fg"
+        >
           {label}
         </label>
       </div>
       {error && (
         <p
           id={errorId}
-          className="mt-1.5 pl-8 text-sm font-semibold text-coral-600"
+          className="mt-1.5 pl-8 text-sm font-semibold text-danger"
         >
           {error}
         </p>
       )}
       {hint && !error && (
-        <p id={hintId} className="mt-1 pl-8 text-sm text-cocoa-500">
+        <p id={hintId} className="mt-1 pl-8 text-sm text-fg-muted">
           {hint}
         </p>
       )}

@@ -27,3 +27,5 @@ desktop.ini
 *.log
 .claude
 .mcp.json
+commit.txt
+/docs/ai-agents

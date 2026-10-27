@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import '@fontsource-variable/nunito';
+import '@fontsource-variable/plus-jakarta-sans';
 import './styles/index.css';
 import './i18n';
 import { initSession } from './auth/session';

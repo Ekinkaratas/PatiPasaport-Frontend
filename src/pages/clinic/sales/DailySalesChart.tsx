@@ -89,7 +89,7 @@ export function DailySalesChart({ days }: { days: DailySales[] }) {
       onKeyDown={onKeyDown}
       onFocus={() => setActive((current) => current ?? 0)}
       onBlur={() => setActive(null)}
-      className="relative rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+      className="relative rounded-xl"
     >
       <svg
         width={width}
@@ -106,14 +106,14 @@ export function DailySalesChart({ days }: { days: DailySales[] }) {
               y1={y(tick)}
               y2={y(tick)}
               strokeWidth={1}
-              className="stroke-cream-300"
+              className="stroke-line"
             />
             <text
               x={LEFT_GUTTER - 8}
               y={y(tick)}
               dy="0.32em"
               textAnchor="end"
-              className="fill-cocoa-500 text-[11px] tabular-nums"
+              className="fill-fg-muted text-xs tabular-nums"
             >
               {compactMoney(tick, i18n.language)}
             </text>
@@ -133,7 +133,9 @@ export function DailySalesChart({ days }: { days: DailySales[] }) {
                 <path
                   d={`M${x},${baseline}V${baseline - barHeight + radius}Q${x},${baseline - barHeight} ${x + radius},${baseline - barHeight}H${x + barWidth - radius}Q${x + barWidth},${baseline - barHeight} ${x + barWidth},${baseline - barHeight + radius}V${baseline}Z`}
                   className={
-                    active === index ? 'fill-brand-500' : 'fill-brand-600'
+                    active === index
+                      ? 'fill-accent light:fill-accent-fg'
+                      : 'fill-chart-bar'
                   }
                 />
               )}
@@ -142,7 +144,7 @@ export function DailySalesChart({ days }: { days: DailySales[] }) {
                   x={LEFT_GUTTER + index * slot + slot / 2}
                   y={baseline + 18}
                   textAnchor="middle"
-                  className="fill-cocoa-500 text-[11px] tabular-nums"
+                  className="fill-fg-muted text-xs tabular-nums"
                 >
                   {dayNumber}
                 </text>
@@ -156,7 +158,7 @@ export function DailySalesChart({ days }: { days: DailySales[] }) {
           y1={TOP_GUTTER + PLOT_HEIGHT}
           y2={TOP_GUTTER + PLOT_HEIGHT}
           strokeWidth={1}
-          className="stroke-cocoa-400"
+          className="stroke-input"
         />
         {activeDay && (
           <line
@@ -166,7 +168,7 @@ export function DailySalesChart({ days }: { days: DailySales[] }) {
             y2={TOP_GUTTER + PLOT_HEIGHT}
             strokeWidth={1}
             opacity={0.5}
-            className="stroke-cocoa-400"
+            className="stroke-input"
           />
         )}
         <rect
@@ -182,7 +184,7 @@ export function DailySalesChart({ days }: { days: DailySales[] }) {
       <div
         aria-live="polite"
         className={cn(
-          'pointer-events-none absolute top-0 w-44 rounded-xl bg-white px-3 py-2 text-sm shadow-soft ring-1 ring-cream-300',
+          'pointer-events-none absolute top-0 w-44 rounded-xl bg-surface px-3 py-2 text-sm text-fg shadow-soft ring-1 ring-line',
           !tooltipOnRight && '-translate-x-full',
           !activeDay && 'sr-only',
         )}
@@ -198,22 +200,22 @@ export function DailySalesChart({ days }: { days: DailySales[] }) {
       >
         {activeDay && (
           <>
-            <p className="text-base font-extrabold text-cocoa-900">
+            <p className="text-base font-extrabold text-fg tabular-nums">
               {formatMoney(activeDay.revenue, i18n.language)}
             </p>
-            <p className="font-semibold text-cocoa-600">
+            <p className="font-semibold text-fg-muted">
               {formatDate(activeDay.date, i18n.language, {
                 day: 'numeric',
                 month: 'long',
                 weekday: 'short',
               })}
             </p>
-            <p className="mt-1 text-cocoa-600">
+            <p className="mt-1 text-fg-muted">
               {t('salesReport.tooltipProfit', {
                 value: formatMoney(activeDay.profit, i18n.language),
               })}
             </p>
-            <p className="text-cocoa-600">
+            <p className="text-fg-muted">
               {t('salesReport.tooltipCount', { count: activeDay.salesCount })}
             </p>
           </>

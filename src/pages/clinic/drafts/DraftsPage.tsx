@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { DraftReviewStatus, type DraftReview } from '@/api/types';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { buttonClasses } from '@/components/ui/buttonClasses';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { DocumentIcon, XIcon } from '@/components/ui/icons';
 import { LoadingBlock } from '@/components/ui/LoadingBlock';
@@ -51,16 +52,16 @@ function DraftCard({
   const content = draft.approvedContent ?? draft.proposal;
 
   return (
-    <li className="space-y-4 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-cream-300/60">
+    <li className="space-y-4 rounded-2xl bg-surface p-5 shadow-soft light:ring-1 light:ring-line">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <Link
             to={`/clinic/patients/${draft.petId}`}
-            className="text-lg font-extrabold text-cocoa-900 hover:text-brand-700"
+            className="inline-flex min-h-11 items-center text-lg font-extrabold wrap-break-word text-fg underline-offset-4 hover:underline"
           >
             {petName}
           </Link>
-          <p className="text-sm text-cocoa-500">
+          <p className="text-sm text-fg-muted">
             {formatDateTime(draft.createdAt, i18n.language)}
           </p>
         </div>
@@ -69,11 +70,11 @@ function DraftCard({
       {content && (
         <div className="flex flex-wrap items-center gap-2">
           <RecordTypeBadge type={content.type} />
-          <span className="font-bold text-cocoa-800">
+          <span className="font-bold text-fg">
             {content.title || t('drafts.untitled')}
           </span>
           {content.recordedAt && (
-            <span className="text-sm text-cocoa-500">
+            <span className="text-sm text-fg-muted">
               {formatDate(content.recordedAt, i18n.language, {
                 dateStyle: 'medium',
               })}
@@ -82,9 +83,11 @@ function DraftCard({
         </div>
       )}
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="flex min-w-0 items-center gap-2 text-sm text-cocoa-600">
+        <p className="flex min-w-0 items-center gap-2 text-sm text-fg-muted">
           <DocumentIcon className="size-4 shrink-0" />
-          <span className="truncate">{source?.originalName || '—'}</span>
+          <span className="min-w-0 wrap-break-word">
+            {source?.originalName || '—'}
+          </span>
         </p>
         {source?.documentId && (
           <DocumentActions
@@ -94,15 +97,15 @@ function DraftCard({
         )}
       </div>
       {draft.reviewNote && (
-        <p className="rounded-xl bg-cream-100 px-4 py-3 text-sm text-cocoa-700">
+        <p className="rounded-xl bg-bg px-4 py-3 text-sm text-fg">
           {t('drafts.reviewNote', { note: draft.reviewNote })}
         </p>
       )}
-      <div className="flex flex-wrap items-center justify-end gap-2 border-t border-cream-200 pt-3">
+      <div className="flex flex-wrap items-center justify-end gap-2 border-t border-line pt-3">
         {draft.status === DraftReviewStatus.APPROVED && (
           <Link
             to={`/clinic/patients/${draft.petId}`}
-            className="text-sm font-bold text-brand-700 hover:underline"
+            className={buttonClasses('secondary', 'sm')}
           >
             {t('drafts.openPatient')}
           </Link>
@@ -163,7 +166,7 @@ export function DraftsPage() {
         <div
           role="group"
           aria-label={t('drafts.filterLabel')}
-          className="inline-flex flex-wrap gap-1 rounded-full bg-cream-200 p-1"
+          className="inline-flex flex-wrap gap-2 rounded-xl bg-surface-2 p-1"
         >
           {DRAFT_FILTERS.map((filter) => (
             <button
@@ -172,10 +175,10 @@ export function DraftsPage() {
               aria-pressed={filters.filter === filter}
               onClick={() => apply({ filter })}
               className={cn(
-                'rounded-full px-4 py-2 text-sm font-bold transition-colors',
+                'min-h-11 rounded-[0.625rem] px-4 text-sm font-bold transition-colors',
                 filters.filter === filter
-                  ? 'bg-white text-cocoa-900 shadow-sm'
-                  : 'text-cocoa-600 hover:text-cocoa-900',
+                  ? 'bg-surface text-fg shadow-soft dark:bg-line'
+                  : 'text-fg-muted hover:text-fg',
               )}
             >
               {t(`drafts.filters.${filter}`)}
@@ -183,34 +186,34 @@ export function DraftsPage() {
           ))}
         </div>
         {filters.petId && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-brand-100 py-1 pr-1 pl-3 text-sm font-bold text-brand-800">
+          <span className="inline-flex items-center gap-1 rounded-xl bg-accent-tint py-0.5 pr-0.5 pl-3 text-sm font-bold text-accent-strong">
             {t('drafts.petFilter', { name: nameOf(filters.petId) })}
             <button
               type="button"
               aria-label={t('drafts.clearPet')}
               onClick={() => apply({ petId: '' })}
-              className="rounded-full p-1 hover:bg-brand-200"
+              className="grid size-11 place-items-center rounded-[0.625rem] hover:bg-accent/25"
             >
               <XIcon className="size-4" />
             </button>
           </span>
         )}
       </div>
-      <p className="rounded-2xl bg-cream-200/60 px-4 py-3 text-sm text-cocoa-600 ring-1 ring-cream-300/60">
+      <p className="rounded-xl bg-accent-tint px-4 py-3 text-sm text-accent-strong">
         {t('drafts.aiNote')}
       </p>
       {drafts.isPending && <LoadingBlock />}
       {drafts.isError && <ErrorAlert error={drafts.error} />}
       {drafts.isSuccess &&
         (drafts.data.total === 0 ? (
-          <div className="flex flex-col items-center rounded-3xl bg-white px-6 py-14 text-center shadow-soft ring-1 ring-cream-300/60">
-            <span className="grid size-16 place-items-center rounded-2xl bg-cream-200 text-cocoa-500">
+          <div className="flex flex-col items-center rounded-2xl bg-surface px-6 py-14 text-center shadow-soft light:ring-1 light:ring-line">
+            <span className="grid size-16 place-items-center rounded-full bg-surface-2 text-fg-muted">
               <DocumentIcon className="size-9" />
             </span>
-            <h2 className="mt-5 text-xl font-extrabold text-cocoa-900">
+            <h2 className="mt-5 text-xl font-extrabold text-fg">
               {t(`drafts.empty.${filters.filter}`)}
             </h2>
-            <p className="mt-2 max-w-md text-cocoa-600">
+            <p className="mt-2 max-w-md text-fg-muted">
               {t('drafts.emptyBody')}
             </p>
           </div>

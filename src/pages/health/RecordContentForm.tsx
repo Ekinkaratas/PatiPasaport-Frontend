@@ -30,11 +30,9 @@ const FLAG_KEYS: Record<number, string> = {
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <fieldset className="space-y-5 rounded-2xl bg-cream-100 p-5">
+    <fieldset className="space-y-5 rounded-xl bg-bg p-5">
       <legend className="sr-only">{title}</legend>
-      <p className="text-sm font-extrabold tracking-wide text-cocoa-600 uppercase">
-        {title}
-      </p>
+      <p className="font-extrabold text-fg">{title}</p>
       {children}
     </fieldset>
   );
@@ -248,27 +246,26 @@ export function RecordContentForm({
             required
           />
           {errorOf('labItems') && (
-            <p className="text-sm font-semibold text-coral-600">
+            <p className="text-sm font-semibold text-danger">
               {errorOf('labItems')}
             </p>
           )}
-          <ol className="space-y-4">
+          <ol>
             {values.labItems.map((item, index) => {
               const at = (field: string) => `labItems.${index}.${field}`;
               return (
                 <li
                   key={item.key}
-                  className="space-y-4 rounded-2xl bg-white p-4 ring-1 ring-cream-300/70"
+                  className="space-y-4 border-t border-line py-5 last:pb-0"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <p className="font-bold text-cocoa-800">
+                    <p className="font-bold text-fg">
                       {t('form.labRow', { number: index + 1 })}
                     </p>
                     {values.labItems.length > 1 && (
                       <Button
-                        variant="ghost"
+                        variant="secondary"
                         size="sm"
-                        className="text-coral-700 hover:bg-coral-50"
                         aria-label={t('form.removeLabRow', {
                           number: index + 1,
                         })}

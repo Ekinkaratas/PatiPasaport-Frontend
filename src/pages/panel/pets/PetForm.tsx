@@ -139,7 +139,7 @@ export function PetForm({
     <form
       noValidate
       onSubmit={handleSubmit}
-      className="space-y-6 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:p-8"
+      className="space-y-6 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8"
     >
       <Honeypot {...botGuard.honeypot} />
       {blocked && <ErrorAlert error={BOT_BLOCKED_CODE} reveal />}
@@ -149,7 +149,7 @@ export function PetForm({
       {notice && (
         <p
           role="status"
-          className="rounded-xl bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-800 ring-1 ring-brand-100"
+          className="rounded-xl bg-accent-tint px-4 py-3 text-sm font-semibold text-accent-strong"
         >
           {notice}
         </p>
@@ -230,7 +230,7 @@ export function PetForm({
         />
       )}
 
-      <div className="space-y-4 rounded-2xl bg-cream-100 p-5">
+      <div className="space-y-4 rounded-xl bg-bg p-5">
         <RadioGroup
           label={t('form.birth')}
           name="birthMode"
@@ -289,12 +289,12 @@ export function PetForm({
             {errorOf('age') ? (
               <p
                 role="alert"
-                className="mt-1.5 text-sm font-semibold text-coral-600"
+                className="mt-1.5 text-sm font-semibold text-danger"
               >
                 {errorOf('age')}
               </p>
             ) : (
-              <p className="mt-1.5 text-sm text-cocoa-500">
+              <p className="mt-1.5 text-sm text-fg-muted">
                 {t('form.estimatedHint')}
               </p>
             )}
@@ -325,7 +325,7 @@ export function PetForm({
         onChange={(e) => update('isNeutered', e.target.checked)}
       />
 
-      <div className="flex flex-col-reverse gap-3 border-t border-cream-300 pt-6 sm:flex-row sm:justify-end">
+      <div className="flex flex-col-reverse gap-3 border-t border-line pt-6 sm:flex-row sm:justify-end">
         <Button variant="ghost" onClick={onCancel} disabled={submitting}>
           {t('form.cancel')}
         </Button>

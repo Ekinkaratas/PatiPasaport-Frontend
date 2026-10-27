@@ -38,8 +38,9 @@ Hazırlık:
 1. Backend ve `npm run dev` (ya da `npm run preview`) çalışıyor olmalı.
 2. `.env` içine test hesaplarını yazın (bkz. `.env.example`):
    `E2E_OWNER_EMAIL`, `E2E_OWNER_PASSWORD`, `E2E_CLINIC_EMAIL`,
-   `E2E_CLINIC_PASSWORD`, isteğe bağlı `E2E_BASE_URL`
-   (varsayılan `http://localhost:5173`). Gerçek hesap şifresi kullanmayın.
+   `E2E_CLINIC_PASSWORD` ve `E2E_BASE_URL` (örn. `http://localhost:5173`
+   ya da Docker kurulumunda `http://localhost:8080`). Hepsi zorunludur.
+   Gerçek hesap şifresi kullanmayın.
    Bu değerler `VITE_` önekli olmadığı için uygulamaya gömülmez.
 
 ```bash

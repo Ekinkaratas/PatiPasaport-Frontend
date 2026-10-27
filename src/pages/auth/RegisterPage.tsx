@@ -160,12 +160,12 @@ export function RegisterPage() {
             {t('register.hasAccount')}{' '}
             <Link
               to="/login"
-              className="font-bold text-brand-700 hover:underline"
+              className="inline-flex min-h-11 items-center font-bold text-fg underline underline-offset-2 transition-colors duration-150 hover:text-accent-fg"
             >
               {t('register.loginLink')}
             </Link>
           </p>
-          <p className="mt-2 text-cocoa-500">
+          <p className="mt-2">
             {t('register.clinicNote', { email: CONTACT_EMAIL })}
           </p>
         </>
@@ -235,7 +235,7 @@ export function RegisterPage() {
               <button
                 type="button"
                 onClick={() => setKvkkOpen(true)}
-                className="font-bold text-brand-700 underline underline-offset-2 hover:text-brand-800"
+                className="font-bold text-fg underline underline-offset-2 transition-colors duration-150 hover:text-accent-fg"
               >
                 {t('register.kvkkLink')}
               </button>

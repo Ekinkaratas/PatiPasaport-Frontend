@@ -27,7 +27,10 @@ export function TextField({
 
   return (
     <div className={className}>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-bold">
+      <label
+        htmlFor={id}
+        className="mb-1.5 block text-sm font-semibold text-fg"
+      >
         {label}
       </label>
       <div className="relative">
@@ -51,12 +54,12 @@ export function TextField({
         )}
       </div>
       {error && (
-        <p id={errorId} className="mt-1.5 text-sm font-semibold text-coral-600">
+        <p id={errorId} className="mt-1.5 text-sm font-semibold text-danger">
           {error}
         </p>
       )}
       {hint && !error && (
-        <p id={hintId} className="mt-1.5 text-sm text-cocoa-500">
+        <p id={hintId} className="mt-1.5 text-sm text-fg-muted">
           {hint}
         </p>
       )}

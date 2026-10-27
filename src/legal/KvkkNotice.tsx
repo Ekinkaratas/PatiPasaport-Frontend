@@ -7,7 +7,7 @@ import { CONTACT_EMAIL } from '@/config/site';
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="space-y-2">
-      <h3 className="font-extrabold text-cocoa-900">{title}</h3>
+      <h3 className="font-extrabold text-fg">{title}</h3>
       {children}
     </section>
   );
@@ -15,7 +15,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 function List({ items }: { items: ReactNode[] }) {
   return (
-    <ul className="list-disc space-y-1 pl-5 marker:text-brand-400">
+    <ul className="list-disc space-y-1 pl-5 marker:text-accent-fg">
       {items.map((item, i) => (
         <li key={i}>{item}</li>
       ))}
@@ -25,7 +25,7 @@ function List({ items }: { items: ReactNode[] }) {
 
 function Highlight({ children }: { children: ReactNode }) {
   return (
-    <p className="rounded-2xl bg-brand-50 px-4 py-3 font-semibold text-brand-800 ring-1 ring-brand-100">
+    <p className="rounded-xl bg-accent-tint px-4 py-3 font-semibold text-accent-strong">
       {children}
     </p>
   );
@@ -34,7 +34,7 @@ function Highlight({ children }: { children: ReactNode }) {
 const Email = () => (
   <a
     href={`mailto:${CONTACT_EMAIL}`}
-    className="font-semibold text-brand-700 underline"
+    className="font-semibold text-fg underline underline-offset-2 transition-colors duration-150 hover:text-accent-fg"
   >
     {CONTACT_EMAIL}
   </a>
@@ -43,7 +43,7 @@ const Email = () => (
 function KvkkNoticeTr() {
   return (
     <>
-      <p className="text-xs text-cocoa-500">Son güncelleme: 19 Ekim 2026</p>
+      <p className="text-xs text-fg-muted">Son güncelleme: 19 Ekim 2026</p>
       <Highlight>
         PatiPasaport, yazılım geliştirme pratiği amacıyla hazırlanmış, ticari
         olmayan bir eğitim ve demo projesidir. Gerçek bir veteriner sağlık
@@ -62,15 +62,17 @@ function KvkkNoticeTr() {
             'Hizmetin kesintisiz, hatasız ya da sürekli erişilebilir olacağı taahhüt edilmez.',
             'Özellikler önceden haber verilmeksizin değiştirilebilir, kaldırılabilir ya da tamamen durdurulabilir.',
             'Sistemdeki hesaplar ve kayıtlar, bakım veya sıfırlama gerektiğinde herhangi bir zamanda silinebilir.',
+            'Proje herhangi bir işletmeye satılmak, lisanslanmak ya da ticari olarak işletilmek amacıyla geliştirilmemiştir; veteriner klinikleri veya başka kurumlar için bir ürün ya da hizmet teklifi değildir. Sistemdeki klinik hesapları yalnızca tanıtım amaçlıdır.',
           ]}
         />
       </Section>
 
       <Section title="2. Deneme ve test kullanımı">
         <p>
-          Projeyi incelemek isteyen herkes kendi hesabını açarak ya da proje
-          kapsamında paylaşılan test hesaplarıyla tüm özellikleri serbestçe
-          deneyebilir. Deneme yaparken lütfen:
+          Projeyi incelemek isteyen herkes kendi hesabını açarak hayvan sahibi
+          özelliklerini serbestçe deneyebilir. Klinik panelini denemek
+          isteyenlere, talep etmeleri hâlinde demo klinik hesabının bilgileri
+          e-postayla iletilir. Deneme yaparken lütfen:
         </p>
         <List
           items={[
@@ -129,7 +131,10 @@ function KvkkNoticeTr() {
 
       <Section title="6. İletişim">
         <p>
-          Soru, görüş ve veri silme talepleriniz için: <Email />
+          PatiPasaport kişisel bir geliştirme projesidir; arkasında bir şirket
+          ya da satış ekibi yoktur. Projeyle ilgili soru ve görüşleriniz ile
+          veri silme talepleriniz için geliştiriciye doğrudan ulaşabilirsiniz:{' '}
+          <Email />
         </p>
       </Section>
     </>
@@ -139,7 +144,7 @@ function KvkkNoticeTr() {
 function KvkkNoticeEn() {
   return (
     <>
-      <p className="text-xs text-cocoa-500">Last updated: 19 October 2026</p>
+      <p className="text-xs text-fg-muted">Last updated: 19 October 2026</p>
       <Highlight>
         PatiPasaport is a non-commercial educational and demo project built to
         practise software development. It does not provide real veterinary
@@ -157,6 +162,7 @@ function KvkkNoticeEn() {
             'There is no commitment that the service will be uninterrupted, error-free or always available.',
             'Features may be changed, removed or discontinued entirely without notice.',
             'Accounts and records may be deleted at any time for maintenance or a reset.',
+            'The project was not built to be sold, licensed or run commercially for any business; it is not a product or service offer for veterinary clinics or other organisations. Clinic accounts in the system exist for demonstration only.',
           ]}
         />
       </Section>
@@ -164,8 +170,9 @@ function KvkkNoticeEn() {
       <Section title="2. Trying it out">
         <p>
           Anyone who wants to explore the project can create their own account
-          or use the test accounts shared as part of the project and try every
-          feature freely. While trying it out, please:
+          and try the pet owner features freely. If you'd like to try the clinic
+          panel, demo clinic account details are sent by email on request. While
+          trying it out, please:
         </p>
         <List
           items={[
@@ -220,7 +227,10 @@ function KvkkNoticeEn() {
 
       <Section title="6. Contact">
         <p>
-          For questions, feedback and data deletion requests: <Email />
+          PatiPasaport is a personal development project; there is no company or
+          sales team behind it. For questions and feedback about the project, or
+          to request deletion of your data, you can contact the developer
+          directly: <Email />
         </p>
       </Section>
     </>
@@ -230,7 +240,7 @@ function KvkkNoticeEn() {
 export function KvkkNotice() {
   const { i18n } = useTranslation();
   return (
-    <div className="space-y-5 text-sm leading-relaxed text-cocoa-700">
+    <div className="space-y-5 text-sm leading-relaxed text-fg">
       {i18n.language === 'tr' ? <KvkkNoticeTr /> : <KvkkNoticeEn />}
     </div>
   );

@@ -62,7 +62,7 @@ export function RevokeConsentModal({
       <div className="space-y-4 px-6 py-5">
         {mutation.isError && <ErrorAlert error={mutation.error} />}
         {target && (
-          <p className="text-cocoa-700">
+          <p className="text-fg">
             {t('revoke.body', {
               clinic: target.clinicName,
               pet: target.petName,

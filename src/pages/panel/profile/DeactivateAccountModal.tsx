@@ -60,7 +60,7 @@ export function DeactivateAccountModal({
     >
       <div className="space-y-4 overflow-y-auto px-6 py-5">
         {mutation.isError && <ErrorAlert error={mutation.error} />}
-        <ul className="list-disc space-y-2 pl-5 text-cocoa-700 marker:text-coral-500">
+        <ul className="list-disc space-y-2 pl-5 text-fg marker:text-danger">
           <li>{t('deactivate.point1')}</li>
           <li>{t('deactivate.point2')}</li>
           <li>{t('deactivate.point3')}</li>

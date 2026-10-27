@@ -43,7 +43,7 @@ export function RadioGroup({
         hint ? hintId : null,
       )}
     >
-      <legend className="mb-1.5 text-sm font-bold">{label}</legend>
+      <legend className="mb-1.5 text-sm font-semibold text-fg">{label}</legend>
       <div
         className={cn(
           'grid gap-2',
@@ -56,12 +56,12 @@ export function RadioGroup({
             <label
               key={option.value}
               className={cn(
-                'flex min-h-12 cursor-pointer items-center gap-3 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold ring-1 transition',
+                'flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border-[1.5px] px-4 py-2.5 text-sm font-semibold transition-colors',
                 checked
-                  ? 'bg-brand-50 text-brand-800 ring-2 ring-brand-500'
+                  ? 'border-accent bg-accent-tint text-accent-strong'
                   : error
-                    ? 'ring-coral-500'
-                    : 'ring-cream-300 hover:ring-cocoa-400',
+                    ? 'border-danger bg-surface text-fg dark:bg-bg'
+                    : 'border-input bg-surface text-fg dark:bg-bg',
                 option.disabled && 'cursor-not-allowed opacity-50',
               )}
             >
@@ -73,7 +73,7 @@ export function RadioGroup({
                 disabled={option.disabled}
                 aria-invalid={error ? true : undefined}
                 onChange={() => onChange(option.value)}
-                className="size-4 accent-brand-500"
+                className="size-5 shrink-0 cursor-pointer appearance-none rounded-full border-[1.5px] border-input bg-surface transition-colors checked:border-accent checked:bg-accent-ink checked:ring-[5px] checked:ring-accent checked:ring-inset disabled:cursor-not-allowed dark:bg-bg"
               />
               {option.label}
             </label>
@@ -81,12 +81,12 @@ export function RadioGroup({
         })}
       </div>
       {error && (
-        <p id={errorId} className="mt-1.5 text-sm font-semibold text-coral-600">
+        <p id={errorId} className="mt-1.5 text-sm font-semibold text-danger">
           {error}
         </p>
       )}
       {hint && !error && (
-        <p id={hintId} className="mt-1.5 text-sm text-cocoa-500">
+        <p id={hintId} className="mt-1.5 text-sm text-fg-muted">
           {hint}
         </p>
       )}

@@ -148,11 +148,11 @@ export function StockSaleModal({
         {mutation.isError && !serverField && (
           <ErrorAlert error={mutation.error} />
         )}
-        <div className="rounded-2xl bg-cream-200 px-4 py-3">
-          <p className="truncate font-extrabold text-cocoa-900">{item.name}</p>
-          <p className="mt-1 text-sm text-cocoa-600">
+        <div className="rounded-xl bg-bg px-4 py-3">
+          <p className="wrap-break-word font-extrabold text-fg">{item.name}</p>
+          <p className="mt-1 text-sm text-fg-muted">
             {t('stockSale.available')}:{' '}
-            <span className="font-bold text-cocoa-900">
+            <span className="font-bold text-fg">
               {item.quantity} {unit}
             </span>
           </p>
@@ -183,34 +183,26 @@ export function StockSaleModal({
         </div>
         <dl
           aria-live="polite"
-          className="grid grid-cols-3 gap-3 rounded-2xl bg-cream-200 px-4 py-3 text-sm"
+          className="grid grid-cols-3 gap-3 rounded-xl bg-bg px-4 py-3 text-sm"
         >
           <div>
-            <dt className="font-semibold text-cocoa-500">
-              {t('stockSale.total')}
-            </dt>
-            <dd className="font-extrabold text-cocoa-900">
+            <dt className="text-fg-muted">{t('stockSale.total')}</dt>
+            <dd className="font-extrabold text-fg tabular-nums">
               {preview ? money(preview.total) : '—'}
             </dd>
           </div>
           <div>
-            <dt className="font-semibold text-cocoa-500">
-              {t('stockSale.cost')}
-            </dt>
-            <dd className="font-extrabold text-cocoa-900">
+            <dt className="text-fg-muted">{t('stockSale.cost')}</dt>
+            <dd className="font-extrabold text-fg tabular-nums">
               {preview ? money(preview.cost) : '—'}
             </dd>
           </div>
           <div>
-            <dt className="font-semibold text-cocoa-500">
-              {t('stockSale.profit')}
-            </dt>
+            <dt className="text-fg-muted">{t('stockSale.profit')}</dt>
             <dd
               className={cn(
-                'font-extrabold',
-                preview && preview.profit < 0
-                  ? 'text-coral-700'
-                  : 'text-sage-700',
+                'font-extrabold tabular-nums',
+                preview && preview.profit < 0 ? 'text-danger' : 'text-ok',
               )}
             >
               {preview ? money(preview.profit) : '—'}

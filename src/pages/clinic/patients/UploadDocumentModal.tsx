@@ -17,6 +17,7 @@ import { cn } from '@/lib/cn';
 import { formatDateTime } from '@/lib/format';
 import { Honeypot } from '@/security/Honeypot';
 import { BOT_BLOCKED_CODE, useBotGuard } from '@/security/useBotGuard';
+import { documentFailureMessage } from '../../health/documentFailure';
 import { healthKeys, useDocumentStatus } from '../../health/queries';
 import {
   formatBytes,
@@ -64,7 +65,7 @@ function DocumentProgress({
 
   return (
     <div className="space-y-4" aria-live="polite">
-      <div className="flex items-start gap-3 rounded-2xl bg-sage-50 px-4 py-3 text-sage-700 ring-1 ring-sage-100">
+      <div className="flex items-start gap-3 rounded-xl bg-ok-tint px-4 py-3 text-ok">
         <DocumentIcon className="mt-0.5 size-5 shrink-0" />
         <p className="font-semibold">
           {t('upload.received', {
@@ -72,17 +73,17 @@ function DocumentProgress({
           })}
         </p>
       </div>
-      <div className="space-y-2 rounded-2xl bg-cream-100 px-4 py-3">
-        <p className="flex flex-wrap items-center gap-2 text-sm font-bold text-cocoa-700">
+      <div className="space-y-2 rounded-xl bg-bg px-4 py-3">
+        <p className="flex flex-wrap items-center gap-2 text-sm font-bold text-fg">
           {t('upload.statusLabel')}
           <Badge tone={tone}>{t(`documentStatus.${key}`)}</Badge>
         </p>
-        <p className="text-sm text-cocoa-600">
+        <p className="text-sm text-fg-muted">
           {t(`documentStatusHint.${key}`)}
         </p>
         {status === DocumentStatus.FAILED && document.data?.failureReason && (
-          <p className="font-mono text-xs text-coral-700">
-            {document.data.failureReason}
+          <p className="text-sm wrap-break-word text-danger">
+            {documentFailureMessage(document.data.failureReason, t)}
           </p>
         )}
         {document.isError && <ErrorAlert error={document.error} />}
@@ -221,13 +222,11 @@ export function UploadDocumentModal({
             {mutation.isError && !serverFile && !serverNote && (
               <ErrorAlert error={mutation.error} />
             )}
-            <p className="text-cocoa-700">
-              {t('upload.lead', { name: petName })}
-            </p>
+            <p className="text-fg">{t('upload.lead', { name: petName })}</p>
             <div>
               <label
                 htmlFor={fileId}
-                className="mb-1.5 block text-sm font-bold"
+                className="mb-1.5 block text-sm font-bold text-fg"
               >
                 {t('upload.file')}
               </label>
@@ -243,19 +242,19 @@ export function UploadDocumentModal({
                   if (mutation.isError) mutation.reset();
                 }}
                 className={cn(
-                  'block w-full rounded-xl bg-white text-sm text-cocoa-700 ring-1',
-                  'file:mr-4 file:cursor-pointer file:rounded-l-xl file:border-0 file:bg-cream-200 file:px-4 file:py-3 file:font-bold file:text-cocoa-800 hover:file:bg-cream-300',
-                  fileError ? 'ring-coral-500' : 'ring-cream-300',
+                  'block w-full rounded-xl border-[1.5px] bg-surface text-sm text-fg dark:bg-bg',
+                  'file:mr-4 file:cursor-pointer file:rounded-l-[0.65rem] file:border-0 file:bg-surface-2 file:px-4 file:py-3 file:font-bold file:text-fg hover:file:bg-line',
+                  fileError ? 'border-danger' : 'border-input',
                 )}
               />
               {fileError ? (
-                <p className="mt-1.5 text-sm font-semibold text-coral-600">
+                <p className="mt-1.5 text-sm font-semibold text-danger">
                   {fileError}
                 </p>
               ) : (
                 <p
                   id={`${fileId}-hint`}
-                  className="mt-1.5 text-sm text-cocoa-500"
+                  className="mt-1.5 text-sm text-fg-muted"
                 >
                   {file
                     ? t('upload.selected', {
@@ -279,7 +278,7 @@ export function UploadDocumentModal({
               error={noteError}
               hint={t('upload.noteHint')}
             />
-            <p className="rounded-xl bg-cream-100 px-4 py-3 text-sm text-cocoa-600">
+            <p className="rounded-xl bg-bg px-4 py-3 text-sm text-fg-muted">
               {t('upload.aiNote')}
             </p>
           </form>

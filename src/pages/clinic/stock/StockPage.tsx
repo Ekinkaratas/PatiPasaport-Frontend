@@ -82,14 +82,9 @@ function StockRow({
   });
 
   return (
-    <li
-      className={cn(
-        'grid gap-3 rounded-2xl bg-white p-5 shadow-soft ring-1 sm:grid-cols-[1fr_auto] sm:items-center',
-        item.isBelowCritical ? 'ring-coral-100' : 'ring-cream-300/60',
-      )}
-    >
+    <li className="grid gap-4 rounded-2xl bg-surface p-5 shadow-soft light:ring-1 light:ring-line sm:grid-cols-[1fr_auto] sm:items-center">
       <div className="min-w-0">
-        <p className="truncate text-lg font-extrabold text-cocoa-900">
+        <p className="text-lg font-extrabold wrap-break-word text-fg">
           {item.name}
         </p>
         <div className="mt-2 flex flex-wrap gap-2">
@@ -106,7 +101,7 @@ function StockRow({
           {!priced && <Badge tone="brand">{t('stock.noPrice')}</Badge>}
         </div>
         {priced && (
-          <p className="mt-2 text-sm text-cocoa-600">
+          <p className="mt-2 text-sm text-fg-muted tabular-nums">
             {t('stock.prices', {
               purchase: formatMoney(item.purchasePrice, i18n.language),
               sale: formatMoney(item.salePrice, i18n.language),
@@ -116,35 +111,29 @@ function StockRow({
       </div>
       <dl className="grid grid-cols-3 gap-4 text-sm sm:text-right">
         <div>
-          <dt className="font-semibold text-cocoa-500">
-            {t('stock.quantity')}
-          </dt>
+          <dt className="text-fg-muted">{t('stock.quantity')}</dt>
           <dd
             aria-live="polite"
             className={cn(
-              'text-lg font-extrabold',
-              item.isBelowCritical ? 'text-coral-700' : 'text-cocoa-900',
+              'text-lg font-extrabold tabular-nums',
+              item.isBelowCritical ? 'text-danger' : 'text-fg',
             )}
           >
             {item.quantity}{' '}
-            <span className="text-sm font-semibold text-cocoa-500">
+            <span className="text-sm font-semibold text-fg-muted">
               {translate(`enums:stockUnit.${item.unit}`)}
             </span>
           </dd>
         </div>
         <div>
-          <dt className="font-semibold text-cocoa-500">
-            {t('stock.criticalLevel')}
-          </dt>
-          <dd className="text-lg font-extrabold text-cocoa-900">
+          <dt className="text-fg-muted">{t('stock.criticalLevel')}</dt>
+          <dd className="text-lg font-extrabold text-fg tabular-nums">
             {item.criticalLevel}
           </dd>
         </div>
         <div>
-          <dt className="font-semibold text-cocoa-500">
-            {t('stock.expiresAt')}
-          </dt>
-          <dd className="font-semibold text-cocoa-800">
+          <dt className="text-fg-muted">{t('stock.expiresAt')}</dt>
+          <dd className="font-bold text-fg tabular-nums">
             {item.expiresAt
               ? formatDate(item.expiresAt.slice(0, 10), i18n.language, {
                   dateStyle: 'medium',
@@ -153,7 +142,7 @@ function StockRow({
           </dd>
         </div>
       </dl>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-cream-200 pt-3 sm:col-span-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4 sm:col-span-2">
         <div
           role="group"
           aria-label={t('stock.quickAdjust', { name: item.name })}
@@ -162,7 +151,7 @@ function StockRow({
           <Button
             variant="secondary"
             size="sm"
-            className="w-9 px-0"
+            className="w-11 px-0"
             aria-label={t('stock.decrease', { name: item.name })}
             disabled={step.isPending || !canStep(item, -1)}
             onClick={() => step.mutate(-1)}
@@ -172,7 +161,7 @@ function StockRow({
           <Button
             variant="secondary"
             size="sm"
-            className="w-9 px-0"
+            className="w-11 px-0"
             aria-label={t('stock.increase', { name: item.name })}
             disabled={step.isPending || !canStep(item, 1)}
             onClick={() => step.mutate(1)}
@@ -200,7 +189,7 @@ function StockRow({
               onChange={(e) => setSellQuantity(e.target.value)}
               disabled={sellBlockedReason !== null}
               aria-label={t('stock.sellQuantityLabel', { name: item.name })}
-              className="h-9 w-16 rounded-full bg-white px-2 text-center text-sm font-bold text-cocoa-900 ring-1 ring-cream-300 focus:ring-2 focus:ring-brand-500 focus:outline-none disabled:bg-cream-100 disabled:text-cocoa-400"
+              className="h-11 w-16 rounded-xl border-[1.5px] border-input bg-surface px-2 text-center text-sm font-bold text-fg tabular-nums disabled:cursor-not-allowed disabled:bg-surface-2 disabled:text-fg-muted dark:bg-bg"
             />
             <span className="group relative inline-flex">
               <Button
@@ -210,7 +199,7 @@ function StockRow({
                 aria-describedby={sellBlockedReason ? sellTooltipId : undefined}
                 className={
                   sellBlockedReason
-                    ? 'cursor-not-allowed opacity-60 hover:bg-brand-700 active:bg-brand-700'
+                    ? 'cursor-not-allowed opacity-60 hover:bg-accent! active:bg-accent!'
                     : undefined
                 }
                 onClick={() => {
@@ -225,7 +214,7 @@ function StockRow({
                 <span
                   id={sellTooltipId}
                   role="tooltip"
-                  className="pointer-events-none absolute right-0 bottom-full z-10 mb-2 hidden w-max max-w-56 rounded-lg bg-cocoa-900 px-3 py-1.5 text-xs font-semibold text-white shadow-soft group-focus-within:block group-hover:block"
+                  className="pointer-events-none absolute right-0 bottom-full z-10 mb-2 hidden w-max max-w-56 rounded-lg bg-surface-2 px-3 py-1.5 text-sm font-semibold text-fg shadow-soft ring-1 ring-line group-focus-within:block group-hover:block"
                 >
                   {sellBlockedReason}
                 </span>
@@ -244,7 +233,7 @@ function StockRow({
           <Button
             variant="ghost"
             size="sm"
-            className="text-coral-700 hover:bg-coral-50"
+            className="text-danger! hover:text-danger!"
             aria-label={t('stock.deleteLabel', { name: item.name })}
             onClick={() => onAction({ kind: 'delete', item })}
           >
@@ -314,7 +303,7 @@ export function StockPage() {
         }
       />
 
-      <div className="grid gap-4 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:grid-cols-2 sm:items-end">
+      <div className="grid gap-4 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:grid-cols-2 sm:items-end">
         <Select
           label={t('stock.category')}
           name="category"
@@ -342,15 +331,17 @@ export function StockPage() {
       {stock.isError && <ErrorAlert error={stock.error} />}
       {stock.isSuccess &&
         (stock.data.total === 0 ? (
-          <div className="flex flex-col items-center rounded-3xl bg-white px-6 py-14 text-center shadow-soft ring-1 ring-cream-300/60">
-            <span className="grid size-16 place-items-center rounded-2xl bg-cream-200 text-cocoa-500">
+          <div className="flex flex-col items-center rounded-2xl bg-surface px-6 py-14 text-center shadow-soft light:ring-1 light:ring-line">
+            <span className="grid size-16 place-items-center rounded-full bg-surface-2 text-fg-muted">
               <BoxIcon className="size-9" />
             </span>
-            <h2 className="mt-5 text-xl font-extrabold text-cocoa-900">
+            <h2 className="mt-5 text-xl font-extrabold text-fg">
               {filtered ? t('stock.emptyFiltered') : t('stock.emptyTitle')}
             </h2>
             {!filtered && (
-              <p className="mt-2 text-cocoa-600">{t('stock.emptyBody')}</p>
+              <p className="mt-2 max-w-sm text-fg-muted">
+                {t('stock.emptyBody')}
+              </p>
             )}
           </div>
         ) : (

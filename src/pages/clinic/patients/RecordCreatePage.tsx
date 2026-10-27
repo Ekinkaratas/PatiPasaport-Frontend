@@ -71,7 +71,10 @@ export function RecordCreatePage() {
     return (
       <div className="space-y-4">
         <ErrorAlert error="NOT_FOUND" />
-        <Link to="/clinic/patients" className="font-bold text-brand-700">
+        <Link
+          to="/clinic/patients"
+          className="inline-flex min-h-11 items-center font-bold text-fg underline underline-offset-4 hover:text-accent-fg"
+        >
           {t('create.backToPatients')}
         </Link>
       </div>
@@ -119,7 +122,7 @@ export function RecordCreatePage() {
     <div className="space-y-6">
       <Link
         to={back}
-        className="inline-flex items-center gap-2 text-sm font-bold text-cocoa-600 hover:text-brand-700"
+        className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-fg-muted hover:text-fg"
       >
         <ArrowLeftIcon className="size-4" />
         {t('create.back', { name: overview.data.pet.name })}
@@ -129,22 +132,22 @@ export function RecordCreatePage() {
         lead={t('create.lead', { name: overview.data.pet.name })}
       />
       {!writable ? (
-        <div className="flex items-start gap-3 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60">
-          <LockIcon className="mt-0.5 size-5 shrink-0 text-cocoa-500" />
-          <p className="text-cocoa-700">{t('create.noWrite')}</p>
+        <div className="flex items-start gap-3 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line">
+          <LockIcon className="mt-0.5 size-5 shrink-0 text-fg-muted" />
+          <p className="text-fg">{t('create.noWrite')}</p>
         </div>
       ) : (
         <form
           noValidate
           onSubmit={onSubmit}
-          className="space-y-6 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:p-8"
+          className="space-y-6 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8"
         >
           <Honeypot {...botGuard.honeypot} />
           {blocked && <ErrorAlert error={BOT_BLOCKED_CODE} reveal />}
           {genericInvalid && (
             <p
               role="alert"
-              className="rounded-xl bg-coral-50 px-4 py-3 text-sm font-semibold text-coral-700 ring-1 ring-coral-100"
+              className="rounded-xl bg-danger-tint px-4 py-3 text-sm font-semibold text-danger"
             >
               {t('form.serverInvalid')}
             </p>
@@ -158,7 +161,7 @@ export function RecordCreatePage() {
             today={today}
             onChange={update}
           />
-          <div className="flex flex-col-reverse gap-3 border-t border-cream-300 pt-6 sm:flex-row sm:justify-end">
+          <div className="flex flex-col-reverse gap-3 border-t border-line pt-6 sm:flex-row sm:justify-end">
             <Button
               variant="ghost"
               onClick={() => void navigate(back)}
@@ -170,7 +173,7 @@ export function RecordCreatePage() {
               {t('create.submit')}
             </Button>
           </div>
-          <p className="text-sm text-cocoa-500">{t('create.permanentNote')}</p>
+          <p className="text-sm text-fg-muted">{t('create.permanentNote')}</p>
         </form>
       )}
     </div>

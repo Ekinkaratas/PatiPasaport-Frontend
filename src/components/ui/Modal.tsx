@@ -50,28 +50,28 @@ export function Modal({
         if (event.target === event.currentTarget) onClose();
       }}
       className={cn(
-        'm-auto w-[calc(100%-2rem)] max-w-2xl rounded-2xl bg-white p-0 text-cocoa-800 shadow-soft',
-        'backdrop:bg-cocoa-900/40 backdrop:backdrop-blur-sm',
+        'm-auto w-[calc(100%-2rem)] max-w-2xl rounded-2xl bg-surface p-0 text-fg shadow-soft light:ring-1 light:ring-line',
+        'backdrop:bg-bg/75 backdrop:backdrop-blur-sm',
         className,
       )}
     >
       <div className="flex max-h-[85dvh] flex-col">
-        <div className="flex items-start justify-between gap-4 border-b border-cream-300 px-6 py-4">
-          <h2 id={titleId} className="text-xl font-extrabold text-cocoa-900">
+        <div className="flex items-start justify-between gap-4 border-b border-line px-6 py-4">
+          <h2 id={titleId} className="text-xl font-extrabold text-fg">
             {title}
           </h2>
           <button
             type="button"
             onClick={onClose}
             aria-label={t('actions.close')}
-            className="-mr-2 rounded-full p-2 text-cocoa-500 hover:bg-cream-200 hover:text-cocoa-800"
+            className="-my-1.5 -mr-2.5 grid size-11 shrink-0 place-items-center rounded-full text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg"
           >
             <XIcon className="size-5" />
           </button>
         </div>
         {children}
         {footer && (
-          <div className="border-t border-cream-300 px-6 py-4">{footer}</div>
+          <div className="border-t border-line px-6 py-4">{footer}</div>
         )}
       </div>
     </dialog>

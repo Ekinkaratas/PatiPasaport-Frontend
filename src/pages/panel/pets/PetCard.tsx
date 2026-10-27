@@ -14,29 +14,28 @@ export function PetCard({ pet }: { pet: Pet }) {
   return (
     <Link
       to={`/panel/pets/${pet.id}`}
-      className="group flex h-full flex-col rounded-2xl bg-white p-5 shadow-soft ring-1 ring-cream-300/60 transition hover:-translate-y-0.5 hover:ring-brand-300"
+      className="group flex h-full flex-col rounded-2xl bg-surface p-5 shadow-soft light:ring-1 light:ring-line"
     >
       <div className="flex items-center gap-4">
         <PetAvatar species={pet.species} />
         <div className="min-w-0">
-          <p className="truncate text-lg font-extrabold text-cocoa-900 group-hover:text-brand-700">
+          <p className="text-lg font-extrabold wrap-break-word text-fg underline-offset-4 group-hover:underline">
             {pet.name}
           </p>
-          <p className="truncate text-sm text-cocoa-500">
-            {labels.species(pet.species)} · {labels.breed(pet.breed)}
+          <p className="text-sm wrap-break-word text-fg-muted">
+            {labels.breed(pet.breed)}
           </p>
         </div>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
+        <Badge>{labels.species(pet.species)}</Badge>
         <Badge>{labels.sex(pet.sex)}</Badge>
         <Badge>{age ?? t('card.ageUnknown')}</Badge>
         {pet.isNeutered && <Badge tone="sage">{t('card.neutered')}</Badge>}
       </div>
-      <p className="mt-auto flex items-center gap-1.5 pt-4 font-mono text-sm text-cocoa-500">
-        <LockIcon className="size-4" />
-        {pet.chipNumberMasked || (
-          <span className="font-sans">{t('card.noChip')}</span>
-        )}
+      <p className="mt-auto flex items-center gap-1.5 pt-4 text-sm text-fg-muted tabular-nums">
+        <LockIcon className="size-4 shrink-0" />
+        {pet.chipNumberMasked || t('card.noChip')}
       </p>
     </Link>
   );

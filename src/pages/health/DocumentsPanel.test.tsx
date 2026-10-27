@@ -264,4 +264,43 @@ describe('Belgeler sekmesi', () => {
       screen.getByRole('link', { name: 'Taslağı incele' }),
     ).toHaveAttribute('href', `/clinic/drafts?pet=${PET}`);
   });
+
+  it('hata kodunu anlaşılır metne çevirir, bilinmeyen kodu olduğu gibi gösterir', async () => {
+    installApi(({ path }) => {
+      if (path === `/api/clinics/${CLINIC}`) {
+        return apiOk({ clinic: { id: CLINIC, name: 'Pati Test Kliniği' } });
+      }
+      if (path === `/api/pets/${PET}/records`) {
+        return apiOk({ records: [], total: 0, page: 1, pageSize: 8 });
+      }
+      if (path === `/api/pets/${PET}/documents`) {
+        const documents = [
+          doc({
+            status: DocumentStatus.FAILED,
+            failureReason: 'TOO_MANY_PAGES',
+          }),
+          doc({
+            id: DRAFT_DOC,
+            originalName: 'röntgen.png',
+            status: DocumentStatus.FAILED,
+            failureReason: 'SOMETHING_NEW',
+          }),
+        ];
+        return apiOk({ documents, total: 2, page: 1, pageSize: 8 });
+      }
+      return undefined;
+    });
+    const user = userEvent.setup();
+    renderRoute(<HealthSection petId={PET} access={FULL_HEALTH_ACCESS} />);
+
+    const known = (await openDocumentsTab(user)).closest('li')!;
+    expect(
+      within(known).getByText(
+        'Belge 8 sayfadan uzun. Belgeyi bölerek yükleyin.',
+      ),
+    ).toBeVisible();
+    expect(within(known).queryByText(/TOO_MANY_PAGES/)).not.toBeInTheDocument();
+    const unknown = screen.getByText('röntgen.png').closest('li')!;
+    expect(within(unknown).getByText('Hata kodu: SOMETHING_NEW')).toBeVisible();
+  });
 });

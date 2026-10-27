@@ -18,9 +18,9 @@ import { usePetLabels } from './usePetLabels';
 
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="grid gap-1 py-3 sm:grid-cols-[180px_1fr] sm:gap-4">
-      <dt className="text-sm font-semibold text-cocoa-500">{label}</dt>
-      <dd className="font-semibold text-cocoa-800">{children}</dd>
+    <div className="rounded-xl bg-bg px-4 py-3">
+      <dt className="text-sm text-fg-muted">{label}</dt>
+      <dd className="mt-0.5 font-bold wrap-break-word text-fg">{children}</dd>
     </div>
   );
 }
@@ -48,28 +48,29 @@ export function PetDetailPage() {
     <div className="space-y-6">
       <Link
         to="/panel/pets"
-        className="inline-flex items-center gap-2 text-sm font-bold text-cocoa-600 hover:text-brand-700"
+        className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-fg-muted hover:text-fg"
       >
         <ArrowLeftIcon className="size-4" />
         {t('detail.back')}
       </Link>
 
-      <section className="flex flex-col gap-5 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:flex-row sm:items-center sm:p-8">
+      <section className="flex flex-wrap items-center gap-5 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8">
         <PetAvatar species={data.species} size="lg" />
-        <div className="min-w-0 flex-1">
-          <h1 className="text-3xl font-extrabold tracking-tight text-cocoa-900">
+        <div className="min-w-0 flex-1 basis-60">
+          <h1 className="text-3xl font-extrabold wrap-break-word text-fg">
             {data.name}
           </h1>
-          <p className="mt-1 text-cocoa-600">
-            {labels.species(data.species)} · {labels.breed(data.breed)}
+          <p className="mt-1 wrap-break-word text-fg-muted">
+            {labels.breed(data.breed)}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
+            <Badge>{labels.species(data.species)}</Badge>
             <Badge>{labels.sex(data.sex)}</Badge>
             {age && <Badge>{age}</Badge>}
             {data.isNeutered && <Badge tone="sage">{t('card.neutered')}</Badge>}
           </div>
         </div>
-        <div className="flex flex-col gap-2 sm:items-end">
+        <div className="flex flex-wrap gap-2">
           <Link
             to={`/panel/pets/${data.id}/edit`}
             className={buttonClasses('secondary', 'md')}
@@ -79,7 +80,7 @@ export function PetDetailPage() {
           </Link>
           <Link
             to={`/panel/consents/new?pet=${data.id}`}
-            className={buttonClasses('ghost', 'md')}
+            className={buttonClasses('primary', 'md')}
           >
             <ShieldIcon className="size-4" />
             {t('detail.grantConsent')}
@@ -87,11 +88,11 @@ export function PetDetailPage() {
         </div>
       </section>
 
-      <section className="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-300/60 sm:p-8">
-        <h2 className="text-lg font-extrabold text-cocoa-900">
+      <section className="rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8">
+        <h2 className="text-lg font-extrabold text-fg">
           {t('detail.infoTitle')}
         </h2>
-        <dl className="mt-2 divide-y divide-cream-200">
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <Row label={t('detail.species')}>{labels.species(data.species)}</Row>
           <Row label={t('detail.breed')}>{labels.breed(data.breed)}</Row>
           <Row label={t('detail.sex')}>{labels.sex(data.sex)}</Row>
@@ -113,7 +114,7 @@ export function PetDetailPage() {
           </Row>
           <Row label={t('detail.chip')}>
             {data.chipNumber ? (
-              <span className="font-mono tracking-wide">
+              <span className="tabular-nums">
                 {formatChip(data.chipNumber)}
               </span>
             ) : (
@@ -130,6 +131,7 @@ export function PetDetailPage() {
         key={data.id}
         petId={data.id}
         access={FULL_HEALTH_ACCESS}
+        showLabExplanations
       />
     </div>
   );

@@ -12,7 +12,9 @@ import { cn } from '@/lib/cn';
 import { formatDateTime } from '@/lib/format';
 import { pageCountOf } from '@/lib/pagination';
 import { DocumentActions } from './DocumentActions';
+import { documentFailureMessage } from './documentFailure';
 import { HEALTH_PAGE_SIZE, useDocuments } from './queries';
+import { HealthEmpty } from './HealthEmpty';
 import { formatBytes } from './recordModel';
 import { useClinicLabel } from './useClinicLabel';
 
@@ -55,45 +57,49 @@ function DocumentRow({
 }) {
   const { t, i18n } = useTranslation('health');
   return (
-    <li className="space-y-2 px-5 py-4">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="flex min-w-0 items-center gap-2 font-extrabold text-cocoa-900">
-            <DocumentIcon className="size-4 shrink-0 text-cocoa-500" />
-            <span className="truncate">{document.originalName}</span>
-          </p>
-          <p className="text-sm text-cocoa-500">
-            {formatDateTime(document.createdAt, i18n.language)} ·{' '}
-            {formatBytes(document.sizeBytes, i18n.language)}
-            {!clinicView && ` · ${clinicLabel}`}
-          </p>
+    <li className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-4 py-4">
+      <span className="grid size-10 place-items-center rounded-xl bg-surface-2 text-fg-muted">
+        <DocumentIcon className="size-5" />
+      </span>
+      <div className="min-w-0 space-y-3">
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+          <div className="min-w-0">
+            <p className="font-extrabold wrap-break-word text-fg">
+              {document.originalName}
+            </p>
+            <p className="flex flex-wrap gap-x-4 text-sm text-fg-muted">
+              <span>{formatDateTime(document.createdAt, i18n.language)}</span>
+              <span>{formatBytes(document.sizeBytes, i18n.language)}</span>
+              {!clinicView && <span>{clinicLabel}</span>}
+            </p>
+          </div>
+          <StatusBadge status={document.status} />
         </div>
-        <StatusBadge status={document.status} />
-      </div>
-      {document.note && (
-        <p className="text-sm whitespace-pre-line text-cocoa-700">
-          {t('documents.note', { note: document.note })}
-        </p>
-      )}
-      {document.status === DocumentStatus.FAILED && document.failureReason && (
-        <p className="font-mono text-xs text-coral-700">
-          {t('documents.failure', { code: document.failureReason })}
-        </p>
-      )}
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <DocumentActions
-          documentId={document.id}
-          fileName={document.originalName}
-          className="-ml-3"
-        />
-        {clinicView && document.status === DocumentStatus.DRAFT_READY && (
-          <Link
-            to={`/clinic/drafts?pet=${document.petId}`}
-            className="text-sm font-bold text-brand-700 hover:underline"
-          >
-            {t('documents.openDrafts')}
-          </Link>
+        {document.note && (
+          <p className="text-sm whitespace-pre-line text-fg">
+            {t('documents.note', { note: document.note })}
+          </p>
         )}
+        {document.status === DocumentStatus.FAILED &&
+          document.failureReason && (
+            <p className="text-sm font-semibold wrap-break-word text-danger">
+              {documentFailureMessage(document.failureReason, t)}
+            </p>
+          )}
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+          <DocumentActions
+            documentId={document.id}
+            fileName={document.originalName}
+          />
+          {clinicView && document.status === DocumentStatus.DRAFT_READY && (
+            <Link
+              to={`/clinic/drafts?pet=${document.petId}`}
+              className="inline-flex min-h-11 items-center text-sm font-bold text-accent-fg underline-offset-4 hover:underline"
+            >
+              {t('documents.openDrafts')}
+            </Link>
+          )}
+        </div>
       </div>
     </li>
   );
@@ -147,7 +153,7 @@ export function DocumentsPanel({
           className="sm:w-64"
         />
         {clinicView && (
-          <p className="text-sm text-cocoa-500 sm:max-w-xs sm:text-right">
+          <p className="text-sm text-fg-muted sm:max-w-xs sm:text-right">
             {t('documents.clinicOnly')}
           </p>
         )}
@@ -156,19 +162,19 @@ export function DocumentsPanel({
       {documents.isError && <ErrorAlert error={documents.error} />}
       {documents.isSuccess &&
         (documents.data.total === 0 ? (
-          <p className="rounded-2xl bg-cream-100 px-4 py-8 text-center font-semibold text-cocoa-600">
+          <HealthEmpty icon={<DocumentIcon className="size-6" />}>
             {status === undefined
               ? t('documents.empty')
               : t('documents.emptyFiltered')}
-          </p>
+          </HealthEmpty>
         ) : (
           <div
             className={cn(
-              'space-y-3 transition-opacity',
+              'space-y-4 transition-opacity',
               documents.isPlaceholderData && 'opacity-60',
             )}
           >
-            <ul className="divide-y divide-cream-200 rounded-2xl ring-1 ring-cream-300/70">
+            <ul className="divide-y divide-line border-y border-line">
               {documents.data.documents.map((document) => (
                 <DocumentRow
                   key={document.id}

@@ -25,7 +25,10 @@ export function TextArea({
 
   return (
     <div className={className}>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-bold">
+      <label
+        htmlFor={id}
+        className="mb-1.5 block text-sm font-semibold text-fg"
+      >
         {label}
       </label>
       <textarea
@@ -37,21 +40,20 @@ export function TextArea({
           hint ? hintId : null,
         )}
         className={cn(
-          'block w-full rounded-xl bg-white px-4 py-3 text-base text-cocoa-900 ring-1 transition',
-          'placeholder:text-cocoa-400 focus:outline-none focus:ring-2',
-          error
-            ? 'ring-coral-500 focus:ring-coral-500'
-            : 'ring-cream-300 hover:ring-cocoa-400 focus:ring-brand-500',
+          'block w-full rounded-xl border-[1.5px] bg-surface px-4 py-3 text-base text-fg transition-colors dark:bg-bg',
+          'placeholder:text-fg-muted',
+          'disabled:cursor-not-allowed disabled:bg-surface-2 disabled:text-fg-muted',
+          error ? 'border-danger' : 'border-input',
         )}
         {...props}
       />
       {error && (
-        <p id={errorId} className="mt-1.5 text-sm font-semibold text-coral-600">
+        <p id={errorId} className="mt-1.5 text-sm font-semibold text-danger">
           {error}
         </p>
       )}
       {hint && !error && (
-        <p id={hintId} className="mt-1.5 text-sm text-cocoa-500">
+        <p id={hintId} className="mt-1.5 text-sm text-fg-muted">
           {hint}
         </p>
       )}

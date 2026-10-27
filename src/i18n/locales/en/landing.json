@@ -57,8 +57,8 @@
     "clinics1": "Find patients you have access to by name or microchip number",
     "clinics2": "Patient summary and, if permitted, the owner's contact details on one screen",
     "clinics3": "Track vaccine, medicine and supply stock with critical-level alerts",
-    "clinicsNote": "Clinic accounts are set up by our team. To add your clinic, write to us:",
-    "clinicsCta": "Write to us"
+    "clinicsNote": "This is a development project; it isn't sold or offered as a service to clinics. If you'd like to try the clinic panel, write to the developer and you'll receive demo clinic account details by email:",
+    "clinicsCta": "Write to the developer"
   },
   "species": {
     "title": "For all the little friends",
