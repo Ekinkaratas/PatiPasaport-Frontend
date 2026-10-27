@@ -65,6 +65,11 @@
     "groupTitle": "Lab test on {{date}}"
   },
   "explanation": {
+    "askLead": "Would you like AI to explain these lab results in plain language?",
+    "ask": "Get an AI explanation",
+    "consentTitle": "About the AI explanation",
+    "consentConfirm": "I understand, show it",
+    "consentCancel": "Cancel",
     "title": "What these results mean",
     "confidence": "Confidence: {{value}}",
     "show": "Show explanation",

@@ -28,14 +28,19 @@ Detailed documentation under `docs/` is in Turkish.
   - If a document cannot be processed, the error code
     (`NOT_A_MEDICAL_DOCUMENT` etc.) is shown as a plain-language message;
     unknown codes are shown as they are.
-  - When a lab result record is finalised, a plain-language explanation is
-    generated for the pet owner. It appears on the Lab results tab, under
-    the results grouped by record, in a box that starts collapsed; it shows
-    a confidence score and a "does not replace your veterinarian's opinion"
-    notice. While it is being prepared, it is polled every 5 s. Clinics
-    never call this endpoint (`GET /records/:id/explanation` is open to the
-    owner only); the section is hidden for older records without an
-    explanation.
+  - When a lab result record is finalised, the backend generates a
+    plain-language explanation for the pet owner. On the Lab results tab,
+    under the results grouped by record, the explanation is not shown on its
+    own; a "Get an AI explanation" button appears instead. Pressing it opens
+    a confirmation dialog with the "does not replace your veterinarian's
+    opinion" legal notice; after "I understand, show it" the explanation
+    appears in an expanded box (with a confidence score and the same notice,
+    collapsible with the arrow). Consent is asked for each lab result
+    separately and again after a page reload. The button does not run the
+    AI; it shows the explanation that is already prepared, and while it is
+    being prepared it is polled every 5 s. Clinics never call this endpoint
+    (`GET /records/:id/explanation` is open to the owner only); the button is
+    hidden for older records without an explanation.
 
 ## Running
 

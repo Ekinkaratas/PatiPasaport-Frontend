@@ -1,10 +1,12 @@
-import { useId, useState } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isApiError } from '@/api/errors';
 import { LabExplanationStatus } from '@/api/types';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { ChartIcon, ChevronDownIcon } from '@/components/ui/icons';
+import { Modal } from '@/components/ui/Modal';
 import { Spinner } from '@/components/ui/Spinner';
 import { cn } from '@/lib/cn';
 import { formatDateTime } from '@/lib/format';
@@ -34,8 +36,15 @@ function InfoIcon({ className }: { className?: string }) {
 export function LabExplanation({ recordId }: { recordId: string }) {
   const { t, i18n } = useTranslation('health');
   const explanation = useLabExplanation(recordId);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [asking, setAsking] = useState(false);
+  const [consented, setConsented] = useState(false);
   const bodyId = useId();
+  const regionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (consented) regionRef.current?.focus();
+  }, [consented]);
 
   if (!isUuidV4(recordId)) return null;
 
@@ -51,23 +60,83 @@ export function LabExplanation({ recordId }: { recordId: string }) {
 
   const data = explanation.data;
 
-  if (!data || data.status === LabExplanationStatus.PENDING) {
+  if (!consented) {
+    if (!data) return null;
     return (
+      <>
+        <div className="flex flex-col gap-3 rounded-xl bg-bg p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+          <p className="flex min-w-0 items-center gap-3 text-sm text-fg">
+            <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-accent-tint text-accent-strong">
+              <ChartIcon className="size-4" />
+            </span>
+            <span className="min-w-0 wrap-break-word">
+              {t('explanation.askLead')}
+            </span>
+          </p>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="shrink-0 self-start sm:self-auto"
+            onClick={() => setAsking(true)}
+          >
+            {t('explanation.ask')}
+          </Button>
+        </div>
+        <Modal
+          open={asking}
+          onClose={() => setAsking(false)}
+          title={t('explanation.consentTitle')}
+          className="max-w-lg"
+          footer={
+            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <Button variant="ghost" onClick={() => setAsking(false)}>
+                {t('explanation.consentCancel')}
+              </Button>
+              <Button
+                onClick={() => {
+                  setAsking(false);
+                  setConsented(true);
+                }}
+              >
+                {t('explanation.consentConfirm')}
+              </Button>
+            </div>
+          }
+        >
+          <div className="px-6 py-5">
+            <p className="flex items-start gap-3 text-fg">
+              <InfoIcon className="mt-1 size-5 shrink-0 text-fg-muted" />
+              <span>{t('explanation.disclaimer')}</span>
+            </p>
+          </div>
+        </Modal>
+      </>
+    );
+  }
+
+  const region = (content: ReactNode) => (
+    <div ref={regionRef} tabIndex={-1} className="outline-none">
+      {content}
+    </div>
+  );
+
+  if (!data || data.status === LabExplanationStatus.PENDING) {
+    return region(
       <p
         aria-live="polite"
         className="flex items-start gap-3 rounded-xl bg-bg px-4 py-3 text-sm text-fg-muted"
       >
         <Spinner className="shrink-0" />
         <span>{t('explanation.pending')}</span>
-      </p>
+      </p>,
     );
   }
 
   if (data.status !== LabExplanationStatus.READY) {
-    return (
+    return region(
       <p className="rounded-xl bg-bg px-4 py-3 text-sm wrap-break-word text-fg-muted">
         {t('explanation.failed')}
-      </p>
+      </p>,
     );
   }
 
@@ -79,7 +148,7 @@ export function LabExplanation({ recordId }: { recordId: string }) {
     },
   ).format(data.confidence || 0);
 
-  return (
+  return region(
     <div className="rounded-xl bg-bg p-4 sm:p-5">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 sm:grid-cols-[minmax(0,1fr)_auto_auto]">
         <h4 className="flex min-w-0 items-center gap-2 font-extrabold text-fg">
@@ -141,6 +210,6 @@ export function LabExplanation({ recordId }: { recordId: string }) {
           </p>
         </div>
       </div>
-    </div>
+    </div>,
   );
 }

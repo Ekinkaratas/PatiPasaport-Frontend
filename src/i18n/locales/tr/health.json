@@ -65,6 +65,11 @@
     "groupTitle": "{{date}} tarihli tahlil"
   },
   "explanation": {
+    "askLead": "Bu tahlil sonuçlarını yapay zekânın sade bir dille yorumlamasını ister misiniz?",
+    "ask": "Yapay zekâ yorumlasın",
+    "consentTitle": "Yapay zekâ yorumu hakkında",
+    "consentConfirm": "Okudum, yorumu göster",
+    "consentCancel": "Vazgeç",
     "title": "Sonuçların açıklaması",
     "confidence": "Güven: {{value}}",
     "show": "Açıklamayı göster",

@@ -92,6 +92,15 @@ async function openLabTab(user: ReturnType<typeof userEvent.setup>) {
   await screen.findAllByRole('table', { name: 'Tahliller' });
 }
 
+async function consent(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(
+    await screen.findByRole('button', { name: 'Yapay zekâ yorumlasın' }),
+  );
+  await user.click(
+    screen.getByRole('button', { name: 'Okudum, yorumu göster' }),
+  );
+}
+
 function renderOwner() {
   return renderRoute(
     <HealthSection
@@ -121,7 +130,41 @@ afterEach(() => {
 });
 
 describe('Tahlil açıklaması', () => {
-  it('hazırlanırken yeniden sorar, hazır olunca özeti, kalemleri, güveni ve uyarıyı gösterir', async () => {
+  it('onay penceresinde yasal uyarıyı gösterir, vazgeçince yorumu açmaz', async () => {
+    useBackend();
+    const user = userEvent.setup();
+    renderOwner();
+    await openLabTab(user);
+
+    expect(
+      await screen.findByText(
+        'Bu tahlil sonuçlarını yapay zekânın sade bir dille yorumlamasını ister misiniz?',
+      ),
+    ).toBeVisible();
+    expect(
+      screen.queryByRole('heading', { name: 'Sonuçların açıklaması' }),
+    ).not.toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole('button', { name: 'Yapay zekâ yorumlasın' }),
+    );
+    const dialog = screen.getByRole('dialog', {
+      name: 'Yapay zekâ yorumu hakkında',
+    });
+    expect(
+      within(dialog).getByText(/yapay zekâ tarafından üretilmiştir/),
+    ).toBeVisible();
+    await user.click(within(dialog).getByRole('button', { name: 'Vazgeç' }));
+
+    expect(
+      screen.queryByRole('heading', { name: 'Sonuçların açıklaması' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Yapay zekâ yorumlasın' }),
+    ).toBeVisible();
+  });
+
+  it('onaydan sonra hazırlanırken yeniden sorar, hazır olunca yorumu açık gösterir', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     let calls = 0;
     const api = useBackend({
@@ -135,6 +178,7 @@ describe('Tahlil açıklaması', () => {
     });
     renderOwner();
     await openLabTab(user);
+    await consent(user);
 
     const pending = await screen.findByText(
       'Açıklama hazırlanıyor. Birkaç saniye içinde burada görünecek.',
@@ -150,29 +194,19 @@ describe('Tahlil açıklaması', () => {
     expect(screen.getByText(/^Güven: .*82/)).toBeVisible();
     expect(
       screen.getByText('Değerlerin çoğu referans aralığında.'),
-    ).not.toBeVisible();
-    const toggle = screen.getByRole('button', { name: 'Açıklamayı göster' });
-    expect(toggle).toHaveAttribute('aria-expanded', 'false');
-    await user.click(toggle);
-    expect(toggle).toHaveAttribute('aria-expanded', 'true');
-    expect(toggle).toHaveAccessibleName('Açıklamayı gizle');
-    expect(
-      screen.getByText('Değerlerin çoğu referans aralığında.'),
     ).toBeVisible();
     const list = screen.getByText('ALT karaciğer enzimidir.').closest('dl')!;
     expect(within(list).getByText('ALT').tagName).toBe('DT');
-    expect(screen.getByText(/^Güven: .*82/)).toBeVisible();
     expect(screen.getByText(/^Oluşturulma: /)).toBeVisible();
     expect(
       screen.getByText(/yapay zekâ tarafından üretilmiştir/),
     ).toBeVisible();
-    expect(
-      screen.queryByText(
-        'Açıklama hazırlanıyor. Birkaç saniye içinde burada görünecek.',
-      ),
-    ).not.toBeInTheDocument();
+
+    const toggle = screen.getByRole('button', { name: 'Açıklamayı gizle' });
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
     await user.click(toggle);
     expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(toggle).toHaveAccessibleName('Açıklamayı göster');
     expect(
       screen.getByText('Değerlerin çoğu referans aralığında.'),
     ).not.toBeVisible();
@@ -193,6 +227,7 @@ describe('Tahlil açıklaması', () => {
     const user = userEvent.setup();
     renderOwner();
     await openLabTab(user);
+    await consent(user);
 
     const failed = await screen.findByText(
       'Bu sonuçlar için açıklama oluşturulamadı. Sorularınızı veteriner hekiminize iletebilirsiniz.',
@@ -219,6 +254,9 @@ describe('Tahlil açıklaması', () => {
       screen.queryByRole('heading', { name: 'Sonuçların açıklaması' }),
     ).not.toBeInTheDocument();
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Yapay zekâ yorumlasın' }),
+    ).not.toBeInTheDocument();
     expect(explanationRequests(api)).toHaveLength(1);
   });
 
@@ -291,7 +329,7 @@ describe('Tahlil açıklaması', () => {
         .map((cell) => cell.textContent),
     ).toEqual(['Glukoz']);
     expect(
-      await screen.findAllByRole('heading', { name: 'Sonuçların açıklaması' }),
+      await screen.findAllByRole('button', { name: 'Yapay zekâ yorumlasın' }),
     ).toHaveLength(2);
     expect(
       explanationRequests(api)

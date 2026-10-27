@@ -23,13 +23,17 @@ React + Vite + TypeScript + Tailwind CSS, Türkçe/İngilizce, açık ve koyu te
     altındaysa taslak penceresinde uyarı çıkar.
   - Belge işlenemezse hata kodu (`NOT_A_MEDICAL_DOCUMENT` vb.) anlaşılır bir
     mesajla gösterilir; bilinmeyen kodlar olduğu gibi yazılır.
-  - Tahlil kaydı kesinleşince hayvan sahibine sade dilde açıklama üretilir.
-    Açıklama Tahliller sekmesinde, kayda göre gruplanan sonuçların altında,
-    başlangıçta kapalı bir kutuda durur; güven puanı ve "veteriner hekim
-    görüşünün yerine geçmez" uyarısı vardır. Hazırlanırken 5 sn'de bir
-    yeniden sorulur. Klinik bu ucu çağırmaz (`GET /records/:id/explanation`
-    yalnızca sahibe açıktır); açıklaması olmayan eski kayıtlarda bölüm
-    görünmez.
+  - Tahlil kaydı kesinleşince backend hayvan sahibi için sade dilde bir
+    açıklama üretir. Tahliller sekmesinde, kayda göre gruplanan sonuçların
+    altında açıklama kendiliğinden gösterilmez; "Yapay zekâ yorumlasın"
+    butonu çıkar. Butona basınca "veteriner hekim görüşünün yerine geçmez"
+    yasal uyarısını içeren bir onay penceresi açılır; "Okudum, yorumu göster"
+    seçilince yorum açık bir kutuda görünür (güven puanı ve aynı uyarıyla,
+    okla kapatılabilir). Onay her tahlil için ayrı istenir ve sayfa
+    yenilenince yeniden sorulur. Buton yapay zekâyı çalıştırmaz, hazır
+    açıklamayı gösterir; açıklama hazırlanıyorsa 5 sn'de bir yeniden
+    sorulur. Klinik bu ucu çağırmaz (`GET /records/:id/explanation` yalnızca
+    sahibe açıktır); açıklaması olmayan eski kayıtlarda buton görünmez.
 
 ## Çalıştırma
 
