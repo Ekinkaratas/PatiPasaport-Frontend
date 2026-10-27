@@ -1,5 +1,7 @@
 # PatiPasaport — Web Sitesi
 
+[EN](README_EN.md) | **TR**
+
 PatiPasaport backend'inin (NestJS gateway) web istemcisi.
 React + Vite + TypeScript + Tailwind CSS, Türkçe/İngilizce, açık ve koyu tema.
 
