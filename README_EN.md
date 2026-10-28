@@ -44,6 +44,9 @@ Detailed documentation under `docs/` is in Turkish.
 
 ## Running
 
+Requirement: Node.js **24.22.1 or newer (24.x)** (the `engines` field in
+`package.json`). The Docker image is also built with `node:24.22.1-alpine`.
+
 ```bash
 cp .env.example .env
 npm install

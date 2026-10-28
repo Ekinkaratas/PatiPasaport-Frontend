@@ -37,6 +37,9 @@ React + Vite + TypeScript + Tailwind CSS, Türkçe/İngilizce, açık ve koyu te
 
 ## Çalıştırma
 
+Gereksinim: Node.js **24.22.1 veya üzeri (24.x)** (`package.json` içindeki
+`engines` alanı). Docker imajı da `node:24.22.1-alpine` ile derlenir.
+
 ```bash
 cp .env.example .env
 npm install
