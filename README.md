@@ -60,8 +60,10 @@ olduğunu yazıp durur.
 
 Site `http://localhost:5173` adresinde açılır. Backend gateway'inin
 `API_PROXY_TARGET` adresinde çalışıyor olması gerekir. Backend sunucu
-düzeninde (portsuz) çalışıyorsa geliştirme sunucusu ona ulaşamaz; backend'i
-`-f docker-compose.dev.yml` ekleyerek başlatın.
+düzeninde (portsuz) çalışıyorsa geliştirme sunucusu ona ulaşamaz ve giriş
+çalışmaz; ya backend'i `-f docker-compose.dev.yml` ekleyerek başlatın ya da
+siteyi nginx'li web konteyneriyle (`http://localhost:8080`) çalıştırın; bkz.
+"Sunucuya kurulum".
 
 | Komut               | Ne yapar                                 |
 | ------------------- | ---------------------------------------- |
@@ -167,6 +169,13 @@ sunucunun kendisine (`127.0.0.1:8080`) açılır, gateway hiçbir porta açılma
    docker compose --env-file .env -f deploy/docker/docker-compose.yml up -d --build
    ```
 
+   Konteyner açık kaldığı sürece site, bu komutu çalıştırdığınız makinede
+   `http://localhost:8080` (`WEB_BIND` ve `WEB_PORT` değerleri) adresinden
+   erişilebilir. `WEB_BIND=127.0.0.1` olduğu için bu adres yalnızca o
+   makinenin kendisine açıktır; dışarıdan erişim 4. adımdaki TLS vekili
+   üzerinden olur. Konteyneri durdurmak için aynı komutta `up -d --build`
+   yerine `down` yazın.
+
    İmaj kaynak koddan derlenir; önceden `npm run build` çalıştırmak ya da
    `dist/` yüklemek gerekmez. `.env` imaja kopyalanmaz, derlemeye yalnızca
    `VITE_API_BASE_URL`, `VITE_CONTACT_EMAIL` ve `SITE_URL` aktarılır.
@@ -193,8 +202,17 @@ sunucunun kendisine (`127.0.0.1:8080`) açılır, gateway hiçbir porta açılma
 5. Backend `.env` dosyasında gateway için `TRUST_PROXY=2` ayarlayın (önünde
    TLS vekili ve bu nginx olmak üzere iki vekil var). Yapılmazsa hız sınırı
    tüm kullanıcıları tek IP sayar; giriş sınırı (dakikada 10) herkes için
-   ortak dolar. `CORS_ORIGINS` boş kalabilir, `REFRESH_COOKIE_PATH`
-   varsayılanı (`/api/auth`) bu kuruluma uyar.
+   ortak dolar. Diğer iki değişken **boş kalmalıdır**:
+
+   - `CORS_ORIGINS=` boş: tarayıcı API'ye site ile aynı adresten
+     (`https://alanadiniz/api/...`) gider ve isteği nginx gateway'e aktarır;
+     aynı adres olduğu için CORS gerekmez. Boş değer "başka hiçbir adrese
+     izin verme" demektir. Yalnızca API'ye başka bir alan adından
+     erişilecekse doldurulur (`https://app.example.com` biçiminde, sonunda
+     `/` olmadan, birden fazlaysa virgülle).
+   - `REFRESH_COOKIE_PATH=` boş: varsayılan `/api/auth` kullanılır; refresh
+     çerezi yalnızca `/api/auth/...` isteklerinde gönderilir. Yalnızca API
+     `/api` dışında bir yolda sunuluyorsa o yol yazılır.
 
 ### Ayarlar (`.env` → `deploy/docker/docker-compose.yml`)
 

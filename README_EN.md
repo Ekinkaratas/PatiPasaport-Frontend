@@ -67,8 +67,10 @@ missing and stop.
 
 The site opens at `http://localhost:5173`. The backend gateway must be
 running at `API_PROXY_TARGET`. If the backend runs in the server layout
-(no published ports), the dev server cannot reach it; start the backend
-with `-f docker-compose.dev.yml` added.
+(no published ports), the dev server cannot reach it and login does not
+work; either start the backend with `-f docker-compose.dev.yml` added, or run
+the site with the nginx web container (`http://localhost:8080`); see "Server
+deployment".
 
 | Command             | What it does                           |
 | ------------------- | -------------------------------------- |
@@ -179,6 +181,13 @@ exposed on any port.
    docker compose --env-file .env -f deploy/docker/docker-compose.yml up -d --build
    ```
 
+   As long as the container is running, the site is available on the machine
+   where you ran this command at `http://localhost:8080` (the `WEB_BIND` and
+   `WEB_PORT` values). Because `WEB_BIND=127.0.0.1`, this address is only open
+   to that machine itself; access from the outside goes through the TLS proxy
+   from step 4. To stop the container, run the same command with `down`
+   instead of `up -d --build`.
+
    The image is built from source; there is no need to run `npm run build`
    or upload `dist/` beforehand. `.env` is not copied into the image; only
    `VITE_API_BASE_URL`, `VITE_CONTACT_EMAIL` and `SITE_URL` are passed to
@@ -206,8 +215,18 @@ exposed on any port.
 5. Set `TRUST_PROXY=2` for the gateway in the backend's `.env` (there are
    two proxies in front of it: the TLS proxy and this nginx). Otherwise the
    rate limiter treats all users as one IP, and the login limit (10 per
-   minute) fills up for everyone at once. `CORS_ORIGINS` can stay empty; the
-   `REFRESH_COOKIE_PATH` default (`/api/auth`) fits this setup.
+   minute) fills up for everyone at once. The other two variables **must stay empty**:
+
+   - `CORS_ORIGINS=` empty: the browser reaches the API from the same
+     address as the site (`https://yourdomain/api/...`) and nginx forwards the
+     request to the gateway; since it is the same address, CORS is not needed.
+     An empty value means "allow no other origin". Fill it in only if the API
+     will be reached from another domain (in the form
+     `https://app.example.com`, with no trailing `/`, comma-separated if there
+     are several).
+   - `REFRESH_COOKIE_PATH=` empty: the default `/api/auth` is used; the
+     refresh cookie is only sent on `/api/auth/...` requests. Set it only if
+     the API is served under a path other than `/api`.
 
 ### Settings (`.env` → `deploy/docker/docker-compose.yml`)
 
