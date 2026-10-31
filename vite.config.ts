@@ -66,6 +66,8 @@ export default defineConfig(({ mode, command }) => {
     },
     build: {
       sourcemap: false,
+      assetsInlineLimit: (filePath: string) =>
+        /\.(woff2?|ttf|otf|eot)$/i.test(filePath) ? false : undefined,
     },
     server: {
       port: 5173,
