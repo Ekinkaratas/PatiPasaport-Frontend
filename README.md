@@ -14,7 +14,7 @@ React + Vite + TypeScript + Tailwind CSS, Türkçe/İngilizce, açık ve koyu te
   sayfası, alınan izinler, stok, satışlar ve aylık rapor, AI taslakları,
   klinik bilgileri.
 - **Sağlık kayıtları (iki panelde ortak):** Muayene/Ameliyat, Aşılar,
-  Reçeteler, Tahliller ve Belgeler sekmeleri. Kayıt listesi backend'de tek
+  Reçeteler, Tahliller, Belgeler ve Sağlık değerlendirmesi sekmeleri. Kayıt listesi backend'de tek
   türe göre süzüldüğü için Muayene/Ameliyat sekmesinde tür seçilir. Klinik
   yalnızca hayvan sahibinin verdiği izin kapsamlarındaki sekmeleri görür.
 - **Yapay zekâ (backend'deki AI servisiyle):**
@@ -34,6 +34,17 @@ React + Vite + TypeScript + Tailwind CSS, Türkçe/İngilizce, açık ve koyu te
     açıklamayı gösterir; açıklama hazırlanıyorsa 5 sn'de bir yeniden
     sorulur. Klinik bu ucu çağırmaz (`GET /records/:id/explanation` yalnızca
     sahibe açıktır); açıklaması olmayan eski kayıtlarda buton görünmez.
+  - Sağlık değerlendirmesi sekmesinde yapay zekâ hayvanın onaylanmış tüm
+    kayıtlarını birlikte değerlendirir: risk seviyesi, güven puanı, özet,
+    eğilim oklu bulgular, olası durumlar, öneriler, aşı hatırlatmaları ve
+    veterinere sorular. Hayvan sahibi ve "Tıbbi kayıtları görme" izni olan
+    klinik görür ve isteyebilir. "Değerlendirme oluştur" yasal uyarılı bir
+    onay penceresi açar; hazır sonuç aynı uyarıyla doğrudan görünür.
+    Hazırlanırken 5 sn'de bir yeniden sorulur. Yeni kayıt eklenince "yenile"
+    uyarısı çıkar. Backend'in kurallarına göre düğme başarısız ya da eskimiş
+    sonuçta son istekten 10 dk, bekleyen istekte 30 dk sonra açılır; o ana
+    kadar pasif kalır ve açılacağı saat yazılır. Kayıtlar değişmediyse güncel
+    sonuçta düğme görünmez.
 
 ## Çalıştırma
 

@@ -3,6 +3,7 @@ import { getClinic } from '@/api/endpoints/clinics';
 import {
   getDocument,
   getLabExplanation,
+  getLatestHealthAssessment,
   listDocuments,
   listDraftReviews,
   listLabResults,
@@ -16,6 +17,7 @@ import {
 import { isApiError } from '@/api/errors';
 import {
   DocumentStatus,
+  HealthAssessmentStatus,
   LabExplanationStatus,
   type ListDocumentsResponse,
 } from '@/api/types';
@@ -44,6 +46,8 @@ export const healthKeys = {
   clinic: (id: string) => ['health', 'clinic', id] as const,
   explanation: (recordId: string) =>
     ['health', 'record', recordId, 'explanation'] as const,
+  assessment: (petId: string) =>
+    ['health', 'pet', petId, 'assessment'] as const,
 };
 
 export function useRecords(
@@ -108,6 +112,21 @@ export function useLabExplanation(recordId: string, enabled = true) {
       failureCount < 2,
     refetchInterval: (query) =>
       query.state.data?.status === LabExplanationStatus.PENDING ? 5_000 : false,
+  });
+}
+
+export function useHealthAssessment(petId: string, enabled = true) {
+  return useQuery({
+    queryKey: healthKeys.assessment(petId),
+    queryFn: ({ signal }) => getLatestHealthAssessment(petId, signal),
+    enabled: enabled && isUuidV4(petId),
+    retry: (failureCount, error) =>
+      !(isApiError(error) && error.status >= 400 && error.status < 500) &&
+      failureCount < 2,
+    refetchInterval: (query) =>
+      query.state.data?.status === HealthAssessmentStatus.PENDING
+        ? 5_000
+        : false,
   });
 }
 

@@ -56,7 +56,8 @@ Kapsam (19 adım):
 - Herkese açık: ana sayfa, giriş/kayıt formları, 404, korumalı sayfanın
   girişe yönlendirmesi.
 - Hayvan sahibi: giriş, genel bakış, hayvan listesi ve detay, sağlık
-  sekmeleri, belgenin blob olarak açılması, izinler, profil, sayfa
+  sekmeleri (sağlık değerlendirmesi dahil; yalnızca görüntülenir, yapay
+  zekâ çağrılmaz), belgenin blob olarak açılması, izinler, profil, sayfa
   yenilenince oturumun korunması, çıkış.
 - Klinik: giriş, hasta arama, izinler, hasta detayı, AI taslakları, stokta
   Sat düğmesi (miktar kutusu 1, fiyatsız/stoksuz kalemde açıklama), satış

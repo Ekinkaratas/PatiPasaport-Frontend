@@ -5,7 +5,7 @@ import { LabExplanationStatus } from '@/api/types';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
-import { ChartIcon, ChevronDownIcon } from '@/components/ui/icons';
+import { ChartIcon, ChevronDownIcon, InfoIcon } from '@/components/ui/icons';
 import { Modal } from '@/components/ui/Modal';
 import { Spinner } from '@/components/ui/Spinner';
 import { cn } from '@/lib/cn';
@@ -14,24 +14,6 @@ import { isUuidV4 } from '@/lib/ids';
 import { useLabExplanation } from './queries';
 
 const HIDDEN_STATUSES = [403, 404];
-
-function InfoIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 11v5M12 8h.01" />
-    </svg>
-  );
-}
 
 export function LabExplanation({ recordId }: { recordId: string }) {
   const { t, i18n } = useTranslation('health');

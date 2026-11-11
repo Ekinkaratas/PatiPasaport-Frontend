@@ -41,7 +41,9 @@
     "CLINIC_INACTIVE": "Bu klinik şu anda hizmet vermiyor; izin verilemez.",
     "REQUEST_BLOCKED": "İsteğiniz güvenlik nedeniyle işlenemedi. Lütfen sayfayı yenileyip tekrar deneyin.",
     "FILE_INTERCEPTED": "Dosya tarayıcıya ulaşmadı. Bir indirme yöneticisi (ör. IDM) ya da tarayıcı eklentisi dosyayı yakalamış olabilir; bu site için kapatıp tekrar deneyin.",
-    "FILE_NOT_PREVIEWABLE": "Bu dosya türü tarayıcıda güvenle önizlenemiyor. Lütfen dosyayı indirin."
+    "FILE_NOT_PREVIEWABLE": "Bu dosya türü tarayıcıda güvenle önizlenemiyor. Lütfen dosyayı indirin.",
+    "HEALTH_ASSESSMENT_NO_RECORDS": "Değerlendirme için onaylanmış bir sağlık kaydı yok. Klinik bir kayıt ekledikten sonra yeniden deneyin.",
+    "HEALTH_ASSESSMENT_TOO_SOON": "Son istekten bu yana 10 dakika geçmedi. Lütfen biraz sonra yeniden deneyin."
   },
   "validation": {
     "NOT_EMPTY": "{{field}} boş bırakılamaz.",

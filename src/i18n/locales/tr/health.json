@@ -6,7 +6,8 @@
     "vaccinations": "Aşılar",
     "prescriptions": "Reçeteler",
     "labResults": "Tahliller",
-    "documents": "Belgeler"
+    "documents": "Belgeler",
+    "assessment": "Sağlık değerlendirmesi"
   },
   "yourClinic": "Kliniğiniz",
   "unknownClinic": "Klinik bilgisi yok",
@@ -15,7 +16,8 @@
     "vaccinations": "Aşıları görmek için hayvan sahibinin verdiği izinde \"Aşı geçmişini görme\" kapsamı olmalı.",
     "prescriptions": "Reçeteleri görmek için hayvan sahibinin verdiği izinde \"Reçeteleri görme\" kapsamı olmalı.",
     "labResults": "Tahlilleri görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıtları görme\" kapsamı olmalı.",
-    "documents": "Belgeleri görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıt ekleme\" kapsamı olmalı. Klinikler yalnızca kendi yükledikleri belgeleri görür."
+    "documents": "Belgeleri görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıt ekleme\" kapsamı olmalı. Klinikler yalnızca kendi yükledikleri belgeleri görür.",
+    "assessment": "Sağlık değerlendirmesini görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıtları görme\" kapsamı olmalı."
   },
   "records": {
     "typeFilter": "Kayıt türü",
@@ -226,5 +228,61 @@
     "noteHintEdit": "İsteğe bağlı.",
     "approvedDone": "{{name}} için taslak onaylandı ve kayıt oluşturuldu.",
     "rejectedDone": "{{name}} için taslak reddedildi."
+  },
+  "assessment": {
+    "lead": "Yapay zekâ, hayvanın onaylanmış tüm sağlık kayıtlarını (tahliller ve zaman içindeki değişimleri, aşılar, reçeteler, muayene notları) birlikte değerlendirip genel bir özet hazırlayabilir.",
+    "create": "Değerlendirme oluştur",
+    "refresh": "Değerlendirmeyi yenile",
+    "pending": "Değerlendirme hazırlanıyor. Genellikle bir dakika içinde burada görünür.",
+    "pendingLong": "Değerlendirme beklenenden uzun sürdü. Yeniden isteyebilirsiniz.",
+    "failed": "Değerlendirme şu an üretilemedi. Yeniden deneyebilirsiniz.",
+    "stale": "Bu değerlendirmeden sonra yeni kayıtlar eklendi. Güncel bir değerlendirme için yenileyin.",
+    "availableAt": "{{time}} sonrasında yeniden isteyebilirsiniz.",
+    "consentTitle": "Sağlık değerlendirmesi hakkında",
+    "consentData": "Hayvanın onaylanmış kayıtları; adı, çip numarası, sahip ve klinik bilgileri olmadan yapay zekâ servisine gönderilir.",
+    "consentConfirm": "Okudum, oluştur",
+    "consentCancel": "Vazgeç",
+    "resultTitle": "Sağlık değerlendirmesi",
+    "riskLabel": "Risk: {{value}}",
+    "risk": {
+      "LOW": "Düşük",
+      "MODERATE": "Orta",
+      "HIGH": "Yüksek",
+      "URGENT": "Acil"
+    },
+    "confidence": "Güven: {{value}}",
+    "sections": {
+      "findings": "Bulgular",
+      "conditions": "Olası durumlar",
+      "recommendations": "Öneriler",
+      "vaccinations": "Aşı hatırlatmaları",
+      "questions": "Veterinere sorabilecekleriniz"
+    },
+    "trend": {
+      "SINGLE": "Tek ölçüm",
+      "RISING": "Artıyor",
+      "FALLING": "Azalıyor",
+      "STABLE": "Sabit"
+    },
+    "likelihood": {
+      "LOW": "Olasılık: düşük",
+      "MEDIUM": "Olasılık: orta",
+      "HIGH": "Olasılık: yüksek"
+    },
+    "evidence": "Dayandığı testler: {{tests}}",
+    "category": {
+      "NUTRITION": "Beslenme",
+      "CARE": "Bakım",
+      "FOLLOW_UP_TEST": "Kontrol testi",
+      "VET_VISIT": "Veteriner",
+      "VACCINATION": "Aşı"
+    },
+    "dueDate": "Tarih: {{date}}",
+    "due": {
+      "OVERDUE": "Gecikti",
+      "DUE_SOON": "Yaklaşıyor"
+    },
+    "generatedAt": "Oluşturulma: {{date}}",
+    "disclaimer": "Bu değerlendirme yapay zekâ tarafından üretilmiştir, teşhis yerine geçmez ve veteriner muayenesinin yerini tutmaz."
   }
 }

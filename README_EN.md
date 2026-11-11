@@ -17,7 +17,8 @@ Detailed documentation under `docs/` is in Turkish.
   patient page, received permissions, stock, sales and monthly report, AI
   drafts, clinic details.
 - **Health records (shared by both panels):** Exams/Surgeries,
-  Vaccinations, Prescriptions, Lab results and Documents tabs. The backend
+  Vaccinations, Prescriptions, Lab results, Documents and Health
+  assessment tabs. The backend
   filters the record list by a single type, so the Exams/Surgeries tab has a
   type selector. A clinic only sees the tabs covered by the scopes the pet
   owner granted.
@@ -41,6 +42,19 @@ Detailed documentation under `docs/` is in Turkish.
     being prepared it is polled every 5 s. Clinics never call this endpoint
     (`GET /records/:id/explanation` is open to the owner only); the button is
     hidden for older records without an explanation.
+  - On the Health assessment tab, the AI reviews all of the pet's approved
+    records together: risk level, confidence score, summary, findings with
+    trend arrows, possible conditions, recommendations, vaccination
+    reminders and questions for the veterinarian. The pet owner and a clinic
+    with the "View medical records" permission can see and request it.
+    "Create assessment" opens a confirmation dialog with the legal notice; a
+    ready result is shown directly with the same notice. While it is being
+    prepared it is polled every 5 s. When new records are added, a "refresh"
+    notice appears. Following the backend's rules, the button opens 10 min
+    after the last request for a failed or outdated result and 30 min after
+    it for a pending request; until then it stays disabled and shows the
+    time it opens. If the records have not changed, the button is hidden for
+    an up-to-date result.
 
 ## Running
 

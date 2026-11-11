@@ -41,7 +41,9 @@
     "CLINIC_INACTIVE": "This clinic isn't operating at the moment; permission can't be given.",
     "REQUEST_BLOCKED": "Your request couldn't be processed for security reasons. Please refresh the page and try again.",
     "FILE_INTERCEPTED": "The file didn't reach the browser. A download manager (e.g. IDM) or browser extension may have intercepted it; disable it for this site and try again.",
-    "FILE_NOT_PREVIEWABLE": "This file type can't be safely previewed in the browser. Please download it instead."
+    "FILE_NOT_PREVIEWABLE": "This file type can't be safely previewed in the browser. Please download it instead.",
+    "HEALTH_ASSESSMENT_NO_RECORDS": "There are no approved health records to assess yet. Try again after a clinic adds a record.",
+    "HEALTH_ASSESSMENT_TOO_SOON": "Less than 10 minutes have passed since the last request. Please try again a little later."
   },
   "validation": {
     "NOT_EMPTY": "{{field}} is required.",

@@ -540,6 +540,100 @@ export interface LabExplanationResponse {
   generatedAt: string;
 }
 
+export const HealthAssessmentStatus = {
+  PENDING: 1,
+  READY: 2,
+  FAILED: 3,
+} as const;
+export type HealthAssessmentStatus =
+  (typeof HealthAssessmentStatus)[keyof typeof HealthAssessmentStatus];
+
+export const HealthRiskLevel = {
+  LOW: 1,
+  MODERATE: 2,
+  HIGH: 3,
+  URGENT: 4,
+} as const;
+export type HealthRiskLevel =
+  (typeof HealthRiskLevel)[keyof typeof HealthRiskLevel];
+
+export const LabTrend = {
+  SINGLE: 1,
+  RISING: 2,
+  FALLING: 3,
+  STABLE: 4,
+} as const;
+export type LabTrend = (typeof LabTrend)[keyof typeof LabTrend];
+
+export const ConditionLikelihood = {
+  LOW: 1,
+  MEDIUM: 2,
+  HIGH: 3,
+} as const;
+export type ConditionLikelihood =
+  (typeof ConditionLikelihood)[keyof typeof ConditionLikelihood];
+
+export const RecommendationCategory = {
+  NUTRITION: 1,
+  CARE: 2,
+  FOLLOW_UP_TEST: 3,
+  VET_VISIT: 4,
+  VACCINATION: 5,
+} as const;
+export type RecommendationCategory =
+  (typeof RecommendationCategory)[keyof typeof RecommendationCategory];
+
+export const VaccinationDueStatus = {
+  OVERDUE: 1,
+  DUE_SOON: 2,
+} as const;
+export type VaccinationDueStatus =
+  (typeof VaccinationDueStatus)[keyof typeof VaccinationDueStatus];
+
+export interface HealthFinding {
+  testName: string;
+  trend: LabTrend;
+  interpretation: string;
+}
+
+export interface PossibleCondition {
+  name: string;
+  likelihood: ConditionLikelihood;
+  evidence: string[];
+  explanation: string;
+}
+
+export interface HealthRecommendation {
+  category: RecommendationCategory;
+  text: string;
+}
+
+export interface VaccinationReminder {
+  vaccineName: string;
+  nextDueAt: string;
+  status: VaccinationDueStatus;
+}
+
+export interface HealthAssessment {
+  summary: string;
+  riskLevel: HealthRiskLevel;
+  findings: HealthFinding[];
+  possibleConditions: PossibleCondition[];
+  recommendations: HealthRecommendation[];
+  vaccinationReminders: VaccinationReminder[];
+  questionsForVet: string[];
+}
+
+/** `assessment`, `confidence` ve `generatedAt` yalnızca `READY` durumunda doludur. */
+export interface HealthAssessmentResponse {
+  status: HealthAssessmentStatus;
+  assessment: HealthAssessment | null;
+  confidence: number;
+  requestedAt: string;
+  generatedAt: string;
+  isStale: boolean;
+}
+
 export interface MedicalDocument {
   id: string;
   petId: string;

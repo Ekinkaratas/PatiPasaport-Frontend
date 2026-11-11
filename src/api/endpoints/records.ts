@@ -6,6 +6,7 @@ import type {
   DocumentStatus,
   DraftReviewResponse,
   DraftReviewStatus,
+  HealthAssessmentResponse,
   LabExplanationResponse,
   ListDocumentsResponse,
   ListDraftReviewsResponse,
@@ -88,6 +89,24 @@ export function getLabExplanation(
   return api.get<LabExplanationResponse>(
     `/records/${encodeURIComponent(recordId)}/explanation`,
     { signal },
+  );
+}
+
+export function getLatestHealthAssessment(
+  petId: string,
+  signal?: AbortSignal,
+): Promise<HealthAssessmentResponse> {
+  return api.get<HealthAssessmentResponse>(
+    petPath(petId, '/health-assessments/latest'),
+    { signal },
+  );
+}
+
+export function requestHealthAssessment(
+  petId: string,
+): Promise<HealthAssessmentResponse> {
+  return api.post<HealthAssessmentResponse>(
+    petPath(petId, '/health-assessments'),
   );
 }
 

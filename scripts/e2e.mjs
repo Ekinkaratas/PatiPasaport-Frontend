@@ -31,6 +31,9 @@ const results = [];
 const problems = [];
 const warnings = [];
 const FILE_REQUEST = /\/api\/documents\/[^/]+\/file/;
+// Değerlendirme hiç istenmemiş hayvanda backend 404 döner; arayüz bunu
+// "henüz istenmedi" olarak gösterir, hata değildir.
+const ASSESSMENT_LATEST = /\/api\/pets\/[^/]+\/health-assessments\/latest$/;
 
 async function step(name, run) {
   const started = Date.now();
@@ -84,6 +87,12 @@ page.on('console', (message) => {
   }
   if (/Download the React DevTools/.test(text)) return;
   if (FILE_REQUEST.test(message.location()?.url ?? '')) return;
+  if (
+    /status of 404/.test(text) &&
+    ASSESSMENT_LATEST.test(message.location()?.url ?? '')
+  ) {
+    return;
+  }
   problems.push(`konsol: ${text}`);
 });
 page.on('pageerror', (error) =>
@@ -252,7 +261,8 @@ await step('sağlık kaydı sekmeleri', async () => {
     'Reçeteler',
     'Tahliller',
     'Belgeler',
-    'Kayıtlar',
+    'Sağlık değerlendirmesi',
+    'Muayene/Ameliyat',
   ]) {
     await clickByText('[role=tab]', tab);
     await page.waitForFunction(

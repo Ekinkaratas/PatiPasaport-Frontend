@@ -30,6 +30,7 @@ import { pageCountOf } from '@/lib/pagination';
 import type { HealthAccess, HealthTab } from './healthAccess';
 import { DocumentActions } from './DocumentActions';
 import { DocumentsPanel } from './DocumentsPanel';
+import { HealthAssessmentPanel } from './HealthAssessmentPanel';
 import { HealthEmpty } from './HealthEmpty';
 import { LabExplanation } from './LabExplanation';
 import {
@@ -60,6 +61,7 @@ const TABS: HealthTab[] = [
   'prescriptions',
   'labResults',
   'documents',
+  'assessment',
 ];
 
 type DotTone = 'ok' | 'accent' | 'danger' | 'muted';
@@ -784,8 +786,10 @@ export function HealthSection({
             ownClinicId={ownClinicId}
             showExplanations={showLabExplanations}
           />
-        ) : (
+        ) : tab === 'documents' ? (
           <DocumentsPanel petId={petId} ownClinicId={ownClinicId} />
+        ) : (
+          <HealthAssessmentPanel petId={petId} />
         )}
       </div>
     </section>
