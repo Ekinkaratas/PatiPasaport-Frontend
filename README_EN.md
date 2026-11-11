@@ -42,6 +42,10 @@ Detailed documentation under `docs/` is in Turkish.
     being prepared it is polled every 5 s. Clinics never call this endpoint
     (`GET /records/:id/explanation` is open to the owner only); the button is
     hidden for older records without an explanation.
+  - Document upload, the AI draft, clinic approval and the owner seeing the
+    explanation were tested end to end on 2026-11-12 with a fictional lab
+    report PDF (feline complete blood count, 21 values) and the real AI; the
+    draft matched every value.
   - On the Health assessment tab, the AI reviews all of the pet's approved
     records together: risk level, confidence score, summary, findings with
     trend arrows, possible conditions, recommendations, vaccination

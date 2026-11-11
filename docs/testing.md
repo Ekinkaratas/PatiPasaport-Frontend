@@ -78,6 +78,13 @@ Notlar:
 
 ## Elle yapılan denetimler
 
+- **Yapay zekâ akışları (2026-11-12):** backend Docker'da, gerçek AI API
+  ile, her deneme için açılıp sonra silinen sentetik hesaplarla. Tahlil
+  açıklaması: klinik kurgusal bir tahlil PDF'ini "Belge yükle"den yükler,
+  AI Taslakları'nda taslağı belgeyle karşılaştırıp onaylar, hayvan sahibi
+  Tahliller sekmesinde "Yapay zekâ yorumlasın" ile açıklamayı görür.
+  Sağlık değerlendirmesi: oluşturma, bekleme, hazır sonuç, yeni kayıtta
+  "yenile" uyarısı ve 10 dk kilidi sahip ve klinik hesabıyla denenir.
 - **Erişilebilirlik:** Lighthouse (Chrome DevTools ya da chrome-devtools
   MCP `lighthouse_audit`) ve axe-core. Hem 390 px hem 1280 px genişlikte
   bakılmalı; sayfa hiçbir genişlikte yatay taşmamalı.

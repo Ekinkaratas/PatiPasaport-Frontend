@@ -34,6 +34,9 @@ React + Vite + TypeScript + Tailwind CSS, Türkçe/İngilizce, açık ve koyu te
     açıklamayı gösterir; açıklama hazırlanıyorsa 5 sn'de bir yeniden
     sorulur. Klinik bu ucu çağırmaz (`GET /records/:id/explanation` yalnızca
     sahibe açıktır); açıklaması olmayan eski kayıtlarda buton görünmez.
+  - Belge yükleme, AI taslağı, klinik onayı ve sahibin açıklamayı görmesi
+    2026-11-12'de kurgusal bir tahlil PDF'iyle (kedi hemogramı, 21 değer)
+    gerçek AI ile uçtan uca denendi; taslak bütün değerlerle eşleşti.
   - Sağlık değerlendirmesi sekmesinde yapay zekâ hayvanın onaylanmış tüm
     kayıtlarını birlikte değerlendirir: risk seviyesi, güven puanı, özet,
     eğilim oklu bulgular, olası durumlar, öneriler, aşı hatırlatmaları ve
