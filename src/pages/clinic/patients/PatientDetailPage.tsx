@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { buttonClasses } from '@/components/ui/buttonClasses';
+import { CollapseBody, CollapseButton } from '@/components/ui/Collapsible';
+import { useCollapsible } from '@/components/ui/useCollapsible';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import {
   ArrowLeftIcon,
@@ -18,6 +20,7 @@ import { formatDate, formatPhone } from '@/lib/format';
 import { isUuidV4 } from '@/lib/ids';
 import { useDocumentTitle } from '@/lib/useDocumentTitle';
 import { accessFromScopes, canWriteRecords } from '../../health/healthAccess';
+import { HealthAssessmentCard } from '../../health/HealthAssessmentPanel';
 import { HealthSection } from '../../health/HealthSection';
 import { useConsentLabels } from '../../panel/consents/useConsentLabels';
 import { PetAvatar } from '../../panel/pets/PetAvatar';
@@ -35,18 +38,38 @@ function Card({
   title,
   icon,
   children,
+  collapsible = false,
 }: {
   title: string;
   icon: ReactNode;
   children: ReactNode;
+  collapsible?: boolean;
 }) {
+  const collapse = useCollapsible();
+  const heading = (
+    <h2 className="flex items-center gap-2 text-lg font-extrabold text-fg">
+      <span className="text-fg-muted">{icon}</span>
+      {title}
+    </h2>
+  );
   return (
     <section className="rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line">
-      <h2 className="flex items-center gap-2 text-lg font-extrabold text-fg">
-        <span className="text-fg-muted">{icon}</span>
-        {title}
-      </h2>
-      <div className="mt-4">{children}</div>
+      {collapsible ? (
+        <>
+          <div className="flex items-center justify-between gap-3">
+            {heading}
+            <CollapseButton state={collapse} label={title} />
+          </div>
+          <CollapseBody state={collapse} className="pt-4">
+            {children}
+          </CollapseBody>
+        </>
+      ) : (
+        <>
+          {heading}
+          <div className="mt-4">{children}</div>
+        </>
+      )}
     </section>
   );
 }
@@ -204,6 +227,7 @@ export function PatientDetailPage() {
       <Card
         title={t('patient.infoTitle')}
         icon={<PawIcon className="size-5" />}
+        collapsible
       >
         <dl className="divide-y divide-line">
           <Row label={t('patient.species')}>
@@ -249,6 +273,10 @@ export function PatientDetailPage() {
           </Row>
         </dl>
       </Card>
+
+      {scopes.includes('medical_read') && (
+        <HealthAssessmentCard key={`assessment-${petId}`} petId={petId} />
+      )}
 
       {consent.isPending ? (
         <LoadingBlock />

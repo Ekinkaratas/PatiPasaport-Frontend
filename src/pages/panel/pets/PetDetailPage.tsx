@@ -3,12 +3,15 @@ import { Link, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/Badge';
 import { buttonClasses } from '@/components/ui/buttonClasses';
+import { CollapseBody, CollapseButton } from '@/components/ui/Collapsible';
+import { useCollapsible } from '@/components/ui/useCollapsible';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { ArrowLeftIcon, PencilIcon, ShieldIcon } from '@/components/ui/icons';
 import { LoadingBlock } from '@/components/ui/LoadingBlock';
 import { formatDate } from '@/lib/format';
 import { isUuidV4 } from '@/lib/ids';
 import { useDocumentTitle } from '@/lib/useDocumentTitle';
+import { HealthAssessmentCard } from '../../health/HealthAssessmentPanel';
 import { FULL_HEALTH_ACCESS } from '../../health/healthAccess';
 import { HealthSection } from '../../health/HealthSection';
 import { PetAvatar } from './PetAvatar';
@@ -34,6 +37,7 @@ export function PetDetailPage() {
   const { petId = '' } = useParams();
   const pet = usePet(petId);
   const labels = usePetLabels();
+  const infoCollapse = useCollapsible();
   useDocumentTitle(pet.data?.name);
 
   if (!isUuidV4(petId)) return <PetNotFound />;
@@ -89,43 +93,52 @@ export function PetDetailPage() {
       </section>
 
       <section className="rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8">
-        <h2 className="text-lg font-extrabold text-fg">
-          {t('detail.infoTitle')}
-        </h2>
-        <dl className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <Row label={t('detail.species')}>{labels.species(data.species)}</Row>
-          <Row label={t('detail.breed')}>{labels.breed(data.breed)}</Row>
-          <Row label={t('detail.sex')}>{labels.sex(data.sex)}</Row>
-          <Row label={t('detail.birthDate')}>
-            {data.birthDate ? (
-              <span className="inline-flex flex-wrap items-center gap-2">
-                {formatDate(data.birthDate, i18n.language)}
-                {data.isBirthDateEstimated && (
-                  <Badge tone="brand">{t('detail.estimated')}</Badge>
-                )}
-              </span>
-            ) : (
-              t('detail.unknown')
-            )}
-          </Row>
-          <Row label={t('detail.age')}>{age ?? t('detail.unknown')}</Row>
-          <Row label={t('detail.neutered')}>
-            {data.isNeutered ? t('detail.yes') : t('detail.no')}
-          </Row>
-          <Row label={t('detail.chip')}>
-            {data.chipNumber ? (
-              <span className="tabular-nums">
-                {formatChip(data.chipNumber)}
-              </span>
-            ) : (
-              t('detail.noChip')
-            )}
-          </Row>
-          <Row label={t('detail.registeredAt')}>
-            {formatDate(data.createdAt, i18n.language)}
-          </Row>
-        </dl>
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-lg font-extrabold text-fg">
+            {t('detail.infoTitle')}
+          </h2>
+          <CollapseButton state={infoCollapse} label={t('detail.infoTitle')} />
+        </div>
+        <CollapseBody state={infoCollapse} className="pt-4">
+          <dl className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <Row label={t('detail.species')}>
+              {labels.species(data.species)}
+            </Row>
+            <Row label={t('detail.breed')}>{labels.breed(data.breed)}</Row>
+            <Row label={t('detail.sex')}>{labels.sex(data.sex)}</Row>
+            <Row label={t('detail.birthDate')}>
+              {data.birthDate ? (
+                <span className="inline-flex flex-wrap items-center gap-2">
+                  {formatDate(data.birthDate, i18n.language)}
+                  {data.isBirthDateEstimated && (
+                    <Badge tone="brand">{t('detail.estimated')}</Badge>
+                  )}
+                </span>
+              ) : (
+                t('detail.unknown')
+              )}
+            </Row>
+            <Row label={t('detail.age')}>{age ?? t('detail.unknown')}</Row>
+            <Row label={t('detail.neutered')}>
+              {data.isNeutered ? t('detail.yes') : t('detail.no')}
+            </Row>
+            <Row label={t('detail.chip')}>
+              {data.chipNumber ? (
+                <span className="tabular-nums">
+                  {formatChip(data.chipNumber)}
+                </span>
+              ) : (
+                t('detail.noChip')
+              )}
+            </Row>
+            <Row label={t('detail.registeredAt')}>
+              {formatDate(data.createdAt, i18n.language)}
+            </Row>
+          </dl>
+        </CollapseBody>
       </section>
+
+      <HealthAssessmentCard key={`assessment-${data.id}`} petId={data.id} />
 
       <HealthSection
         key={data.id}

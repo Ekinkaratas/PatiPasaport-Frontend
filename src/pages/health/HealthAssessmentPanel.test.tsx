@@ -14,12 +14,12 @@ import {
 import { __resetSessionForTests, startSession } from '@/auth/session';
 import { apiFail, apiOk, installApi } from '@/test/apiMock';
 import { renderRoute } from '@/test/renderWithProviders';
-import { accessFromScopes, FULL_HEALTH_ACCESS } from './healthAccess';
-import { HealthSection } from './HealthSection';
+import { HealthAssessmentCard } from './HealthAssessmentPanel';
 
 const PET = '0f8c7a51-7f0e-4c43-9a55-5d3f8f1a2b01';
 const LATEST = `/api/pets/${PET}/health-assessments/latest`;
 const REQUEST = `/api/pets/${PET}/health-assessments`;
+const BACKEND_PAGE_SIZES = ['8', '16', '32', '64', '128'];
 const NOW = new Date('2026-11-11T20:30:00.000Z');
 const minutesAgo = (minutes: number) =>
   new Date(NOW.getTime() - minutes * 60_000).toISOString();
@@ -77,13 +77,18 @@ const READY: HealthAssessmentResponse = {
 function useBackend({
   latest = () => apiFail(404, 'NOT_FOUND'),
   request = () => apiOk(PENDING),
+  records = 3,
 }: {
   latest?: () => Response;
   request?: () => Response;
+  records?: number;
 } = {}) {
-  return installApi(({ method, path }) => {
+  return installApi(({ method, path, query }) => {
     if (path === `/api/pets/${PET}/records`) {
-      return apiOk({ records: [], total: 0, page: 1, pageSize: 8 });
+      if (!BACKEND_PAGE_SIZES.includes(query.get('pageSize') ?? '')) {
+        return apiFail(400, 'PAGE_SIZE_IS_IN');
+      }
+      return apiOk({ records: [], total: records, page: 1, pageSize: 1 });
     }
     if (method === 'GET' && path === LATEST) return latest();
     if (method === 'POST' && path === REQUEST) return request();
@@ -91,14 +96,12 @@ function useBackend({
   });
 }
 
-async function openTab(user: ReturnType<typeof userEvent.setup>) {
-  await user.click(
-    await screen.findByRole('tab', { name: 'Sağlık değerlendirmesi' }),
-  );
+async function openCard() {
+  await screen.findByRole('heading', { name: 'Sağlık değerlendirmesi' });
 }
 
 function renderOwner() {
-  return renderRoute(<HealthSection petId={PET} access={FULL_HEALTH_ACCESS} />);
+  return renderRoute(<HealthAssessmentCard petId={PET} />);
 }
 
 beforeEach(async () => {
@@ -127,7 +130,7 @@ describe('Sağlık değerlendirmesi', () => {
       advanceTimers: vi.advanceTimersByTime.bind(vi),
     });
     renderOwner();
-    await openTab(user);
+    await openCard();
 
     expect(
       await screen.findByText(/onaylanmış tüm sağlık kayıtlarını/),
@@ -160,7 +163,7 @@ describe('Sağlık değerlendirmesi', () => {
       advanceTimers: vi.advanceTimersByTime.bind(vi),
     });
     renderOwner();
-    await openTab(user);
+    await openCard();
 
     await user.click(
       await screen.findByRole('button', { name: 'Değerlendirme oluştur' }),
@@ -182,11 +185,8 @@ describe('Sağlık değerlendirmesi', () => {
 
   it('hazır sonucun bütün bölümlerini gösterir; güncel sonuçta düğme yok', async () => {
     useBackend({ latest: () => apiOk(READY) });
-    const user = userEvent.setup({
-      advanceTimers: vi.advanceTimersByTime.bind(vi),
-    });
     renderOwner();
-    await openTab(user);
+    await openCard();
 
     expect(await screen.findByText('Risk: Orta')).toBeVisible();
     expect(screen.getByText(/^Güven: .*90/)).toBeVisible();
@@ -210,11 +210,8 @@ describe('Sağlık değerlendirmesi', () => {
       latest: () =>
         apiOk({ ...READY, requestedAt: minutesAgo(4), isStale: true }),
     });
-    const user = userEvent.setup({
-      advanceTimers: vi.advanceTimersByTime.bind(vi),
-    });
     renderOwner();
-    await openTab(user);
+    await openCard();
 
     expect(await screen.findByText(/yeni kayıtlar eklendi/)).toBeVisible();
     const button = screen.getByRole('button', {
@@ -250,7 +247,7 @@ describe('Sağlık değerlendirmesi', () => {
       advanceTimers: vi.advanceTimersByTime.bind(vi),
     });
     renderOwner();
-    await openTab(user);
+    await openCard();
 
     expect(await screen.findByText(/şu an üretilemedi/)).toBeVisible();
     await user.click(
@@ -267,11 +264,8 @@ describe('Sağlık değerlendirmesi', () => {
     useBackend({
       latest: () => apiOk({ ...PENDING, requestedAt: minutesAgo(31) }),
     });
-    const user = userEvent.setup({
-      advanceTimers: vi.advanceTimersByTime.bind(vi),
-    });
     renderOwner();
-    await openTab(user);
+    await openCard();
 
     expect(await screen.findByText(/beklenenden uzun sürdü/)).toBeVisible();
     expect(
@@ -279,22 +273,27 @@ describe('Sağlık değerlendirmesi', () => {
     ).toBeEnabled();
   });
 
-  it('kayıtları görme izni olmayan klinik sekmeyi kilitli görür', async () => {
-    const api = useBackend();
-    const user = userEvent.setup({
-      advanceTimers: vi.advanceTimersByTime.bind(vi),
-    });
-    renderRoute(
-      <HealthSection
-        petId={PET}
-        access={accessFromScopes(['vaccination_read'])}
-      />,
-    );
-    await openTab(user);
+  it('hiç kayıt ve değerlendirme yoksa kart görünmez', async () => {
+    const api = useBackend({ records: 0 });
+    renderOwner();
 
+    await waitFor(() => expect(api.find('GET', LATEST)).toHaveLength(1));
+    await waitFor(() =>
+      expect(api.find('GET', `/api/pets/${PET}/records`)).toHaveLength(1),
+    );
     expect(
-      await screen.findByText(/Sağlık değerlendirmesini görmek için/),
-    ).toBeVisible();
-    expect(api.find('GET', LATEST)).toHaveLength(0);
+      screen.queryByRole('heading', { name: 'Sağlık değerlendirmesi' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /Değerlendirme/ }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('kayıt kalmasa da önceki değerlendirme varsa kart görünür', async () => {
+    useBackend({ records: 0, latest: () => apiOk(READY) });
+    renderOwner();
+
+    await openCard();
+    expect(await screen.findByText('Risk: Orta')).toBeVisible();
   });
 });

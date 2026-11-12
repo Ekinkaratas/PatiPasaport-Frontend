@@ -69,5 +69,9 @@
     "text": "PatiPasaport is an educational demo project and doesn't provide real veterinary services. Please don't enter real personal or medical data.",
     "details": "Details",
     "close": "Close notice"
+  },
+  "collapse": {
+    "show": "Expand {{name}}",
+    "hide": "Collapse {{name}}"
   }
 }

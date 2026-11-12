@@ -13,6 +13,8 @@ import { Select } from '@/components/form/Select';
 import { TextField } from '@/components/form/TextField';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { CollapseBody, CollapseButton } from '@/components/ui/Collapsible';
+import { useCollapsible } from '@/components/ui/useCollapsible';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import {
   DocumentIcon,
@@ -30,7 +32,6 @@ import { pageCountOf } from '@/lib/pagination';
 import type { HealthAccess, HealthTab } from './healthAccess';
 import { DocumentActions } from './DocumentActions';
 import { DocumentsPanel } from './DocumentsPanel';
-import { HealthAssessmentPanel } from './HealthAssessmentPanel';
 import { HealthEmpty } from './HealthEmpty';
 import { LabExplanation } from './LabExplanation';
 import {
@@ -61,7 +62,6 @@ const TABS: HealthTab[] = [
   'prescriptions',
   'labResults',
   'documents',
-  'assessment',
 ];
 
 type DotTone = 'ok' | 'accent' | 'danger' | 'muted';
@@ -705,6 +705,7 @@ export function HealthSection({
   const { t } = useTranslation('health');
   const baseId = useId();
   const [tab, setTab] = useState<HealthTab>('records');
+  const collapse = useCollapsible();
   const tabRefs = useRef<Partial<Record<HealthTab, HTMLButtonElement | null>>>(
     {},
   );
@@ -728,70 +729,73 @@ export function HealthSection({
   };
 
   return (
-    <section className="space-y-5 rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8">
+    <section className="rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="flex items-center gap-2 text-lg font-extrabold text-fg">
           <DocumentIcon className="size-5 text-fg-muted" />
           {t('title')}
         </h2>
-        {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
+        <div className="flex flex-wrap items-center gap-2">
+          {actions}
+          <CollapseButton state={collapse} label={t('title')} />
+        </div>
       </div>
-      <div
-        role="tablist"
-        aria-label={t('tabsLabel')}
-        className="flex w-fit max-w-full flex-wrap gap-2 rounded-xl bg-bg p-1"
-      >
-        {TABS.map((key) => (
-          <button
-            key={key}
-            ref={(element) => {
-              tabRefs.current[key] = element;
-            }}
-            type="button"
-            role="tab"
-            id={`${baseId}-tab-${key}`}
-            aria-selected={tab === key}
-            aria-controls={`${baseId}-panel-${key}`}
-            tabIndex={tab === key ? 0 : -1}
-            onClick={() => setTab(key)}
-            onKeyDown={onKeyDown}
-            className={cn(
-              'flex min-h-11 shrink-0 items-center gap-1.5 rounded-[0.625rem] px-4 text-sm font-semibold whitespace-nowrap transition-colors duration-150',
-              tab === key
-                ? 'bg-surface text-fg shadow-soft dark:bg-surface-2'
-                : 'text-fg-muted hover:text-fg',
-            )}
-          >
-            {!access[key] && <LockIcon className="size-3.5" />}
-            {t(`tabs.${key}`)}
-          </button>
-        ))}
-      </div>
-      <div
-        role="tabpanel"
-        id={`${baseId}-panel-${tab}`}
-        aria-labelledby={`${baseId}-tab-${tab}`}
-      >
-        {!access[tab] ? (
-          <NoAccess tab={tab} />
-        ) : tab === 'records' ? (
-          <RecordsPanel petId={petId} ownClinicId={ownClinicId} />
-        ) : tab === 'vaccinations' ? (
-          <VaccinationsPanel petId={petId} ownClinicId={ownClinicId} />
-        ) : tab === 'prescriptions' ? (
-          <PrescriptionsPanel petId={petId} ownClinicId={ownClinicId} />
-        ) : tab === 'labResults' ? (
-          <LabResultsPanel
-            petId={petId}
-            ownClinicId={ownClinicId}
-            showExplanations={showLabExplanations}
-          />
-        ) : tab === 'documents' ? (
-          <DocumentsPanel petId={petId} ownClinicId={ownClinicId} />
-        ) : (
-          <HealthAssessmentPanel petId={petId} />
-        )}
-      </div>
+      <CollapseBody state={collapse} className="space-y-5 pt-5">
+        <div
+          role="tablist"
+          aria-label={t('tabsLabel')}
+          className="flex w-fit max-w-full flex-wrap gap-2 rounded-xl bg-bg p-1"
+        >
+          {TABS.map((key) => (
+            <button
+              key={key}
+              ref={(element) => {
+                tabRefs.current[key] = element;
+              }}
+              type="button"
+              role="tab"
+              id={`${baseId}-tab-${key}`}
+              aria-selected={tab === key}
+              aria-controls={`${baseId}-panel-${key}`}
+              tabIndex={tab === key ? 0 : -1}
+              onClick={() => setTab(key)}
+              onKeyDown={onKeyDown}
+              className={cn(
+                'flex min-h-11 shrink-0 items-center gap-1.5 rounded-[0.625rem] px-4 text-sm font-semibold whitespace-nowrap transition-colors duration-150',
+                tab === key
+                  ? 'bg-surface text-fg shadow-soft dark:bg-surface-2'
+                  : 'text-fg-muted hover:text-fg',
+              )}
+            >
+              {!access[key] && <LockIcon className="size-3.5" />}
+              {t(`tabs.${key}`)}
+            </button>
+          ))}
+        </div>
+        <div
+          role="tabpanel"
+          id={`${baseId}-panel-${tab}`}
+          aria-labelledby={`${baseId}-tab-${tab}`}
+        >
+          {!access[tab] ? (
+            <NoAccess tab={tab} />
+          ) : tab === 'records' ? (
+            <RecordsPanel petId={petId} ownClinicId={ownClinicId} />
+          ) : tab === 'vaccinations' ? (
+            <VaccinationsPanel petId={petId} ownClinicId={ownClinicId} />
+          ) : tab === 'prescriptions' ? (
+            <PrescriptionsPanel petId={petId} ownClinicId={ownClinicId} />
+          ) : tab === 'labResults' ? (
+            <LabResultsPanel
+              petId={petId}
+              ownClinicId={ownClinicId}
+              showExplanations={showLabExplanations}
+            />
+          ) : (
+            <DocumentsPanel petId={petId} ownClinicId={ownClinicId} />
+          )}
+        </div>
+      </CollapseBody>
     </section>
   );
 }

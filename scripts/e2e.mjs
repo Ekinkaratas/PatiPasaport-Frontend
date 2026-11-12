@@ -261,7 +261,6 @@ await step('sağlık kaydı sekmeleri', async () => {
     'Reçeteler',
     'Tahliller',
     'Belgeler',
-    'Sağlık değerlendirmesi',
     'Muayene/Ameliyat',
   ]) {
     await clickByText('[role=tab]', tab);

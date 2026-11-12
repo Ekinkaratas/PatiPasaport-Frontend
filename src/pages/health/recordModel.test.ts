@@ -224,11 +224,6 @@ describe('yardımcılar', () => {
       prescriptions: false,
       labResults: false,
       documents: false,
-      assessment: false,
-    });
-    expect(accessFromScopes(['medical_read'])).toMatchObject({
-      labResults: true,
-      assessment: true,
     });
     expect(
       accessFromScopes([

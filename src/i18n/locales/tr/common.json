@@ -69,5 +69,9 @@
     "text": "PatiPasaport, eğitim amaçlı bir demo projesidir; gerçek veteriner hizmeti sunmaz. Lütfen gerçek kişisel veri ve tıbbi bilgi girmeyin.",
     "details": "Ayrıntılar",
     "close": "Bilgilendirmeyi kapat"
+  },
+  "collapse": {
+    "show": "{{name}} bölümünü aç",
+    "hide": "{{name}} bölümünü kapat"
   }
 }

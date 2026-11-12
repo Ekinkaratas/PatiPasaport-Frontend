@@ -14,7 +14,7 @@ React + Vite + TypeScript + Tailwind CSS, Türkçe/İngilizce, açık ve koyu te
   sayfası, alınan izinler, stok, satışlar ve aylık rapor, AI taslakları,
   klinik bilgileri.
 - **Sağlık kayıtları (iki panelde ortak):** Muayene/Ameliyat, Aşılar,
-  Reçeteler, Tahliller, Belgeler ve Sağlık değerlendirmesi sekmeleri. Kayıt listesi backend'de tek
+  Reçeteler, Tahliller ve Belgeler sekmeleri. Kayıt listesi backend'de tek
   türe göre süzüldüğü için Muayene/Ameliyat sekmesinde tür seçilir. Klinik
   yalnızca hayvan sahibinin verdiği izin kapsamlarındaki sekmeleri görür.
 - **Yapay zekâ (backend'deki AI servisiyle):**
@@ -37,8 +37,10 @@ React + Vite + TypeScript + Tailwind CSS, Türkçe/İngilizce, açık ve koyu te
   - Belge yükleme, AI taslağı, klinik onayı ve sahibin açıklamayı görmesi
     2026-11-12'de kurgusal bir tahlil PDF'iyle (kedi hemogramı, 21 değer)
     gerçek AI ile uçtan uca denendi; taslak bütün değerlerle eşleşti.
-  - Sağlık değerlendirmesi sekmesinde yapay zekâ hayvanın onaylanmış tüm
-    kayıtlarını birlikte değerlendirir: risk seviyesi, güven puanı, özet,
+  - Hayvan sayfasında "Bilgiler" ile "Sağlık kayıtları" arasındaki Sağlık
+    değerlendirmesi kartında yapay zekâ hayvanın onaylanmış tüm kayıtlarını
+    birlikte değerlendirir. Hayvanın hiç kaydı yoksa ve daha önce
+    değerlendirme istenmemişse kart görünmez. Kartta: risk seviyesi, güven puanı, özet,
     eğilim oklu bulgular, olası durumlar, öneriler, aşı hatırlatmaları ve
     veterinere sorular. Hayvan sahibi ve "Tıbbi kayıtları görme" izni olan
     klinik görür ve isteyebilir. "Değerlendirme oluştur" yasal uyarılı bir

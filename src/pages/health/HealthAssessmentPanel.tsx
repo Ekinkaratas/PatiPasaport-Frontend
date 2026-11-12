@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useId, useState, type ReactNode } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { requestHealthAssessment } from '@/api/endpoints/records';
@@ -14,6 +14,8 @@ import {
 } from '@/api/types';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { CollapseBody, CollapseButton } from '@/components/ui/Collapsible';
+import { useCollapsible } from '@/components/ui/useCollapsible';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { ChartIcon, InfoIcon } from '@/components/ui/icons';
 import { LoadingBlock } from '@/components/ui/LoadingBlock';
@@ -21,7 +23,12 @@ import { Modal } from '@/components/ui/Modal';
 import { Spinner } from '@/components/ui/Spinner';
 import { formatDate, formatDateTime } from '@/lib/format';
 import { requestAvailableAt } from './assessmentModel';
-import { healthKeys, useHealthAssessment } from './queries';
+import {
+  HEALTH_PAGE_SIZE,
+  healthKeys,
+  useHealthAssessment,
+  useRecords,
+} from './queries';
 
 const RISK_CODES = {
   [HealthRiskLevel.LOW]: 'LOW',
@@ -119,14 +126,6 @@ function AssessmentResult({
     <div className="space-y-5 rounded-xl bg-bg p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
-          <h3 className="flex min-w-0 items-center gap-2 font-extrabold text-fg">
-            <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-accent-tint text-accent-strong">
-              <ChartIcon className="size-4" />
-            </span>
-            <span className="min-w-0 wrap-break-word">
-              {t('assessment.resultTitle')}
-            </span>
-          </h3>
           {risk !== null && (
             <Badge
               tone={RISK_TONES[risk]}
@@ -426,5 +425,42 @@ export function HealthAssessmentPanel({ petId }: { petId: string }) {
         </div>
       </Modal>
     </div>
+  );
+}
+
+/**
+ * Hayvan sayfasında "Bilgiler" ile "Sağlık kayıtları" arasındaki kart.
+ * Hayvanın hiç kaydı yoksa ve daha önce değerlendirme istenmemişse görünmez.
+ */
+export function HealthAssessmentCard({ petId }: { petId: string }) {
+  const { t } = useTranslation('health');
+  const headingId = useId();
+  const latest = useHealthAssessment(petId);
+  const records = useRecords(petId, { page: 1, pageSize: HEALTH_PAGE_SIZE });
+  const collapse = useCollapsible();
+
+  const hasAssessment = latest.isSuccess;
+  const hasRecords = records.isSuccess && records.data.total > 0;
+  if (!hasAssessment && !hasRecords) return null;
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      className="rounded-2xl bg-surface p-6 shadow-soft light:ring-1 light:ring-line sm:p-8"
+    >
+      <div className="flex items-center justify-between gap-3">
+        <h2
+          id={headingId}
+          className="flex items-center gap-2 text-lg font-extrabold text-fg"
+        >
+          <ChartIcon className="size-5 text-fg-muted" />
+          {t('assessment.title')}
+        </h2>
+        <CollapseButton state={collapse} label={t('assessment.title')} />
+      </div>
+      <CollapseBody state={collapse} className="pt-5">
+        <HealthAssessmentPanel petId={petId} />
+      </CollapseBody>
+    </section>
   );
 }

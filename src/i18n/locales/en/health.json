@@ -6,8 +6,7 @@
     "vaccinations": "Vaccinations",
     "prescriptions": "Prescriptions",
     "labResults": "Lab results",
-    "documents": "Documents",
-    "assessment": "Health assessment"
+    "documents": "Documents"
   },
   "yourClinic": "Your clinic",
   "unknownClinic": "Clinic unavailable",
@@ -16,8 +15,7 @@
     "vaccinations": "To see vaccinations, the owner's permission must include \"View vaccination history\".",
     "prescriptions": "To see prescriptions, the owner's permission must include \"View prescriptions\".",
     "labResults": "To see lab results, the owner's permission must include \"View medical records\".",
-    "documents": "To see documents, the owner's permission must include \"Add medical records\". Clinics only see documents they uploaded.",
-    "assessment": "To see the health assessment, the owner's permission must include \"View medical records\"."
+    "documents": "To see documents, the owner's permission must include \"Add medical records\". Clinics only see documents they uploaded."
   },
   "records": {
     "typeFilter": "Record type",
@@ -242,7 +240,7 @@
     "consentData": "The pet's approved records are sent to the AI service without its name, chip number, owner or clinic details.",
     "consentConfirm": "I understand, create it",
     "consentCancel": "Cancel",
-    "resultTitle": "Health assessment",
+    "title": "Health assessment",
     "riskLabel": "Risk: {{value}}",
     "risk": {
       "LOW": "Low",

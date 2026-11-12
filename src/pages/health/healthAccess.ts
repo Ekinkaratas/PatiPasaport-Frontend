@@ -1,10 +1,5 @@
 export type HealthTab =
-  | 'records'
-  | 'vaccinations'
-  | 'prescriptions'
-  | 'labResults'
-  | 'documents'
-  | 'assessment';
+  'records' | 'vaccinations' | 'prescriptions' | 'labResults' | 'documents';
 
 export type HealthAccess = Record<HealthTab, boolean>;
 
@@ -14,7 +9,6 @@ export const FULL_HEALTH_ACCESS: HealthAccess = {
   prescriptions: true,
   labResults: true,
   documents: true,
-  assessment: true,
 };
 
 export const NO_HEALTH_ACCESS: HealthAccess = {
@@ -23,7 +17,6 @@ export const NO_HEALTH_ACCESS: HealthAccess = {
   prescriptions: false,
   labResults: false,
   documents: false,
-  assessment: false,
 };
 
 export function accessFromScopes(scopes: readonly string[]): HealthAccess {
@@ -33,7 +26,6 @@ export function accessFromScopes(scopes: readonly string[]): HealthAccess {
     prescriptions: scopes.includes('prescription_read'),
     labResults: scopes.includes('medical_read'),
     documents: scopes.includes('medical_write'),
-    assessment: scopes.includes('medical_read'),
   };
 }
 

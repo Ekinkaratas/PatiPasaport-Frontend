@@ -6,8 +6,7 @@
     "vaccinations": "Aşılar",
     "prescriptions": "Reçeteler",
     "labResults": "Tahliller",
-    "documents": "Belgeler",
-    "assessment": "Sağlık değerlendirmesi"
+    "documents": "Belgeler"
   },
   "yourClinic": "Kliniğiniz",
   "unknownClinic": "Klinik bilgisi yok",
@@ -16,8 +15,7 @@
     "vaccinations": "Aşıları görmek için hayvan sahibinin verdiği izinde \"Aşı geçmişini görme\" kapsamı olmalı.",
     "prescriptions": "Reçeteleri görmek için hayvan sahibinin verdiği izinde \"Reçeteleri görme\" kapsamı olmalı.",
     "labResults": "Tahlilleri görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıtları görme\" kapsamı olmalı.",
-    "documents": "Belgeleri görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıt ekleme\" kapsamı olmalı. Klinikler yalnızca kendi yükledikleri belgeleri görür.",
-    "assessment": "Sağlık değerlendirmesini görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıtları görme\" kapsamı olmalı."
+    "documents": "Belgeleri görmek için hayvan sahibinin verdiği izinde \"Tıbbi kayıt ekleme\" kapsamı olmalı. Klinikler yalnızca kendi yükledikleri belgeleri görür."
   },
   "records": {
     "typeFilter": "Kayıt türü",
@@ -242,7 +240,7 @@
     "consentData": "Hayvanın onaylanmış kayıtları; adı, çip numarası, sahip ve klinik bilgileri olmadan yapay zekâ servisine gönderilir.",
     "consentConfirm": "Okudum, oluştur",
     "consentCancel": "Vazgeç",
-    "resultTitle": "Sağlık değerlendirmesi",
+    "title": "Sağlık değerlendirmesi",
     "riskLabel": "Risk: {{value}}",
     "risk": {
       "LOW": "Düşük",
