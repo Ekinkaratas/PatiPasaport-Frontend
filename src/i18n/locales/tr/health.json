@@ -55,14 +55,11 @@
     "unit": "Birim",
     "reference": "Referans aralığı",
     "flag": "Durum",
-    "date": "Numune tarihi",
     "sampledAt": "Numune tarihi: {{date}}",
     "caption": "Tahlil sonuçları",
-    "search": "Test adına göre ara",
-    "searchSubmit": "Ara",
     "empty": "Tahlil sonucu yok.",
-    "emptyFiltered": "Bu adla tahlil bulunamadı.",
-    "groupTitle": "{{date}} tarihli tahlil"
+    "pageSize": "Sayfa başına",
+    "noDocument": "Belge yok; kayıt elle girildi."
   },
   "explanation": {
     "askLead": "Bu tahlil sonuçlarını yapay zekânın sade bir dille yorumlamasını ister misiniz?",

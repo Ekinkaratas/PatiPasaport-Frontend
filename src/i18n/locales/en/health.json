@@ -55,14 +55,11 @@
     "unit": "Unit",
     "reference": "Reference range",
     "flag": "Status",
-    "date": "Sample date",
     "sampledAt": "Sample date: {{date}}",
     "caption": "Lab results",
-    "search": "Search by test name",
-    "searchSubmit": "Search",
     "empty": "No lab results.",
-    "emptyFiltered": "No lab results with that name.",
-    "groupTitle": "Lab test on {{date}}"
+    "pageSize": "Per page",
+    "noDocument": "No document; entered manually."
   },
   "explanation": {
     "askLead": "Would you like AI to explain these lab results in plain language?",

@@ -2,17 +2,14 @@ import {
   useId,
   useRef,
   useState,
-  type FormEvent,
   type KeyboardEvent,
   type ReactNode,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RecordType, type LabResult, type MedicalRecord } from '@/api/types';
+import { RecordType, type MedicalRecord } from '@/api/types';
 import { Checkbox } from '@/components/form/Checkbox';
 import { Select } from '@/components/form/Select';
-import { TextField } from '@/components/form/TextField';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
 import { CollapseBody, CollapseButton } from '@/components/ui/Collapsible';
 import { useCollapsible } from '@/components/ui/useCollapsible';
 import { ErrorAlert } from '@/components/ui/ErrorAlert';
@@ -24,10 +21,14 @@ import {
 } from '@/components/ui/icons';
 import { LoadingBlock } from '@/components/ui/LoadingBlock';
 import { Pagination } from '@/components/ui/Pagination';
-import { TableScroll } from '@/components/ui/TableScroll';
 import { addDays } from '@/lib/consentExpiry';
 import { cn } from '@/lib/cn';
-import { formatDate, todayInBusinessTimeZone } from '@/lib/format';
+import { PAGE_SIZES, type PageSize } from '@/domain/constants';
+import {
+  formatDate,
+  formatDateTime,
+  todayInBusinessTimeZone,
+} from '@/lib/format';
 import { pageCountOf } from '@/lib/pagination';
 import type { HealthAccess, HealthTab } from './healthAccess';
 import { DocumentActions } from './DocumentActions';
@@ -36,12 +37,11 @@ import { HealthEmpty } from './HealthEmpty';
 import { LabExplanation } from './LabExplanation';
 import {
   HEALTH_PAGE_SIZE,
-  useLabResults,
   usePrescriptions,
   useRecords,
   useVaccinations,
 } from './queries';
-import { LabFlagBadge, RecordDetails, RecordTypeBadge } from './RecordDetails';
+import { RecordDetails, RecordTypeBadge } from './RecordDetails';
 import {
   formatBytes,
   prescriptionEndDate,
@@ -494,193 +494,135 @@ function PrescriptionsPanel({
   );
 }
 
-interface LabGroup {
-  recordId: string;
-  clinicId: string;
-  sampledAt: string;
-  items: LabResult[];
-}
-
-function groupLabResults(items: LabResult[]): LabGroup[] {
-  const groups = new Map<string, LabGroup>();
-  for (const item of items) {
-    const group = groups.get(item.recordId);
-    if (group) {
-      group.items.push(item);
-    } else {
-      groups.set(item.recordId, {
-        recordId: item.recordId,
-        clinicId: item.clinicId,
-        sampledAt: item.sampledAt,
-        items: [item],
-      });
-    }
-  }
-  return [...groups.values()];
-}
-
-function LabGroupCard({
-  group,
-  clinicLabel,
+function LabRecordItem({
+  record,
   showExplanation,
 }: {
-  group: LabGroup;
-  clinicLabel: string;
+  record: MedicalRecord;
   showExplanation: boolean;
 }) {
   const { t, i18n } = useTranslation('health');
-  const headingId = useId();
-  const title = t('lab.groupTitle', {
-    date: formatDate(group.sampledAt, i18n.language, { dateStyle: 'medium' }),
-  });
+  const sampledAt = record.labResult?.sampledAt || record.recordedAt;
 
   return (
-    <section
-      aria-labelledby={headingId}
-      className="space-y-4 rounded-xl p-4 ring-1 ring-line sm:p-5"
-    >
-      <header className="min-w-0">
-        <h3
-          id={headingId}
-          className="text-lg font-extrabold wrap-break-word text-fg"
-        >
-          {title}
-        </h3>
-        <p className="mt-0.5 text-sm wrap-break-word text-fg-muted">
-          {clinicLabel}
-        </p>
-      </header>
-      <TableScroll label={title}>
-        <table
-          aria-describedby={headingId}
-          className="w-full min-w-[34rem] text-sm text-fg tabular-nums"
-        >
-          <caption className="sr-only">{t('tabs.labResults')}</caption>
-          <thead>
-            <tr className="border-b border-line text-left font-semibold text-fg-muted">
-              <th scope="col" className="px-4 py-2">
-                {t('lab.test')}
-              </th>
-              <th scope="col" className="px-4 py-2">
-                {t('lab.value')}
-              </th>
-              <th scope="col" className="px-4 py-2">
-                {t('lab.reference')}
-              </th>
-              <th scope="col" className="px-4 py-2">
-                {t('lab.flag')}
-              </th>
-              <th scope="col" className="px-4 py-2">
-                {t('lab.date')}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {group.items.map((item) => (
-              <tr key={item.id} className="border-b border-line last:border-0">
-                <th scope="row" className="px-4 py-3 text-left font-bold">
-                  {item.testName}
-                </th>
-                <td className="px-4 py-3 font-semibold">
-                  {item.value} {item.unit}
-                </td>
-                <td className="px-4 py-3 text-fg-muted">
-                  {item.referenceRange || '—'}
-                </td>
-                <td className="px-4 py-3">
-                  <LabFlagBadge flag={item.flag} />
-                </td>
-                <td className="px-4 py-3 text-fg-muted">
-                  {formatDate(item.sampledAt, i18n.language, {
+    <li className="space-y-4 py-4">
+      {record.attachments.length > 0 ? (
+        record.attachments.map((file) => {
+          const name = file.originalName || t('records.attachment');
+          const uploadedAt = file.uploadedAt || record.createdAt;
+          return (
+            <div
+              key={file.documentId}
+              className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-4"
+            >
+              <span className="grid size-10 place-items-center rounded-xl bg-surface-2 text-fg-muted">
+                <DocumentIcon className="size-5" />
+              </span>
+              <div className="min-w-0 space-y-3">
+                <div className="min-w-0">
+                  <p className="font-extrabold wrap-break-word text-fg">
+                    {name}
+                  </p>
+                  <p className="flex flex-wrap gap-x-4 text-sm text-fg-muted">
+                    {uploadedAt && (
+                      <span>{formatDateTime(uploadedAt, i18n.language)}</span>
+                    )}
+                    {file.sizeBytes > 0 && (
+                      <span>{formatBytes(file.sizeBytes, i18n.language)}</span>
+                    )}
+                  </p>
+                </div>
+                <DocumentActions documentId={file.documentId} fileName={name} />
+              </div>
+            </div>
+          );
+        })
+      ) : (
+        <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-4">
+          <span className="grid size-10 place-items-center rounded-xl bg-surface-2 text-fg-muted">
+            <DocumentIcon className="size-5" />
+          </span>
+          <div className="min-w-0">
+            <p className="font-extrabold wrap-break-word text-fg">
+              {record.title}
+            </p>
+            <p className="flex flex-wrap gap-x-4 text-sm text-fg-muted">
+              <span>
+                {t('lab.sampledAt', {
+                  date: formatDate(sampledAt, i18n.language, {
                     dateStyle: 'medium',
-                  })}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </TableScroll>
-      {showExplanation && <LabExplanation recordId={group.recordId} />}
-    </section>
+                  }),
+                })}
+              </span>
+              <span>{t('lab.noDocument')}</span>
+            </p>
+          </div>
+        </div>
+      )}
+      {showExplanation && <LabExplanation recordId={record.id} />}
+    </li>
   );
 }
 
 function LabResultsPanel({
   petId,
-  ownClinicId,
   showExplanations,
 }: {
   petId: string;
-  ownClinicId?: string;
   showExplanations: boolean;
 }) {
   const { t } = useTranslation('health');
-  const [draft, setDraft] = useState('');
-  const [testName, setTestName] = useState('');
+  const [pageSize, setPageSize] = useState<PageSize>(PAGE_SIZES[0]);
   const [page, setPage] = useState(1);
-  const results = useLabResults(petId, {
+  const records = useRecords(petId, {
     page,
-    pageSize: HEALTH_PAGE_SIZE,
-    testName: testName || undefined,
+    pageSize,
+    type: RecordType.LAB_RESULT,
   });
-  const clinicLabel = useClinicLabel(
-    results.data?.labResults.map((item) => item.clinicId) ?? [],
-    ownClinicId,
-  );
-
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setTestName(draft.trim());
-    setPage(1);
-  };
 
   return (
     <div className="space-y-4">
-      <form
-        role="search"
-        noValidate
-        onSubmit={submit}
-        className="flex flex-col gap-3 sm:flex-row sm:items-end"
-      >
-        <TextField
-          label={t('lab.search')}
-          name="testName"
-          autoComplete="off"
-          maxLength={128}
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          className="sm:w-72"
-        />
-        <Button type="submit" variant="secondary">
-          {t('lab.searchSubmit')}
-        </Button>
-      </form>
-      {results.isPending && <LoadingBlock />}
-      {results.isError && <ErrorAlert error={results.error} />}
-      {results.isSuccess &&
-        (results.data.total === 0 ? (
+      <Select
+        label={t('lab.pageSize')}
+        name="labPageSize"
+        value={String(pageSize)}
+        onChange={(e) => {
+          setPageSize(Number(e.target.value) as PageSize);
+          setPage(1);
+        }}
+        options={PAGE_SIZES.map((size) => ({
+          value: String(size),
+          label: String(size),
+        }))}
+        className="w-32"
+      />
+      {records.isPending && <LoadingBlock />}
+      {records.isError && <ErrorAlert error={records.error} />}
+      {records.isSuccess &&
+        (records.data.total === 0 ? (
           <HealthEmpty icon={<DocumentIcon className="size-6" />}>
-            {testName ? t('lab.emptyFiltered') : t('lab.empty')}
+            {t('lab.empty')}
           </HealthEmpty>
         ) : (
           <div
             className={cn(
               'space-y-4 transition-opacity',
-              results.isPlaceholderData && 'opacity-60',
+              records.isPlaceholderData && 'opacity-60',
             )}
           >
-            {groupLabResults(results.data.labResults).map((group) => (
-              <LabGroupCard
-                key={group.recordId}
-                group={group}
-                clinicLabel={clinicLabel(group.clinicId)}
-                showExplanation={showExplanations}
-              />
-            ))}
+            <ul className="divide-y divide-line border-y border-line">
+              {records.data.records.map((record) => (
+                <LabRecordItem
+                  key={record.id}
+                  record={record}
+                  showExplanation={showExplanations}
+                />
+              ))}
+            </ul>
             <Pagination
               page={page}
-              pageCount={pageCountOf(results.data.total, HEALTH_PAGE_SIZE)}
-              busy={results.isFetching}
+              pageCount={pageCountOf(records.data.total, pageSize)}
+              busy={records.isFetching}
               onChange={setPage}
             />
           </div>
@@ -788,7 +730,6 @@ export function HealthSection({
           ) : tab === 'labResults' ? (
             <LabResultsPanel
               petId={petId}
-              ownClinicId={ownClinicId}
               showExplanations={showLabExplanations}
             />
           ) : (

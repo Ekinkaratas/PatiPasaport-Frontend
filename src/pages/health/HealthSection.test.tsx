@@ -2,7 +2,7 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import i18n from '@/i18n';
-import { LabResultFlag, RecordType, type MedicalRecord } from '@/api/types';
+import { RecordType, type MedicalRecord } from '@/api/types';
 import { __resetSessionForTests, startSession } from '@/auth/session';
 import { apiOk, installApi } from '@/test/apiMock';
 import { renderRoute } from '@/test/renderWithProviders';
@@ -44,12 +44,29 @@ const RECORD: MedicalRecord = {
   },
 };
 
+const LAB_RECORD: MedicalRecord = {
+  ...RECORD,
+  id: 'r2',
+  type: RecordType.LAB_RESULT,
+  title: 'Biyokimya',
+  notes: '',
+  attachments: [
+    { ...RECORD.attachments[0]!, documentId: 'd2', originalName: 'tahlil.pdf' },
+  ],
+  vaccination: null,
+  labResult: { sampledAt: '2026-10-01', items: [] },
+};
+
 function useBackend() {
-  return installApi(({ path }) => {
+  return installApi(({ path, query }) => {
     if (path === `/api/clinics/${CLINIC}`) {
       return apiOk({ clinic: { id: CLINIC, name: 'Pati Test Kliniği' } });
     }
-    if (path === `/api/pets/${PET}/records`) return page('records', [RECORD]);
+    if (path === `/api/pets/${PET}/records`) {
+      return query.get('type') === String(RecordType.LAB_RESULT)
+        ? page('records', [LAB_RECORD])
+        : page('records', [RECORD]);
+    }
     if (path === `/api/pets/${PET}/vaccinations`) {
       return page('vaccinations', [
         {
@@ -61,22 +78,6 @@ function useBackend() {
           administeredAt: '2026-10-10',
           nextDueAt: '2027-10-10',
           clinicId: CLINIC,
-        },
-      ]);
-    }
-    if (path === `/api/pets/${PET}/lab-results`) {
-      return page('labResults', [
-        {
-          id: 'l1',
-          recordId: 'r2',
-          petId: PET,
-          clinicId: CLINIC,
-          testName: 'ALT',
-          value: '92',
-          unit: 'U/L',
-          referenceRange: '10-80',
-          flag: LabResultFlag.HIGH,
-          sampledAt: '2026-10-01',
         },
       ]);
     }
@@ -171,15 +172,18 @@ describe('HealthSection', () => {
     );
 
     await user.click(screen.getByRole('tab', { name: 'Tahliller' }));
-    const table = await screen.findByRole('table', { name: 'Tahliller' });
-    expect(within(table).getByText('Yüksek')).toBeVisible();
-    await user.type(screen.getByLabelText('Test adına göre ara'), 'alt');
-    await user.click(screen.getByRole('button', { name: 'Ara' }));
+    expect(await screen.findByText('tahlil.pdf')).toBeVisible();
+    expect(screen.queryByLabelText('Test adına göre ara')).toBeNull();
+    await user.selectOptions(screen.getByLabelText('Sayfa başına'), '32');
     await waitFor(() =>
       expect(
         api
-          .find('GET', `/api/pets/${PET}/lab-results`)
-          .some((request) => request.query.get('testName') === 'alt'),
+          .find('GET', `/api/pets/${PET}/records`)
+          .some(
+            (request) =>
+              request.query.get('type') === String(RecordType.LAB_RESULT) &&
+              request.query.get('pageSize') === '32',
+          ),
       ).toBe(true),
     );
   });

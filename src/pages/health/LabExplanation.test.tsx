@@ -6,9 +6,9 @@ import { translateError } from '@/i18n/translateError';
 import { ApiError } from '@/api/errors';
 import {
   LabExplanationStatus,
-  LabResultFlag,
+  RecordType,
   type LabExplanationResponse,
-  type LabResult,
+  type MedicalRecord,
 } from '@/api/types';
 import { __resetSessionForTests, startSession } from '@/auth/session';
 import { apiFail, apiOk, installApi } from '@/test/apiMock';
@@ -37,42 +37,51 @@ const READY: LabExplanationResponse = {
   generatedAt: '2026-10-26T14:30:00.000Z',
 };
 
-function lab(overrides: Partial<LabResult>): LabResult {
+function labRecord(overrides: Partial<MedicalRecord>): MedicalRecord {
   return {
-    id: 'l1',
-    recordId: RECORD_A,
+    id: RECORD_A,
     petId: PET,
     clinicId: CLINIC,
-    testName: 'ALT',
-    value: '92',
-    unit: 'U/L',
-    referenceRange: '10-80',
-    flag: LabResultFlag.HIGH,
-    sampledAt: '2026-10-01',
+    type: RecordType.LAB_RESULT,
+    title: 'Biyokimya',
+    notes: '',
+    recordedAt: '2026-10-01',
+    attachments: [
+      {
+        documentId: 'd1',
+        storagePath: '',
+        originalName: 'tahlil.pdf',
+        mimeType: 'application/pdf',
+        sizeBytes: 2048,
+        uploadedAt: '2026-10-01T09:00:00.000Z',
+      },
+    ],
+    sourceDraftReviewId: '',
+    createdAt: '2026-10-01T09:05:00.000Z',
+    labResult: { sampledAt: '2026-10-01', items: [] },
     ...overrides,
   };
 }
 
 function useBackend({
-  labResults = [lab({})],
+  labRecords = [labRecord({})],
   explanation = () => apiOk(READY),
 }: {
-  labResults?: LabResult[];
+  labRecords?: MedicalRecord[];
   explanation?: (recordId: string) => Response;
 } = {}) {
-  return installApi(({ path }) => {
+  return installApi(({ path, query }) => {
     if (path === `/api/clinics/${CLINIC}`) {
       return apiOk({ clinic: { id: CLINIC, name: 'Pati Test Kliniği' } });
     }
     if (path === `/api/pets/${PET}/records`) {
-      return apiOk({ records: [], total: 0, page: 1, pageSize: 8 });
-    }
-    if (path === `/api/pets/${PET}/lab-results`) {
+      const lab = query.get('type') === String(RecordType.LAB_RESULT);
+      const records = lab ? labRecords : [];
       return apiOk({
-        labResults,
-        total: labResults.length,
+        records,
+        total: records.length,
         page: 1,
-        pageSize: 8,
+        pageSize: Number(query.get('pageSize')),
       });
     }
     const match = /^\/api\/records\/([^/]+)\/explanation$/.exec(path);
@@ -89,7 +98,12 @@ function explanationRequests(api: ReturnType<typeof installApi>) {
 
 async function openLabTab(user: ReturnType<typeof userEvent.setup>) {
   await user.click(await screen.findByRole('tab', { name: 'Tahliller' }));
-  await screen.findAllByRole('table', { name: 'Tahliller' });
+  await screen.findByLabelText('Sayfa başına');
+  await waitFor(() =>
+    expect(
+      within(screen.getByRole('tabpanel')).getAllByRole('listitem').length,
+    ).toBeGreaterThan(0),
+  );
 }
 
 async function consent(user: ReturnType<typeof userEvent.setup>) {
@@ -284,7 +298,7 @@ describe('Tahlil açıklaması', () => {
       />,
     );
     await openLabTab(user);
-    expect(await screen.findByText('Kliniğiniz')).toBeVisible();
+    expect(await screen.findByText('tahlil.pdf')).toBeVisible();
 
     expect(explanationRequests(api)).toHaveLength(0);
     expect(
@@ -294,40 +308,37 @@ describe('Tahlil açıklaması', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('sayfadaki satırları kayda göre gruplar ve her grup için açıklama ister', async () => {
+  it('her tahlil kaydı dosyasıyla ya da başlığıyla listelenir ve her biri için açıklama istenir', async () => {
     const api = useBackend({
-      labResults: [
-        lab({ id: 'l1', recordId: RECORD_A, testName: 'ALT' }),
-        lab({
-          id: 'l2',
-          recordId: RECORD_B,
-          testName: 'Glukoz',
-          sampledAt: '2026-09-15',
+      labRecords: [
+        labRecord({}),
+        labRecord({
+          id: RECORD_B,
+          title: 'Hemogram',
+          recordedAt: '2026-09-15',
+          attachments: [],
+          labResult: { sampledAt: '2026-09-15', items: [] },
         }),
-        lab({ id: 'l3', recordId: RECORD_A, testName: 'AST' }),
       ],
     });
     const user = userEvent.setup();
     renderOwner();
     await openLabTab(user);
 
-    const headings = screen.getAllByRole('heading', { level: 3 });
-    expect(headings.map((heading) => heading.textContent)).toEqual([
-      '1 Eki 2026 tarihli tahlil',
-      '15 Eyl 2026 tarihli tahlil',
-    ]);
-    const tables = screen.getAllByRole('table', { name: 'Tahliller' });
-    expect(tables).toHaveLength(2);
+    const items = within(screen.getByRole('tabpanel')).getAllByRole('listitem');
+    expect(items).toHaveLength(2);
+    expect(within(items[0]!).getByText('tahlil.pdf')).toBeVisible();
+    expect(within(items[0]!).getByRole('button', { name: /Aç/ })).toBeVisible();
+    expect(within(items[1]!).getByText('Hemogram')).toBeVisible();
     expect(
-      within(tables[0]!)
-        .getAllByRole('rowheader')
-        .map((cell) => cell.textContent),
-    ).toEqual(['ALT', 'AST']);
+      within(items[1]!).getByText('Belge yok; kayıt elle girildi.'),
+    ).toBeVisible();
     expect(
-      within(tables[1]!)
-        .getAllByRole('rowheader')
-        .map((cell) => cell.textContent),
-    ).toEqual(['Glukoz']);
+      within(items[1]!).getByText(/Numune tarihi: 15 Eyl 2026/),
+    ).toBeVisible();
+    expect(
+      screen.queryByRole('table', { name: 'Tahliller' }),
+    ).not.toBeInTheDocument();
     expect(
       await screen.findAllByRole('button', { name: 'Yapay zekâ yorumlasın' }),
     ).toHaveLength(2);
@@ -341,7 +352,40 @@ describe('Tahlil açıklaması', () => {
         `/api/records/${RECORD_B}/explanation`,
       ].sort(),
     );
-    expect(await screen.findAllByText('Pati Test Kliniği')).toHaveLength(2);
+  });
+
+  it('sayfa boyutu 8 ile başlar; seçilen boyut isteğe yazılır', async () => {
+    const api = useBackend();
+    const user = userEvent.setup();
+    renderOwner();
+    await openLabTab(user);
+
+    const select = screen.getByLabelText('Sayfa başına');
+    expect(
+      within(select)
+        .getAllByRole('option')
+        .map((option) => option.textContent),
+    ).toEqual(['8', '16', '32', '64', '128']);
+    const labRequests = () =>
+      api
+        .find('GET', `/api/pets/${PET}/records`)
+        .filter(
+          (request) =>
+            request.query.get('type') === String(RecordType.LAB_RESULT),
+        );
+    expect(labRequests()[0]?.query.get('pageSize')).toBe('8');
+
+    await user.selectOptions(select, '16');
+
+    await waitFor(() =>
+      expect(
+        labRequests().some(
+          (request) =>
+            request.query.get('pageSize') === '16' &&
+            request.query.get('page') === '1',
+        ),
+      ).toBe(true),
+    );
   });
 });
 
