@@ -20,7 +20,7 @@
   "records": {
     "typeFilter": "Kayıt türü",
     "emptyFiltered": "Bu türde kayıt yok.",
-    "fromDraft": "AI taslağından",
+    "fromDraft": "YZ taslağından",
     "attachment": "Ek belge"
   },
   "vaccination": {
@@ -167,14 +167,14 @@
     "failed": "İncelenemedi"
   },
   "documentStatusHint": {
-    "queued": "Belge yapay zekâ incelemesi için sırada. Taslak hazır olunca \"AI taslakları\" sayfasında görünür.",
+    "queued": "Belge yapay zekâ incelemesi için sırada. Taslak hazır olunca \"YZ taslakları\" sayfasında görünür.",
     "processing": "Belge şu anda inceleniyor.",
     "draftReady": "Taslak hazır; inceleyip onaylayabilirsiniz.",
     "failed": "Belge incelenemedi. Gerekirse kaydı elle ekleyebilirsiniz."
   },
   "drafts": {
-    "pageTitle": "AI taslakları",
-    "title": "AI taslakları",
+    "pageTitle": "YZ taslakları",
+    "title": "YZ taslakları",
     "lead": "Yüklediğiniz belgelerden yapay zekânın hazırladığı kayıt taslaklarını inceleyin.",
     "filterLabel": "Taslak durumu",
     "filters": {

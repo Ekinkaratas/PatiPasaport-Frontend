@@ -108,7 +108,7 @@ describe('HealthSection', () => {
     const card = (await screen.findByText('Kuduz aşısı')).closest('article')!;
     expect(within(card).getAllByText('Aşı')).toHaveLength(2);
     expect(within(card).getByText('Sonraki doz')).toBeVisible();
-    expect(within(card).getByText('AI taslağından')).toBeVisible();
+    expect(within(card).getByText('YZ taslağından')).toBeVisible();
     expect(within(card).getByText('Reaksiyon gözlenmedi.')).toBeVisible();
     expect(within(card).getByText('Rabisin')).toBeVisible();
     expect(within(card).getByText('karne.pdf')).toBeVisible();

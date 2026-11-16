@@ -357,9 +357,9 @@ await step('hasta detayı ve sağlık bölümü', async () => {
   await nav(patient);
   await page.waitForSelector('[role=tablist]', { timeout: 15000 });
 });
-await step('AI taslakları', async () => {
+await step('YZ taslakları', async () => {
   await nav('/clinic/drafts');
-  await waitText('AI taslakları');
+  await waitText('YZ taslakları');
   await waitIdle();
 });
 await step('stok: Sat düğmesi ve miktar kutusu', async () => {
